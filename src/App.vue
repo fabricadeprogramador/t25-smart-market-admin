@@ -11,7 +11,20 @@
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app clipped color="grey lighten-4">
-      <router-link to="/produtos">Produtos</router-link>
+
+
+      <v-list dense nav>
+        <v-list-item v-for="item in items" :key="item.title" router :to="item.route">
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
     </v-navigation-drawer>
 
     <v-content>
@@ -21,14 +34,29 @@
 </template>
 
 <script>
-export default {
-  props: {
-    source: String
-  },
-  data: () => ({
-    drawer: null
-  })
-};
+
+  export default {
+    props: {
+      source: String,
+    },
+    data: () => ({
+      drawer: null,
+      items: [{
+        title: 'Home',
+        icon: 'mdi-home',
+        route: '/',
+        
+      },
+      {
+        title: 'Produtos',
+        icon: 'mdi-basket',
+        route: '/produtos',
+      }
+      
+      ]
+      
+    })
+  }
 </script>
 <style>
 #keep .v-navigation-drawer__border {
