@@ -44,18 +44,22 @@
       items: [{
         title: 'Home',
         icon: 'mdi-home',
-        route: '/',
+          route: '/',
         
       },
       {
         title: 'Produtos',
         icon: 'mdi-basket',
         route: '/produtos',
+      },{
+        title: 'Controle',
+        icon: 'mdi-apps-box',
+        route: '/controle'
       }
       
       ]
       
-    })
+    })    
   }
 </script>
 <style>
