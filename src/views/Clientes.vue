@@ -8,7 +8,9 @@
     lazy-validation
   >
     <div class="text-center">
-       <h1>Cadastro de Clientes</h1>
+       <h1>
+          Cadastro de Clientes
+       </h1>
     </div>
 
     <v-text-field
@@ -29,15 +31,14 @@
     ></v-text-field>
 
     <v-text-field
-            class='mx-10'
-            v-model="password"
-            :rules="[rules.required, rules.min]"
-            :type="show1 ? 'text' : 'password'"
-            name="input-10-1"
-            label="Senha"
-            hint="Use oito ou mais caracteres"
-            counter
-            @click:append="show1 = !show1"
+      class='mx-10'
+      v-model="password"
+      :rules="[rules.required, rules.min]"
+      :type="'password'"
+      name="input-10-1"
+      label="Senha"
+      hint="Use oito ou mais caracteres"
+      counter
     ></v-text-field>
 
     <div
@@ -47,7 +48,7 @@
       :disabled="!valid"
       color="success"
       class="mr-4"
-      @click="validate"
+      @click="cadastrar"
     >
       Salvar
     </v-btn>
@@ -55,7 +56,7 @@
     <v-btn
       color="error"
       class="mr-4"
-      @click="reset"
+      @click="cancelar"
     >
       Cancelar
     </v-btn>
@@ -68,6 +69,7 @@
 export default {
  data: () => ({
       valid: true,
+      clientes: [],
       name: '',
       nameRules: [
         v => !!v || 'Nome é obrigatório!',
@@ -78,28 +80,22 @@ export default {
         v => !!v || 'E-mail é obrigatório!',
         v => /.+@.+\..+/.test(v) || 'E-mail invalido',
       ],
-      show1: false,
-        show2: true,
-        show3: false,
-        show4: false,
         password: 'Password',
         rules: {
-          required: value => !!value || 'Required.',
+          required: value => !!value || 'Senha é obrigatório!.',
           min: v => v.length >= 8 || 'Min 8 caracteres',
     },
+
  }),
 
     methods: {
-      validate () {
-        if (this.$refs.form.validate()) {
-          this.snackbar = true
+      cadastrar () {
+        if (this.$refs.form.cadastrar()) {
+          alert('Usuário cadastrado com sucesso!')
         }
       },
-      reset () {
-        this.$refs.form.reset()
-      },
-      resetValidation () {
-        this.$refs.form.resetValidation()
+      cancelar () {
+        this.$refs.form.cancelar()
       },
     },
 }
