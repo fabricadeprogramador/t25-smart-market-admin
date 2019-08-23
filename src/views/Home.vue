@@ -3,13 +3,19 @@
     <v-btn @click="buscarTodos">Buscar</v-btn>
     <v-btn @click="salvar">Salvar</v-btn>
     <v-btn @click="deletar">Deletar</v-btn>
+
+    
   </div>
+
+  
 </template>
 
 <script>
   import HttpRequestUtil from "@/util/HttpRequestUtil";
 
   export default {
+    
+    
     methods: {
       buscarTodos() {
         HttpRequestUtil.buscarUsuarios().then(usuarios => {

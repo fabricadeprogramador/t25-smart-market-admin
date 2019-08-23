@@ -14,5 +14,9 @@ export default {
 
     async deletarUsuario(usuario) {
         return axios.delete(API_URL + "/usuarios", usuario).then(response => response.data)
+    },
+    
+    async buscarProdutos() {
+        return axios.get(API_URL + "/produtos").then(produto => produto.data);
     }
 }

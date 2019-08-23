@@ -12,11 +12,32 @@
         </v-select>
       </v-row>
     </v-container>
+
+    <div>
+      <ul>
+      <li v-for="(produto) in produtos" :key="produto._id">
+        {{ produto.descricao }}
+      </li>
+
+    </ul>
+    </div>  
   </div>
 </template>
 <script>
+import HttpRequestUtil from "@/util/HttpRequestUtil";
+
 export default {
-  data: () => ({
+ 
+ mounted() {
+   
+     HttpRequestUtil.buscarProdutos().then(produto => {
+       this.produtos = (produto)
+
+     })
+   },
+ 
+ data: () => ({
+    produtos: [],  
     rules: [
       value => !!value || "Required.",
       value => (value || "").length <= 20 || "Max 20 characters"
