@@ -12,6 +12,7 @@
 
     <v-navigation-drawer v-model="drawer" app clipped color="grey lighten-4">
 
+
       <v-list dense nav>
         <v-list-item v-for="item in items" :key="item.title" router :to="item.route">
           <v-list-item-icon>
@@ -36,6 +37,7 @@
 </template>
 
 <script>
+
   export default {
     props: {
       source: String,
@@ -51,13 +53,30 @@
         title: 'Clientes',
         icon: 'mdi-account',
         route: '/clientes'
+      },
+       {
+        title: 'Produtos',
+        icon: 'mdi-basket',
+        route: '/produtos',
+      },{
+        title: 'Controle',
+        icon: 'mdi-apps-box',
+        route: '/controle'
       }
       ],
-    }),
-  }
+    }),     
+}   
+      
 </script>
 <style>
 #keep .v-navigation-drawer__border {
   display: none;
+}
+a {
+  text-align: center;
+  font-size: 20pt;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: #2c3e50;
 }
 </style>
