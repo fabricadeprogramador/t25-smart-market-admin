@@ -30,6 +30,11 @@
     <v-content>
       <router-view></router-view>
     </v-content>
+
+    <v-footer color="amber" padless>
+      <div class="flex-grow-1"></div>
+      <div>Fábrica de Programador - High Tech Cursos&copy; {{ new Date().getFullYear() }}</div>
+    </v-footer>
   </v-app>
 </template>
 
