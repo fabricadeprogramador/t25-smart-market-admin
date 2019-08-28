@@ -34,7 +34,6 @@
 </template>
 
 <script>
-
   export default {
     props: {
       source: String,
@@ -42,36 +41,42 @@
     data: () => ({
       drawer: null,
       items: [{
-        title: 'Home',
-        icon: 'mdi-home',
+          title: 'Home',
+          icon: 'mdi-home',
           route: '/',
-        
-      },
-      {
-        title: 'Produtos',
-        icon: 'mdi-basket',
-        route: '/produtos',
-      },{
-        title: 'Controle',
-        icon: 'mdi-apps-box',
-        route: '/controle'
-      }
-      
+        },
+        {
+          title: 'Produtos',
+          icon: 'mdi-basket',
+          route: '/produtos',
+        },
+        {
+          title: 'Controle',
+          icon: 'mdi-apps-box',
+          route: '/controle'
+        },
+        {
+          title: 'Usuarios',
+          icon: 'mdi-account-multiple',
+          route: '/usuarios'
+        }
+
       ]
-      
-    })    
+
+    })
   }
 </script>
 <style>
-#keep .v-navigation-drawer__border {
-  display: none;
-}
-a {
-  text-align: center;
-  font-size: 20pt;
-  font-family: sans-serif;
-  font-weight: bold;
-  color: #2c3e50;
+  #keep .v-navigation-drawer__border {
+    display: none;
+  }
 
-}
+  a {
+    text-align: center;
+    font-size: 20pt;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: #2c3e50;
+
+  }
 </style>
