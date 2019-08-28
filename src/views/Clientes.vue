@@ -196,17 +196,18 @@ export default {
     dados() {
       let usuario = {}
       usuario.ativo = true
-      usuario.name = this.name
-      usuario.email = this.email
-      usuario.password = this.password
-      usuario.tipo = "CLIENTE"
+      usuario.username = this.name
+      usuario.senha = this.password
       
       return usuario
     },
     salvar() {
       
       if (this.$refs.form.validate()) {
-        let usuario = this.dados
+        let usuario = {}
+      usuario.ativo = true
+      usuario.username = "ola"
+      usuario.senha = "1231"
         
         HttpRequestUtil.salvarUsuario(usuario).then(usuario => {
         alert(JSON.stringify(usuario));
