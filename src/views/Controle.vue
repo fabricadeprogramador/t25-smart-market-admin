@@ -1,22 +1,22 @@
 <template>
-  <v-card>
+  <v-card class="elevation-1 pa-12">
     <v-card>
-      <v-card-title>Produtos com estoque baixo</v-card-title>
+      <v-card-title>Produtos com estoque menor que 50 unidades</v-card-title>
       <v-data-table
         :headers="headerProdEst"
         :items="listaProdEst"
         :items-per-page="5"
-        class="elevation-1"
+        
       ></v-data-table>
     </v-card>
 
-    <v-card class="mt-10" :elevation="15">
+    <v-card class="mt-10">
       <v-card-title>Produtos com vencimento próximo</v-card-title>
       <v-data-table
         :headers="headersProdVencto"
         :items="listaProdVencto"
         :items-per-page="5"
-        class="elevation-1"
+       
       ></v-data-table>
     </v-card>
   </v-card>
