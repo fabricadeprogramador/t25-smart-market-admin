@@ -23,5 +23,11 @@ export default {
   //Produtos
   async buscarProdutos() {
     return axios.get(API_URL + "/produtos").then(produto => produto.data);
+  },
+
+  async salvarProduto(produto) {
+    return axios
+      .post(API_URL + "/produtos", produto)
+      .then(response => response.data);
   }
 };
