@@ -29,5 +29,9 @@ export default {
     return axios
       .post(API_URL + "/produtos", produto)
       .then(response => response.data);
+  },
+
+  async buscarCompras() {
+    return axios.get(API_URL + "/compras").then(compra => compra.data)
   }
 };

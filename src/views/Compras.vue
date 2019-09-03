@@ -1,0 +1,71 @@
+<template>
+  <div class="text-center">
+    <v-btn color="info" class="my-5" @click="buscarCompras">Buscar compras realizadas</v-btn>
+    <v-card>
+      <v-list class="pa-12">
+        <div class="text-center">
+          <h1>Compras realizadas</h1>
+        </div>
+        <v-list-item v-for="compra in compras" :key="compra.title">
+          <v-list-item-content>
+            <v-list-item-title v-text="compra.produto"></v-list-item-title>
+          </v-list-item-content>
+
+          <v-list-item-content>
+            <v-list-item-title v-text="compra.valorTotal"></v-list-item-title>
+          </v-list-item-content>
+
+          <v-list-item-content>
+            <v-list-item-title v-text="compra.data"></v-list-item-title>
+          </v-list-item-content>
+
+          <v-list-item-content>
+            <v-list-item-title v-text="compra.pagamento"></v-list-item-title>
+          </v-list-item-content>
+
+          <v-list-item-content>
+            <v-list-item-title v-text="compra.cliente"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-card>
+  </div>
+</template>
+
+<script>
+import HttpRequestUtil from "@/util/HttpRequestUtil";
+
+export default {
+  data: () => ({
+    produtos: "",
+    valorTotal: "",
+    data: "",
+    pagamento: "",
+    cliente: "",
+    compras: []
+  }),
+  methods: {
+    salvar() {
+      let compra = {};
+      compra.produtos = this.produtos;
+      compra.valorTotal = this.valorTotal;
+      compra.data = this.data;
+      compra.pagamento = this.pagamento;
+      compra.cliente = this.cliente;
+
+      HttpRequestUtil.buscarCompra(compra).then(response => {
+        this.compras.push(response);
+      });
+    },
+
+    buscarCompras() {
+      HttpRequestUtil.buscarCompras().then(response => {
+        this.compras = response;
+      });
+    }
+  }
+};
+</script>
+
+<style>
+</style>
