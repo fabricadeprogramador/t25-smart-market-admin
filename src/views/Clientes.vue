@@ -1,278 +1,111 @@
 <template>
-<div>
-  <div class="ma-12" >
-    <!--FORMULÁRIO DE CADASTRO DE CLIENTES-->
-    <v-form class="ma-12  elevation-5 pa-12" ref="form" v-model="valid" lazy-validation>
-      <div class="text-center">
-        <h1>Cadastro de Clientes</h1>
-      </div>
+  <div>
+    <div class="ma-12 elevation-1">
+      <v-form v-model="valid" class="ma-12">
+        <v-container class="pa-12">
+          <div class="text-center">
+          <h1>Cadastro de Clientes</h1>
+          </div>
+          <v-text-field
+            v-model="username"
+            :rules="usernameRules"
+            :counter="10"
+            label="Username"
+            required
+          ></v-text-field>
 
-      <v-text-field
-        class="mx-10"
-        v-model="name"
-        :counter="20"
-        :rules="nameRules"
-        label="Nome"
-        required
-      ></v-text-field>
+          <v-text-field
+            v-model="password"
+            :rules="passwordRules"
+            :counter="10"
+            label="Senha"
+            required
+            type="password"
+          ></v-text-field>
 
-      <v-text-field 
-        class="mx-10" 
-        v-model="email" 
-        :rules="emailRules" 
-        label="E-mail" 
-        required
-      ></v-text-field>
+          <div class="text-center">
+            <v-btn color="info" class="my-5" @click="salvar">Salvar</v-btn>
+          </div>
+        </v-container>
+      </v-form>
+    </div>
 
-      <v-text-field
-        class="mx-10"
-        v-model="password"
-        :rules="passwordRules"
-        :append-icon="show1 ? 'mdi-eye-off' : 'mdi-eye'"
-        :type="show1 ? 'text' : 'password'"
-        name="input-10-1"
-        label="Senha"
-        hint="Use oito ou mais caracteres"
-        counter
-        @click:append="show1 = !show1"
-      ></v-text-field>
+    <!--LISTA DE CLIENTES-->
+    <div class="ma-12 elevation-1">
+      <v-card>
+        <v-list class="pa-12">
+          <div class="text-center">
+            <h1>Clientes</h1>
+          </div>
+          <v-list-item v-for="cliente in clientes" :key="cliente.title">
+            <v-list-item-content>
+              <v-list-item-title v-text="cliente.username"></v-list-item-title>
+            </v-list-item-content>
 
-      <div class="mx-10">
-        <v-btn :disabled="!valid"
-               color="success" 
-               class="mr-4" 
-               @click="salvar"
-               >
-               Salvar
-        </v-btn>
+            <v-list-item-content>
+              <v-list-item-title v-text="cliente.tipo"></v-list-item-title>
+            </v-list-item-content>
 
-        <v-btn color="error"
-               class="mr-4" 
-               @click="cancelar"
-               >
-               Cancelar
-        </v-btn>
-      </div>
-    </v-form>
+            <v-list-item-action>
+              <v-btn icon v-if="cliente.ativo">
+                <v-icon color="green">mdi-check-bold</v-icon>
+              </v-btn>
+
+              <v-btn icon v-else>
+                <v-icon color="grey">mdi-cancel</v-icon>
+              </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </div>
   </div>
-  <!--LISTA DE CLIENTES-->
-  <div class="ma-12">
-  <v-data-table
-    :headers="headers"
-    :items="desserts"
-    sort-by="calories"
-    class="elevation-5 ma-12"
-  >
-    <template v-slot:top>
-      <v-toolbar flat color="white">
-        <v-list-item-icon>
-            <v-icon> mdi-account</v-icon>
-          </v-list-item-icon>
-        <v-toolbar-title>Clientes</v-toolbar-title>
-        <v-divider
-          class="mx-4"
-          inset
-          vertical
-        ></v-divider>
-        <div class="flex-grow-1"></div>
-        <v-dialog v-model="dialog" max-width="500px">
-          <v-card>
-            <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
-            </v-card-title>
-
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.name" label="name usuario"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.email" label="email"></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
-
-            <v-card-actions>
-              <div class="flex-grow-1"></div>
-              <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-toolbar>
-    </template>
-    <template v-slot:item.action="{ item }">
-      <v-icon
-        small
-        class="mr-2"
-        @click="editItem(item)"
-      >
-        mdi-pencil
-      </v-icon>
-      <v-icon
-        small
-        @click="deleteItem(item)"
-      >
-        mdi-delete
-      </v-icon>
-    </template>
-    <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize">Reset</v-btn>
-    </template>
-  </v-data-table>
-  </div>
-</div>
 </template>
+
 <script>
-//ACESSO A API
 import HttpRequestUtil from "@/util/HttpRequestUtil";
-import { stringify } from 'querystring';
 
 export default {
   data: () => ({
-    valid: true,
-    clientes: [],
-    name: "",
-    nameRules: [
-      v => !!v || "Nome é obrigatório!",
-      v => (v && v.length <= 20) || "Nome deve ter no máximo 20 caracteres!"
-    ],
-    email: "",
-    emailRules: [
-      v => !!v || "E-mail é obrigatório!",
-      v => /.+@.+\..+/.test(v) || "E-mail invalido"
-    ],
-    show1: false,
+    valid: false,
+    username: "",
     password: "",
+    email: "",
     passwordRules: [
-      v => !!v || "Senha é obrigatório!.",
-      v => v.length >= 8 || "Min 8 caracteres"
+      v => !!v || "Senha é obrigatória",
+      v => v.length <= 10 || "Senha deve ter no máximo 10 caracteres"
     ],
-    //SCRIPT DA LISTA DE CLIENTES CADASTRADOS
-    dialog: false,
-      headers: [
-        {
-
-          text: 'Nome de Usuários',
-          align: 'left',
-          sortable: false,
-          value: 'name',
-        },
-        { text: 'E-mail', value: 'email' },
-        { text: '', value: 'action', sortable: false },
-
-      ],
-      desserts: [],
-      editedIndex: -1,
-      editedItem: {
-        name: '',
-        email: 0,
-      },
-      defaultItem: {
-        name: '',
-        email: 0,
-      },
-    }),
-  
-    computed: {
-      formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-      },
-    },
-
-    watch: {
-      dialog (val) {
-        val || this.close()
-      },
-    },
-
-    created () {
-      this.initialize()
-    },
+    usernameRules: [
+      v => !!v || "Username é obrigatório",
+      v => v.length <= 10 || "Username deve ter no máximo 10 caracteres"
+    ],
+    clientes: []
+  }),
   methods: {
-    //MÉTODOS DE CADASTRO
-    dados() {
-      let usuario = {}
-      usuario.ativo = true
-      usuario.username = this.name
-      usuario.senha = this.password
-      
-      return usuario
-    },
     salvar() {
-      
-      if (this.$refs.form.validate()) {
-        let usuario = {}
-      usuario.ativo = true
-      usuario.username = "ola"
-      usuario.senha = "1231"
-        
-        HttpRequestUtil.salvarUsuario(usuario).then(usuario => {
-        alert(JSON.stringify(usuario));
-        });
-      }
+      let cliente = {};
+      cliente.ativo = true;
+      cliente.username = this.username;
+      cliente.senha = this.password;
+      cliente.tipo = "CLIENTE";
+
+      HttpRequestUtil.salvarUsuario(cliente).then(response => {
+        this.clientes.push(response);
+      });
     },
-          salvar1() {
-        let usuario = {};
-        usuario.ativo = true;
-        usuario.username = "groselha";
-        usuario.senha = "0987";
-        usuario.tipo = "CLIENTE";
 
-        HttpRequestUtil.salvarUsuario(usuario).then(usuario => {
-          alert(JSON.stringify(usuario));
-        });
-      },
+    buscarTodos() {
+      HttpRequestUtil.buscarUsuarios().then(usuarios => {
+        this.clientes = usuarios;
+      });
+    }
+  },
 
-    cancelar() {
-
-    },
-    //MÉTODOS DA LISTA DE CLIENTES CADASTRADOS
-    initialize () {
-        this.desserts = [
-          {
-            name: 'Felipe',
-            email: 'felipe@gmail.com',
-          },
-          {
-            name: 'João',
-            email: 'joao@gmail.com',
-          },
-          {
-            name: 'Maria',
-            email: 'maria@gmail.com',
-          },
-        ]
-      },
-      editItem (item) {
-        this.editedIndex = this.desserts.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
-      },
-
-      deleteItem (item) {
-        const index = this.desserts.indexOf(item)
-        confirm('Tem certeza de que deseja excluir este usuário?') && this.desserts.splice(index, 1)
-      },
-
-      close () {
-        this.dialog = false
-        setTimeout(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        }, 300)
-      },
-
-      save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.desserts[this.editedIndex], this.editedItem)
-        } else {
-          this.desserts.push(this.editedItem)
-        }
-        this.close()
-      },
-    },
+  mounted() {
+    this.buscarTodos();
   }
+};
 </script>
+
+<style>
+</style>
