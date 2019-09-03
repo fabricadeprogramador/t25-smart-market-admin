@@ -68,6 +68,11 @@ export default {
         title: "Usuarios",
         icon: "mdi-account-multiple",
         route: "/usuarios"
+      },
+      {
+        title: "Contato",
+        icon: "mdi-comment-account",
+        route: "/contato"
       }
     ]
   })

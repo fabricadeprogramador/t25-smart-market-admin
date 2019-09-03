@@ -5,6 +5,7 @@ import Produtos from './views/Produto.vue'
 import Clientes from './views/Clientes.vue'
 import Controle from './views/Controle.vue'
 import Usuario from './views/Usuario.vue'
+import Contato from './views/Contato.vue'
 
 Vue.use(Router)
 
@@ -17,7 +18,6 @@ export default new Router({
       component: Home
     },
     {
-
       path: '/clientes',
       name: 'clientes',
       component: Clientes
@@ -36,6 +36,11 @@ export default new Router({
       path: '/usuarios',
       name: 'Usuarios',
       component: Usuario
+    },
+    {
+      path: '/contato',
+      name: 'Contato',
+      component: Contato
     }
   ]
 })
