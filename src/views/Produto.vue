@@ -3,49 +3,49 @@
     <v-form v-model="valid">
       <v-container>
         <v-row>
-          <v-col cols="12" md="4">
-            <v-text-field v-model="nome" :rules="usernameRules" :counter="10" label="Nome" required></v-text-field>
-          </v-col>
-          <v-col cols="12" md="4">
+          <!-- <v-col cols="12" md="6">
+            <v-text-field v-model="nome" :rules="usernameRules" :counter="100" label="Nome" required></v-text-field>
+          </v-col>-->
+          <v-col cols="12" md="6">
             <v-text-field
-              v-model="preco"
+              v-model="valor"
               :rules="usernameRules"
-              :counter="10"
-              label="Preço"
+              :counter="100"
+              label="Valor"
               required
             ></v-text-field>
           </v-col>
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="6">
             <v-text-field
-              v-model="qtdMin"
+              v-model="descricao"
               :rules="usernameRules"
-              :counter="10"
-              label="Quantidade Mínima"
+              :counter="100"
+              label="Descrição"
               required
             ></v-text-field>
           </v-col>
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="6">
             <v-text-field
-              v-model="qtdMax"
+              v-model="qtdeDisponivel"
               :rules="usernameRules"
-              :counter="10"
-              label="Quantidade Máxima"
+              :counter="100"
+              label="Quantidade disponível"
               required
             ></v-text-field>
           </v-col>
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="6">
             <v-text-field
               v-model="imagem"
               :rules="usernameRules"
-              :counter="10"
+              :counter="100"
               label="Adicione o link da imagem do produto"
               required
             ></v-text-field>
           </v-col>
 
-          <v-col cols="12" md="4">
-            <v-select :items="items" label="Setor" v-model="setor"></v-select>
-          </v-col>
+          <!-- <v-col cols="12" md="6">
+            <v-select :items="items" label="marca" v-model="marca"></v-select>
+          </v-col>-->
         </v-row>
 
         <div class="text-center">
@@ -56,30 +56,42 @@
 
     <v-card class="ma-3">
       <v-list>
-        <v-list-item v-for="produto in produtos" :key="produto.title" @click>
+        <v-list-item v-for="produto in produtos" :key="produto.title">
           <v-list-item-content>
             <v-list-item-title v-text="produto.nome"></v-list-item-title>
           </v-list-item-content>
 
           <v-list-item-content>
-            <v-list-item-title v-text="produto.preco"></v-list-item-title>
+            <v-list-item-title v-text="produto.valor"></v-list-item-title>
           </v-list-item-content>
 
           <v-list-item-content>
-            <v-list-item-title v-text="produto.qtdMin"></v-list-item-title>
+            <v-list-item-title v-text="produto.descricao"></v-list-item-title>
           </v-list-item-content>
 
           <v-list-item-content>
-            <v-list-item-title v-text="produto.qtdMax"></v-list-item-title>
+            <v-list-item-title v-text="produto.qtdeDisponivel"></v-list-item-title>
           </v-list-item-content>
 
-          <v-list-item-content>
-            <v-list-item-title v-text="produto.imagem"></v-list-item-title>
-          </v-list-item-content>
+          <v-list-item-avatar>
+            <v-img :src="produto.imagem"></v-img>
+          </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title v-text="produto.setor"></v-list-item-title>
+            <v-list-item-title v-text="produto.marca"></v-list-item-title>
           </v-list-item-content>
+
+          <v-list-item-action>
+            <v-btn icon @click="excluirProduto">
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+          </v-list-item-action>
+
+          <v-list-item-action>
+            <v-btn icon>
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+          </v-list-item-action>
         </v-list-item>
       </v-list>
     </v-card>
@@ -95,40 +107,51 @@ export default {
 
     usernameRules: [
       v => !!v || "Campo preenchido é obrigatório",
-      v => v.length <= 20 || "Username deve ter no máximo 20 caracteres"
+      v => v.length <= 100 || "Username deve ter no máximo 20 caracteres"
     ],
-    preco: "",
-    qtdMin: "",
-    qtdMax: "",
+    valor: "",
+    descricao: "",
+    qtdeDisponivel: "",
     imagem: "",
-    setor: "",
-    items: [
-      "Açougue",
-      "Adega e Bebidas",
-      "Aves",
-      "Bazar",
-      "Frios e Laticínios",
-      "Higiene e Limpeza",
-      "Hortifruti",
-      "Mercearia",
-      "Padaria e Confeitaria",
-      "Pescados",
-      "Rotisseria"
-    ],
+    marca: "z",
+
+    departamento: {
+      _id: "5cabd8ee1890cc0017f858d7"
+    },
+    // items: [
+    //   "Açougue",
+    //   "Adega e Bebidas",
+    //   "Aves",
+    //   "Bazar",
+    //   "Frios e Laticínios",
+    //   "Higiene e Limpeza",
+    //   "Hortifruti",
+    //   "Mercearia",
+    //   "Padaria e Confeitaria",
+    //   "Pescados",
+    //   "Rotisseria"
+    // ],
     produtos: []
   }),
   methods: {
     salvar() {
       let produto = {};
-      produto.nome = this.nome;
-      produto.preco = this.preco;
-      produto.qtdMin = this.qtdMin;
-      produto.qtdMax = this.qtdMax;
+      produto.valor = parseFloat(this.valor);
+      produto.descricao = this.descricao;
+      produto.qtdeDisponivel = parseFloat(this.qtdeDisponivel);
       produto.imagem = this.imagem;
-      produto.setor = this.setor;
+      produto.marca = this.marca;
+      produto.departamento = this.departamento;
 
-      HttpRequestUtil.salvarProduto(produto).then(response => {
-        this.produtos.push(response);
+      HttpRequestUtil.salvarProduto(produto).then(produto => {
+        this.produtos.push(produto);
+      });
+
+      alert(JSON.stringify(produto));
+    },
+    excluirProduto() {
+      HttpRequestUtil.excluirProduto().then(produtos => {
+        this.produtos = produtos;
       });
     },
 
