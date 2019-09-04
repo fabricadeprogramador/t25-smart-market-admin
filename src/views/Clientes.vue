@@ -4,7 +4,7 @@
       <v-form v-model="valid" class="ma-12">
         <v-container class="pa-12">
           <div class="text-center">
-          <h1>Cadastro de Clientes</h1>
+            <h1>Cadastro de Clientes</h1>
           </div>
           <v-text-field
             v-model="username"
