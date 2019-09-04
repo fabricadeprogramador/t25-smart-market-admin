@@ -70,6 +70,12 @@ export default {
         route: "/usuarios"
       },
       {
+        title: "Contato",
+        icon: "mdi-comment-account",
+        route: "/contato"
+      },
+
+      {
         title: "Compras",
         icon: "mdi-cart",
         route: "/compras"
