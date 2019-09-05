@@ -73,22 +73,27 @@ export default {
         title: "Contato",
         icon: "mdi-comment-account",
         route: "/contato"
+      },
+
+      {
+        title: "Compras",
+        icon: "mdi-cart",
+        route: "/compras"
       }
     ]
   })
 };
 </script>
 <style>
-  #keep .v-navigation-drawer__border {
-    display: none;
-  }
+#keep .v-navigation-drawer__border {
+  display: none;
+}
 
-  a {
-    text-align: center;
-    font-size: 20pt;
-    font-family: sans-serif;
-    font-weight: bold;
-    color: #2c3e50;
-
-  }
+a {
+  text-align: center;
+  font-size: 20pt;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: #2c3e50;
+}
 </style>
