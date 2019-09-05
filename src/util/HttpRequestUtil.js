@@ -1,6 +1,7 @@
 const API_URL = "https://loja-ht-api-t23.herokuapp.com";
 
 import axios from "axios";
+import { async } from "q";
 
 export default {
   //Usuários
@@ -29,5 +30,10 @@ export default {
     return axios
       .post(API_URL + "/produtos", produto)
       .then(response => response.data);
+  },
+
+  //Clientes
+  async buscarClientes() {
+    return axios.get(API_URL + "/clientes").then(cliente => cliente.data);
   }
 };
