@@ -14,6 +14,7 @@
                   <v-col cols="2" align="right">
                     <v-list-item-action-text v-text="item.datacontato"></v-list-item-action-text>
                     
+                    
                   </v-col>
                 </v-row>
 
