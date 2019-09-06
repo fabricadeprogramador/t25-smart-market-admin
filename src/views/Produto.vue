@@ -54,8 +54,25 @@
       </v-container>
     </v-form>
 
-    <v-card class="ma-3">
+    <v-card>
       <v-list>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title v-text="Valor"></v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-content>
+            <v-list-item-title v-text="Produto"></v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-content>
+            <v-list-item-title v-text="Quantidade"></v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-content>
+            <v-list-item-title v-text="Foto"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
+      <v-list class="text-align-left">
         <v-list-item v-for="produto in produtos" :key="produto.title">
           <v-list-item-content>
             <v-list-item-title v-text="produto.nome"></v-list-item-title>
@@ -76,11 +93,6 @@
           <v-list-item-avatar>
             <v-img :src="produto.imagem"></v-img>
           </v-list-item-avatar>
-
-          <v-list-item-content>
-            <v-list-item-title v-text="produto.marca"></v-list-item-title>
-          </v-list-item-content>
-
           <v-list-item-action>
             <v-btn icon @click="excluirProduto">
               <v-icon>mdi-delete</v-icon>
@@ -114,6 +126,11 @@ export default {
     qtdeDisponivel: "",
     imagem: "",
     marca: "z",
+
+    Valor: "Valor",
+    Produto: "Produto",
+    Quantidade: "Quantidade disponível",
+    Foto: "Foto",
 
     departamento: {
       _id: "5cabd8ee1890cc0017f858d7"
