@@ -42,10 +42,6 @@
               required
             ></v-text-field>
           </v-col>
-
-          <!-- <v-col cols="12" md="6">
-            <v-select :items="items" label="marca" v-model="marca"></v-select>
-          </v-col>-->
         </v-row>
 
         <div class="text-center">
@@ -54,47 +50,74 @@
       </v-container>
     </v-form>
 
-    <v-card class="ma-3">
+ <v-col cols="12" >
+    <v-card >
       <v-list>
-        <v-list-item v-for="produto in produtos" :key="produto.title">
-          <v-list-item-content>
-            <v-list-item-title v-text="produto.nome"></v-list-item-title>
-          </v-list-item-content>
+        <v-list-item class="text-center">
+          <v-col cols="2">
+            <th class="text-center">VALOR</th>
+          </v-col>
+          <v-col cols="3">
+            <th class="text-center">DESCRICAO</th>
+          </v-col>
+           <v-col cols="2">
+            <th class="text-center">MARCA</th>
+          </v-col>
+          <v-col cols="1">
+            <th class="text-center">IMG</th>
+          </v-col>
+          <v-col cols="2">
+            <th class="">Qtd</th>
+          </v-col>
+          <v-col cols="">
+            <th class=""></th>
+          </v-col>
+          <v-col cols="">
+            <th class=""></th>
+          </v-col>
+          
+        </v-list-item>
 
-          <v-list-item-content>
-            <v-list-item-title v-text="produto.valor"></v-list-item-title>
-          </v-list-item-content>
 
-          <v-list-item-content>
-            <v-list-item-title v-text="produto.descricao"></v-list-item-title>
-          </v-list-item-content>
 
-          <v-list-item-content>
-            <v-list-item-title v-text="produto.qtdeDisponivel"></v-list-item-title>
-          </v-list-item-content>
+        <v-list-item v-for="produto in produtos" :key="produto.title" >
+          <v-col md="2">
+            <v-list-item-title class="text-center">R$ {{produto.valor}}</v-list-item-title>          
+          ​</v-col>
 
+          <v-col md="3">          
+            <v-list-item-title class="text-center" v-text="produto.descricao"></v-list-item-title>          
+          ​</v-col>
+          
+          <v-col md="2">         
+            <v-list-item-title class="text-center" v-text="produto.marca"></v-list-item-title>         
+          ​</v-col>
+          
+          <v-col md="1">
           <v-list-item-avatar>
             <v-img :src="produto.imagem"></v-img>
           </v-list-item-avatar>
+          </v-col>
 
-          <v-list-item-content>
-            <v-list-item-title v-text="produto.marca"></v-list-item-title>
-          </v-list-item-content>
+          <v-col md="2">          
+            <v-list-item-title class="text-center" v-text="produto.qtdeDisponivel"></v-list-item-title>          
+          ​</v-col>
 
-          <v-list-item-action>
+          <v-col md="1">
             <v-btn icon @click="excluirProduto">
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
-          </v-list-item-action>
+             <v-icon>mdi-delete</v-icon> 
+              </v-btn>          
+          </v-col>
+          <v-col md="1">
 
-          <v-list-item-action>
             <v-btn icon>
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-          </v-list-item-action>
+             <v-icon>mdi-pencil</v-icon> 
+              </v-btn>          
+          </v-col>
         </v-list-item>
       </v-list>
     </v-card>
+    </v-col>      
   </div>
 </template>
 <script>
@@ -131,7 +154,11 @@ export default {
     //   "Pescados",
     //   "Rotisseria"
     // ],
-    produtos: []
+    produtos: [],
+    cabecalho:[
+      {qtdeDisponiveL: "Qtd Disponível"},
+      {imageM: "Imagem"}
+    ]
   }),
   methods: {
     salvar() {
