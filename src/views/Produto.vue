@@ -54,26 +54,34 @@
     <v-card >
       <v-list>
         <v-list-item class="text-center">
-          <v-col cols="2">
-            <th class="text-center">VALOR</th>
+          <v-col md="2">
+            <v-list-item-title class="text-center">Valor</v-list-item-title>          
+          ​</v-col>
+
+          <v-col md="3">          
+            <v-list-item-title class="text-center" >Produto</v-list-item-title>          
+          ​</v-col>
+          
+          <v-col md="2">         
+            <v-list-item-title class="text-center" >Marca</v-list-item-title>         
+          ​</v-col>
+          
+          <v-col md="1" class="mb-5">
+          <v-list-item-avatar>
+            <v-list-item-title class="text-center" >Foto</v-list-item-title> 
+          </v-list-item-avatar>
           </v-col>
-          <v-col cols="3">
-            <th class="text-center">DESCRICAO</th>
+
+          <v-col md="2">          
+            <v-list-item-title class="text-center" >Quantidade</v-list-item-title>          
+          ​</v-col>
+
+          <v-col md="1">
+                    
           </v-col>
-           <v-col cols="2">
-            <th class="text-center">MARCA</th>
-          </v-col>
-          <v-col cols="1">
-            <th class="text-center">IMG</th>
-          </v-col>
-          <v-col cols="2">
-            <th class="">Qtd</th>
-          </v-col>
-          <v-col cols="">
-            <th class=""></th>
-          </v-col>
-          <v-col cols="">
-            <th class=""></th>
+          <v-col md="1">
+
+                  
           </v-col>
           
         </v-list-item>
