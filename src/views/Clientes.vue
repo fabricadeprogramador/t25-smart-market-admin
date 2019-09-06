@@ -10,21 +10,22 @@
 
           <v-list-item
           flat
+          class="title"
           >
           <v-list-item-title>
-            <b>NOME DE USUÁRIO</b> 
+            NOME DE USUÁRIO
           </v-list-item-title>
 
           <v-list-item-title>
-            <b>NOME</b> 
+            NOME
           </v-list-item-title>
 
           <v-list-item-title>
-            <b>DATA DE NASCIMENTO</b> 
+            DATA DE NASCIMENTO 
           </v-list-item-title>
 
           <v-list-item-title>
-            <b>CPF</b> 
+            CPF
           </v-list-item-title>
           </v-list-item>
 
@@ -78,18 +79,24 @@ export default {
       v => !!v || "Username é obrigatório",
       v => v.length <= 10 || "Username deve ter no máximo 10 caracteres"
     ],
-    clientes: [
-      {
-        usuario: {
-          username: "Maria da Silva"
-        },
+    clientes: []
+  }),
+  methods: {
+    salvar() {
+      let usuario = {}
+      usuario._id = "5d5f2f64e638d00017ad8f38"
+      let cliente = {
         nome: "Maria",
         dataNascimento: "12-03-1960",
         CPF: "12903107910"
       }
-    ]
-  }),
-  methods: {
+
+      cliente.usuario = usuario
+        
+        HttpRequestUtil.salvarCliente(cliente).then(cliente => {
+        this.clientes.push(cliente);
+      });
+    },
     buscarTodos() {
       HttpRequestUtil.buscarClientes().then(clientes => {
         this.clientes = clientes;
@@ -102,6 +109,5 @@ export default {
   }
 };
 </script>
-
 <style>
 </style>
