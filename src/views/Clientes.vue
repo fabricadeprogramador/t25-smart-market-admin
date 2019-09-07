@@ -1,35 +1,5 @@
 <template>
   <div>
-    <div class="ma-12 elevation-1">
-      <v-form v-model="valid" class="ma-12">
-        <v-container class="pa-12">
-          <div class="text-center">
-            <h1>Cadastro de Clientes</h1>
-          </div>
-          <v-text-field
-            v-model="username"
-            :rules="usernameRules"
-            :counter="10"
-            label="Username"
-            required
-          ></v-text-field>
-
-          <v-text-field
-            v-model="password"
-            :rules="passwordRules"
-            :counter="10"
-            label="Senha"
-            required
-            type="password"
-          ></v-text-field>
-
-          <div class="text-center">
-            <v-btn color="info" class="my-5" @click="salvar">Salvar</v-btn>
-          </div>
-        </v-container>
-      </v-form>
-    </div>
-
     <!--LISTA DE CLIENTES-->
     <div class="ma-12 elevation-1">
       <v-card>
@@ -37,17 +7,49 @@
           <div class="text-center">
             <h1>Clientes</h1>
           </div>
+
+          <v-list-item
+          flat
+          class="title"
+          >
+          <v-list-item-title>
+            NOME DE USUÁRIO
+          </v-list-item-title>
+
+          <v-list-item-title>
+            NOME
+          </v-list-item-title>
+
+          <v-list-item-title>
+            DATA DE NASCIMENTO 
+          </v-list-item-title>
+
+          <v-list-item-title>
+            CPF
+          </v-list-item-title>
+          </v-list-item>
+
+
           <v-list-item v-for="cliente in clientes" :key="cliente.title">
             <v-list-item-content>
-              <v-list-item-title v-text="cliente.username"></v-list-item-title>
+              <v-list-item-title v-text="cliente.usuario.username"></v-list-item-title>
             </v-list-item-content>
 
             <v-list-item-content>
-              <v-list-item-title v-text="cliente.tipo"></v-list-item-title>
+              <v-list-item-title v-text="cliente.nome"></v-list-item-title>
             </v-list-item-content>
 
+            <v-list-item-content>
+              <v-list-item-title v-text="cliente.dataNascimento"></v-list-item-title>
+            </v-list-item-content>
+
+            <v-list-item-content>
+              <v-list-item-title v-text="cliente.cpf"></v-list-item-title>
+            </v-list-item-content>
+
+            <!--
             <v-list-item-action>
-              <v-btn icon v-if="cliente.ativo">
+              <v-btn icon v-if="clientes.ativo">
                 <v-icon color="green">mdi-check-bold</v-icon>
               </v-btn>
 
@@ -55,6 +57,7 @@
                 <v-icon color="grey">mdi-cancel</v-icon>
               </v-btn>
             </v-list-item-action>
+            -->
           </v-list-item>
         </v-list>
       </v-card>
@@ -68,9 +71,6 @@ import HttpRequestUtil from "@/util/HttpRequestUtil";
 export default {
   data: () => ({
     valid: false,
-    username: "",
-    password: "",
-    email: "",
     passwordRules: [
       v => !!v || "Senha é obrigatória",
       v => v.length <= 10 || "Senha deve ter no máximo 10 caracteres"
@@ -83,20 +83,23 @@ export default {
   }),
   methods: {
     salvar() {
-      let cliente = {};
-      cliente.ativo = true;
-      cliente.username = this.username;
-      cliente.senha = this.password;
-      cliente.tipo = "CLIENTE";
+      let usuario = {}
+      usuario._id = "5d5f2f64e638d00017ad8f38"
+      let cliente = {
+        nome: "Maria",
+        dataNascimento: "12-03-1960",
+        CPF: "12903107910"
+      }
 
-      HttpRequestUtil.salvarUsuario(cliente).then(response => {
-        this.clientes.push(response);
+      cliente.usuario = usuario
+        
+        HttpRequestUtil.salvarCliente(cliente).then(cliente => {
+        this.clientes.push(cliente);
       });
     },
-
     buscarTodos() {
-      HttpRequestUtil.buscarUsuarios().then(usuarios => {
-        this.clientes = usuarios;
+      HttpRequestUtil.buscarClientes().then(clientes => {
+        this.clientes = clientes;
       });
     }
   },
@@ -106,6 +109,5 @@ export default {
   }
 };
 </script>
-
 <style>
 </style>
