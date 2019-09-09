@@ -12,7 +12,7 @@
           </v-list-item-content>
 
           <v-list-item-content>
-            <v-list-item-title v-text="compra.valorTotal"></v-list-item-title>
+            <v-list-item-title v-text="parseFloat(compra.valorTotal)"></v-list-item-title>
           </v-list-item-content>
 
           <v-list-item-content>
@@ -26,7 +26,16 @@
           <v-list-item-content>
             <v-list-item-title v-text="compra.cliente"></v-list-item-title>
           </v-list-item-content>
+
+          <v-list-item-content>
+            <v-list-item-title v-text="compra.cliente"></v-list-item-title>
+          </v-list-item-content>
+         
         </v-list-item>
+         <v-list-item-content>
+            <v-list-item-title> VALOR TOTAL DAS COMPRAS : {{valortotalDasCompras}} R$</v-list-item-title>
+          </v-list-item-content>
+
       </v-list>
     </v-card>
   </div>
@@ -42,26 +51,21 @@ export default {
     data: "",
     pagamento: "",
     cliente: "",
-    compras: []
+    compras: [],
+    valortotalDasCompras: "",
   }),
   methods: {
-    salvar() {
-      let compra = {};
-      compra.produtos = this.produtos;
-      compra.valorTotal = this.valorTotal;
-      compra.data = this.data;
-      compra.pagamento = this.pagamento;
-      compra.cliente = this.cliente;
-
-      HttpRequestUtil.buscarCompra(compra).then(response => {
-        this.compras.push(response);
-      });
-    },
+    
 
     buscarCompras() {
       HttpRequestUtil.buscarCompras().then(response => {
         this.compras = response;
-      });
+
+       for (let i = 0 ; i <= this.compras.length ; i++){
+        this.valortotalDasCompras += parseFloat(this.compras[i].valorTotal);
+      }
+     });
+     
     }
   }
 };

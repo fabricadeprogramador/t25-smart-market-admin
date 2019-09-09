@@ -110,8 +110,8 @@
             </v-col>
 
             <v-col md="1">
-              <v-btn icon @click="alterarStatus">
-                <v-icon>mdi-cart-off</v-icon>
+              <v-btn icon @click="alterarStatus(produto)">
+                <v-icon>{{statusProduto}}</v-icon>
               </v-btn>
             </v-col>
             <v-col md="1">
@@ -133,6 +133,8 @@ export default {
     valid: false,
     nome: "",
     produtoEditado: null,
+    statusProduto: "mdi-cart",
+    
 
     usernameRules: [
       v => !!v || "Campo preenchido é obrigatório",
@@ -180,6 +182,7 @@ export default {
         produto.imagem = this.imagem;
         produto.marca = this.marca;
         produto.departamento = this.departamento;
+        
 
         HttpRequestUtil.salvarProduto(produto).then(produto => {
           this.produtos.push(produto);
@@ -209,6 +212,14 @@ export default {
       this.descricao = produto.descricao;
       this.qtdeDisponivel = parseFloat(produto.qtdeDisponivel);
       this.imagem = produto.imagem;
+    },
+
+    alterarStatus(produto){
+      if(this.statusProduto == "mdi-cart"){
+          this.statusProduto = "mdi-cart-off"
+      }else{
+        this.statusProduto = "mdi-cart"
+      }
     }
   },
 
