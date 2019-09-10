@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-btn color="info" class="my-5" @click="buscarCompras">Buscar compras realizadas</v-btn>
+    
     <v-col cols="12">
       <v-card>
         <v-list class="pa-12">
@@ -54,7 +54,7 @@
           <v-col>
             <v-list-item-title class="title">
               VALOR TOTAL DAS COMPRAS :
-              <v-list-item-title>{{valortotalDasCompras}} R$</v-list-item-title>
+              <v-list-item-title> R$: {{valortotalDasCompras}}</v-list-item-title>
             </v-list-item-title>
           </v-col>
         </v-list>
@@ -81,12 +81,25 @@ export default {
       HttpRequestUtil.buscarCompras().then(response => {
         this.compras = response;
 
-        for (let i = 0; i < this.compras.length; i++) {
+         for (let i = 0; i < this.compras.length; i++) {
           this.valortotalDasCompras += parseFloat(this.compras[i].valorTotal);
         }
+
+      
+      
       });
+
+      
+
+      
     }
-  }
+    
+  },
+  mounted() {
+        this.buscarCompras()
+
+        
+      } 
 };
 </script>
 
