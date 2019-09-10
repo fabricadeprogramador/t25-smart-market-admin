@@ -134,7 +134,6 @@ export default {
     nome: "",
     produtoEditado: null,
     statusProduto: "mdi-cart",
-    
 
     usernameRules: [
       v => !!v || "Campo preenchido é obrigatório",
@@ -182,7 +181,6 @@ export default {
         produto.imagem = this.imagem;
         produto.marca = this.marca;
         produto.departamento = this.departamento;
-        
 
         HttpRequestUtil.salvarProduto(produto).then(produto => {
           this.produtos.push(produto);
@@ -214,11 +212,11 @@ export default {
       this.imagem = produto.imagem;
     },
 
-    alterarStatus(produto){
-      if(this.statusProduto == "mdi-cart"){
-          this.statusProduto = "mdi-cart-off"
-      }else{
-        this.statusProduto = "mdi-cart"
+    alterarStatus(produto) {
+      if (this.statusProduto == "mdi-cart") {
+        this.statusProduto = "mdi-cart-off";
+      } else {
+        this.statusProduto = "mdi-cart";
       }
     }
   },
