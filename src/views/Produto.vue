@@ -54,7 +54,7 @@
               </v-list-item-avatar>
             </v-col>
 
-            <v-col md="2">
+            <v-col md="2" class="mt-3">
               <v-list-item-title>Quantidade</v-list-item-title>
               ​
             </v-col>
@@ -105,7 +105,7 @@
             </v-col>
             <v-col md="1">
 
-              <v-btn icon>
+              <v-btn icon @click = "editarProdutos">
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </v-col>
@@ -122,6 +122,7 @@
     data: () => ({
       valid: false,
       nome: "",
+      produtoEditado: null,
 
       usernameRules: [
         v => !!v || "Campo preenchido é obrigatório",
@@ -184,6 +185,15 @@
         HttpRequestUtil.buscarProdutos().then(produtos => {
           this.produtos = produtos;
         });
+      },
+
+      editarProdutos(produto){
+        this.produtoEditado = produto
+
+        this.valor = produto.valor
+        this.descricao = produto.descricao
+        this.qtdeDisponivel = produto.qtdeDisponivel
+        this.imagem = produto.imagem
       }
     },
 
