@@ -7,19 +7,42 @@
             <v-text-field v-model="nome" :rules="usernameRules" :counter="100" label="Nome" required></v-text-field>
           </v-col>-->
           <v-col cols="12" md="6">
-            <v-text-field v-model="valor" :rules="usernameRules" :counter="100" label="Valor" required></v-text-field>
+            <v-text-field
+              v-model="valor"
+              :rules="usernameRules"
+              :counter="100"
+              label="Valor"
+              required
+              type="number"
+            ></v-text-field>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field v-model="descricao" :rules="usernameRules" :counter="100" label="Descrição" required>
-            </v-text-field>
+            <v-text-field
+              v-model="descricao"
+              :rules="usernameRules"
+              :counter="100"
+              label="Descrição"
+              required
+            ></v-text-field>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field v-model="qtdeDisponivel" :rules="usernameRules" :counter="100" label="Quantidade disponível"
-              required></v-text-field>
+            <v-text-field
+              v-model="qtdeDisponivel"
+              :rules="usernameRules"
+              :counter="100"
+              label="Quantidade disponível"
+              required
+              type="number"
+            ></v-text-field>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field v-model="imagem" :rules="usernameRules" :counter="100"
-              label="Adicione o link da imagem do produto" required></v-text-field>
+            <v-text-field
+              v-model="imagem"
+              :rules="usernameRules"
+              :counter="100"
+              label="Adicione o link da imagem do produto"
+              required
+            ></v-text-field>
           </v-col>
         </v-row>
 
@@ -34,21 +57,18 @@
         <v-list>
           <v-list-item class="text-start title">
             <v-col md="2">
-              <v-list-item-title>Valor</v-list-item-title>
-              ​
+              <v-list-item-title>Valor</v-list-item-title>​
             </v-col>
 
             <v-col md="3">
-              <v-list-item-title>Produto</v-list-item-title>
-              ​
+              <v-list-item-title>Produto</v-list-item-title>​
             </v-col>
 
             <v-col md="2">
-              <v-list-item-title>Marca</v-list-item-title>
-              ​
+              <v-list-item-title>Marca</v-list-item-title>​
             </v-col>
 
-            <v-col md="1" class="mb-5">
+            <v-col md="1" class="mb-8">
               <v-list-item-avatar>
                 <v-list-item-title>Foto</v-list-item-title>
               </v-list-item-avatar>
@@ -60,31 +80,24 @@
             </v-col>
 
             <v-col md="1">
-
+              <v-list-item-title>Status</v-list-item-title>​
             </v-col>
-            <v-col md="1">
-
-
+            <v-col md="1" class="mb-8">
+              <v-list-item-title>Editar</v-list-item-title>
             </v-col>
-
           </v-list-item>
-
-
 
           <v-list-item v-for="produto in produtos" :key="produto.title" class="text-start">
             <v-col md="2">
-              <v-list-item-title>R$ {{produto.valor}}</v-list-item-title>
-              ​
+              <v-list-item-title>R$ {{produto.valor}}</v-list-item-title>​
             </v-col>
 
             <v-col md="3">
-              <v-list-item-title v-text="produto.descricao"></v-list-item-title>
-              ​
+              <v-list-item-title v-text="produto.descricao"></v-list-item-title>​
             </v-col>
 
             <v-col md="2">
-              <v-list-item-title v-text="produto.marca"></v-list-item-title>
-              ​
+              <v-list-item-title v-text="produto.marca"></v-list-item-title>​
             </v-col>
 
             <v-col md="1">
@@ -94,18 +107,18 @@
             </v-col>
 
             <v-col md="2">
-              <v-list-item-title v-text="produto.qtdeDisponivel"></v-list-item-title>
-              ​
+              <v-list-item-title v-text="produto.qtdeDisponivel"></v-list-item-title>​
             </v-col>
 
             <v-col md="1">
-              <v-btn icon @click="excluirProduto">
-                <v-icon>mdi-delete</v-icon>
+              <v-btn icon @click="alterarStatus(produto)">
+                <v-icon>{{statusProduto}}</v-icon>
               </v-btn>
             </v-col>
             <v-col md="1">
 
               <v-btn icon @click = "editarProdutos">
+
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </v-col>
@@ -117,6 +130,7 @@
 </template>
 <script>
   import HttpRequestUtil from "@/util/HttpRequestUtil";
+import { scrypt } from 'crypto';
 
   export default {
     data: () => ({
@@ -135,32 +149,14 @@
       marca: "z",
 
       departamento: {
-        _id: "5cabd8ee1890cc0017f858d7"
-      },
-      // items: [
-      //   "Açougue",
-      //   "Adega e Bebidas",
-      //   "Aves",
-      //   "Bazar",
-      //   "Frios e Laticínios",
-      //   "Higiene e Limpeza",
-      //   "Hortifruti",
-      //   "Mercearia",
-      //   "Padaria e Confeitaria",
-      //   "Pescados",
-      //   "Rotisseria"
-      // ],
-      produtos: [],
-      cabecalho: [{
-          qtdeDisponiveL: "Qtd Disponível"
-        },
-        {
-          imageM: "Imagem"
-        }
-      ]
-    }),
-    methods: {
-      salvar() {
+        _id: "5cabd8ee1890cc0017f858d7",
+        imageM: "Imagem"
+
+      }, 
+  }),
+  methods: {
+    salvar() {
+      if (this.produtoEditado == null) {
         let produto = {};
         produto.valor = parseFloat(this.valor);
         produto.descricao = this.descricao;
@@ -171,20 +167,10 @@
 
         HttpRequestUtil.salvarProduto(produto).then(produto => {
           this.produtos.push(produto);
-        });
 
-        alert(JSON.stringify(produto));
-      },
-      excluirProduto() {
-        HttpRequestUtil.excluirProduto().then(produtos => {
-          this.produtos = produtos;
+          alert(JSON.stringify(produto));
         });
-      },
-
-      buscarProdutos() {
-        HttpRequestUtil.buscarProdutos().then(produtos => {
-          this.produtos = produtos;
-        });
+      }
       },
 
       editarProdutos(produto){
@@ -194,14 +180,35 @@
         this.descricao = produto.descricao
         this.qtdeDisponivel = produto.qtdeDisponivel
         this.imagem = produto.imagem
-      }
+      },
+    excluirProduto() {
+      HttpRequestUtil.excluirProduto().then(produtos => {
+        this.produtos = produtos;
+      });
     },
 
-    mounted() {
-      this.buscarProdutos();
-    }
-  };
-</script>
+    buscarProdutos() {
+      HttpRequestUtil.buscarProdutos().then(produtos => {
+        this.produtos = produtos;
+      });
+    },
 
-<style>
-</style>
+    editarProduto(produto) {
+      this.produtoEditado = produto;
+
+      this.valor = parseFloat(produto.valor);
+      this.descricao = produto.descricao;
+      this.qtdeDisponivel = parseFloat(produto.qtdeDisponivel);
+      this.imagem = produto.imagem;
+    },
+
+    alterarStatus(produto) {
+      if (this.statusProduto == "mdi-cart") {
+        this.statusProduto = "mdi-cart-off";
+      } else {
+        this.statusProduto = "mdi-cart";
+      }
+    }
+  },
+  }
+</script>

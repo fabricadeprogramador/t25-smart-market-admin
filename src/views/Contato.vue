@@ -1,6 +1,6 @@
 <template>
 
-      <v-list-item-group v-model="selected" multiple active-class="green--text">
+      <v-list-item-group class="mx-2 my-4 "  v-model="selected" multiple active-class="green--text">
         <template v-for="(item, index) in items">
           <v-list-item :key="item.cliente">
             <template v-slot:default="{ active, toggle }">
@@ -47,11 +47,11 @@
                         <v-card-text>
                           <v-container>
                             <v-row>
-                              <v-col>
+                              <v-col cols="12">
                                 <v-text-field label="Email*" required></v-text-field>
                               </v-col>
                               <v-col>
-                                <v-text-field label="Assunto" type="password" required></v-text-field>
+                                <v-text-field label="Resposta" required></v-text-field>
                               </v-col>
                             </v-row>
                           </v-container>
@@ -87,7 +87,7 @@ export default {
       {
         icon: "mdi-star",
         datacontato: "03/09/2019 21:00am",
-        assunto: "Assunto",
+        assunto: "Assunto:",
         cliente: "Cliente 1",
         mensagem:
           "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?"
@@ -95,16 +95,16 @@ export default {
       {
         icon: "mdi-star",
         datacontato: "04/09/2019 21:00am",
-        assunto: "Assunto",
-        title: "Cliente 2",
+        assunto: "Assunto:",
+        cliente: "Cliente 2",
         mensagem:
           "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?"
       },
       {
         icon: "mdi-star",
         datacontato: "05/09/2019 21:00am",
-        assunto: "Assunto",
-        title: "Cliente 3",
+        assunto: "Assunto:Técnico",
+        cliente: "Cliente 3",
         mensagem:
           "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?"
       }
