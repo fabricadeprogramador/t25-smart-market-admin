@@ -43,5 +43,10 @@ export default {
   
   async salvarCliente(cliente) {
     return axios.post(API_URL + "/clientes", cliente).then(response => response.data);
+  },
+   //Contato
+   async buscarContatos() {
+    return axios.get(API_URL + "/contato").then(contato => contato.data);
   }
+  
 }
