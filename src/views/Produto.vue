@@ -117,7 +117,7 @@
             </v-col>
             <v-col md="1">
 
-              <v-btn icon @click = "editarProdutos">
+              <v-btn icon @click="editarProdutos(produto)">
 
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
@@ -130,14 +130,14 @@
 </template>
 <script>
   import HttpRequestUtil from "@/util/HttpRequestUtil";
-import { scrypt } from 'crypto';
-
   export default {
     data: () => ({
       valid: false,
       nome: "",
       produtoEditado: null,
+      statusProduto: "mdi-cart",
 
+      produtos: [],
       usernameRules: [
         v => !!v || "Campo preenchido é obrigatório",
         v => v.length <= 100 || "Username deve ter no máximo 20 caracteres"
@@ -210,5 +210,9 @@ import { scrypt } from 'crypto';
       }
     }
   },
+
+  mounted(){
+    this.buscarProdutos()
+  }
   }
 </script>
