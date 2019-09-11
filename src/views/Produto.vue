@@ -140,7 +140,6 @@
       produtos: [],
       usernameRules: [
         v => !!v || "Campo preenchido é obrigatório",
-        v => v.length <= 100 || "Username deve ter no máximo 20 caracteres"
       ],
       valor: "",
       descricao: "",
