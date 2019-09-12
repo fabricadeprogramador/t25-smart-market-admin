@@ -145,7 +145,7 @@ export default {
     },
     enviarResposta() {
       if (this.textoresposta.length < 20){
-        alert("A resposta deve conter no mínimo 20 caracteres")
+        // alert("A resposta deve conter no mínimo 20 caracteres")
       }else{
         for (let i = 0; i < this.items.length; i++) {
           if (this.items[i]._id == this.indiceResposta) {
