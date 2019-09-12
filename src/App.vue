@@ -79,6 +79,11 @@ export default {
         title: "Compras",
         icon: "mdi-cart",
         route: "/compras"
+      },
+      {
+        title: "Sair",
+        icon: "mdi-exit-to-app",
+        route: "/login"
       }
     ]
   })

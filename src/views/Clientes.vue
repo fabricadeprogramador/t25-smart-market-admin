@@ -82,7 +82,10 @@ export default {
     clientes: []
   }),
   methods: {
-    salvar() {
+
+   /* O metodo salvar não pode ser usado por conta de problemas na API
+
+   salvar() {
       let usuario = {}
       usuario._id = "5d5f2f64e638d00017ad8f38"
       let cliente = {
@@ -96,7 +99,8 @@ export default {
         HttpRequestUtil.salvarCliente(cliente).then(cliente => {
         this.clientes.push(cliente);
       });
-    },
+    },*/
+    
     buscarTodos() {
       HttpRequestUtil.buscarClientes().then(clientes => {
         this.clientes = clientes;

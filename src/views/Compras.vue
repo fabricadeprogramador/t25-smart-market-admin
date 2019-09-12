@@ -2,7 +2,6 @@
 <v-card>
 <v-text-field
         v-model="search"
-        append-icon="search"
         label="Search"
         single-line
         hide-details
