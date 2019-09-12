@@ -10,7 +10,6 @@
             <v-text-field
               v-model="valor"
               :rules="usernameRules"
-              :counter="100"
               label="Valor"
               required
               type="number"
@@ -29,7 +28,6 @@
             <v-text-field
               v-model="qtdeDisponivel"
               :rules="usernameRules"
-              :counter="100"
               label="Quantidade disponível"
               required
               type="number"
@@ -75,8 +73,7 @@
             </v-col>
 
             <v-col md="2" class="mt-3">
-              <v-list-item-title>Quantidade</v-list-item-title>
-              ​
+              <v-list-item-title>Quantidade</v-list-item-title>​
             </v-col>
 
             <v-col md="1">
@@ -116,9 +113,7 @@
               </v-btn>
             </v-col>
             <v-col md="1">
-
               <v-btn icon @click="editarProdutos(produto)">
-
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </v-col>
@@ -129,30 +124,26 @@
   </div>
 </template>
 <script>
-  import HttpRequestUtil from "@/util/HttpRequestUtil";
-  export default {
-    data: () => ({
-      valid: false,
-      nome: "",
-      produtoEditado: null,
-      statusProduto: "mdi-cart",
+import HttpRequestUtil from "@/util/HttpRequestUtil";
+export default {
+  data: () => ({
+    valid: false,
+    nome: "",
+    produtoEditado: null,
+    statusProduto: "mdi-cart",
 
-      produtos: [],
-      usernameRules: [
-        v => !!v || "Campo preenchido é obrigatório",
-        v => v.length <= 100 || "Username deve ter no máximo 20 caracteres"
-      ],
-      valor: "",
-      descricao: "",
-      qtdeDisponivel: "",
-      imagem: "",
-      marca: "z",
+    produtos: [],
+    usernameRules: [v => !!v || "Campo preenchido é obrigatório"],
+    valor: "",
+    descricao: "",
+    qtdeDisponivel: "",
+    imagem: "",
+    marca: "z",
 
-      departamento: {
-        _id: "5cabd8ee1890cc0017f858d7",
-        imageM: "Imagem"
-
-      }, 
+    departamento: {
+      _id: "5cabd8ee1890cc0017f858d7",
+      imageM: "Imagem"
+    }
   }),
   methods: {
     salvar() {
@@ -171,16 +162,16 @@
           alert(JSON.stringify(produto));
         });
       }
-      },
+    },
 
-      editarProdutos(produto){
-        this.produtoEditado = produto
+    editarProdutos(produto) {
+      this.produtoEditado = produto;
 
-        this.valor = produto.valor
-        this.descricao = produto.descricao
-        this.qtdeDisponivel = produto.qtdeDisponivel
-        this.imagem = produto.imagem
-      },
+      this.valor = produto.valor;
+      this.descricao = produto.descricao;
+      this.qtdeDisponivel = produto.qtdeDisponivel;
+      this.imagem = produto.imagem;
+    },
     excluirProduto() {
       HttpRequestUtil.excluirProduto().then(produtos => {
         this.produtos = produtos;
@@ -211,8 +202,8 @@
     }
   },
 
-  mounted(){
-    this.buscarProdutos()
+  mounted() {
+    this.buscarProdutos();
   }
-  }
+};
 </script>
