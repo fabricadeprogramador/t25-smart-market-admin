@@ -53,7 +53,8 @@
                                 rows="15"
                                 label="Resposta"
                                 :rules="respostaRules"
-                                :counter="20"
+                                :maxlength="max"
+                                :counter="150"
                                 required
                               ></v-textarea>
                             </v-col>
@@ -87,6 +88,7 @@ export default {
     textoresposta: "",
     dialog: false,
     selected: [2],
+    max: 150,
     items: [
       {
         _id: "r1",
