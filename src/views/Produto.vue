@@ -10,7 +10,6 @@
             <v-text-field
               v-model="valor"
               :rules="usernameRules"
-              :counter="100"
               label="Valor"
               required
               type="number"
@@ -29,7 +28,6 @@
             <v-text-field
               v-model="qtdeDisponivel"
               :rules="usernameRules"
-              :counter="100"
               label="Quantidade disponível"
               required
               type="number"
@@ -75,8 +73,7 @@
             </v-col>
 
             <v-col md="2" class="mt-3">
-              <v-list-item-title>Quantidade</v-list-item-title>
-              ​
+              <v-list-item-title>Quantidade</v-list-item-title>​
             </v-col>
 
             <v-col md="1">
@@ -116,9 +113,7 @@
               </v-btn>
             </v-col>
             <v-col md="1">
-
               <v-btn icon @click="editarProdutos(produto)">
-
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </v-col>
@@ -170,16 +165,16 @@
           alert(JSON.stringify(produto));
         });
       }
-      },
+    },
 
-      editarProdutos(produto){
-        this.produtoEditado = produto
+    editarProdutos(produto) {
+      this.produtoEditado = produto;
 
-        this.valor = produto.valor
-        this.descricao = produto.descricao
-        this.qtdeDisponivel = produto.qtdeDisponivel
-        this.imagem = produto.imagem
-      },
+      this.valor = produto.valor;
+      this.descricao = produto.descricao;
+      this.qtdeDisponivel = produto.qtdeDisponivel;
+      this.imagem = produto.imagem;
+    },
     excluirProduto() {
       HttpRequestUtil.excluirProduto().then(produtos => {
         this.produtos = produtos;
@@ -210,8 +205,8 @@
     }
   },
 
-  mounted(){
-    this.buscarProdutos()
+  mounted() {
+    this.buscarProdutos();
   }
-  }
+};
 </script>
