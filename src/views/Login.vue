@@ -56,11 +56,17 @@ export default {
     autenticar() {
       let usuario = {}
         usuario.username = this.username
-        usuario.password = this.password
+        usuario.senha = this.password
         usuario.tipo = "ADMIN"
 
       HttpRequestUtil.autenticar(usuario).then(usuario => {
-        alert(usuario)
+        if(usuario == "Usuário ou senha inválidos!"){
+          alert("usuário invalido")
+        }else {
+          localStorage.setItem("Logado", JSON.stringify(usuario[0]))
+          alert("Usuário Logado com sucesso!")
+          this.$router.push("/")
+        }
       })
     }  
   }

@@ -49,8 +49,8 @@ export default {
     return axios.get(API_URL + "/contato").then(contato => contato.data);
   },
   //Login
-  async autenticar() {
-    return axios.post(API_URL + "/autenticar", autenticar).then(autenticar => autenticar.data);
+  async autenticar(usuario) {
+    return axios.post(API_URL + "/autenticar", usuario).then(response => response.data);
   }
   
 }
