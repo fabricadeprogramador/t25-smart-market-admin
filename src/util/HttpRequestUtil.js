@@ -26,6 +26,9 @@ export default {
     return axios.get(API_URL + "/produtos").then(produto => produto.data);
   },
 
+  async editarProduto(produto){
+    return axios.put(API_URL + "/produtos", produto).then(produto => produto.data)
+  },
   async salvarProduto(produto) {
     return axios
       .post(API_URL + "/produtos", produto)
@@ -51,6 +54,10 @@ export default {
   //Login
   async autenticar() {
     return axios.post(API_URL + "/autenticar", autenticar).then(autenticar => autenticar.data);
+  },
+
+  async buscarDepartmentos(){
+    return axios.get(API_URL + "/departamentos").then(re)
   }
   
 }
