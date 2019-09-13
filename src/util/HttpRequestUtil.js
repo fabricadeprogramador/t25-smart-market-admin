@@ -52,12 +52,17 @@ export default {
     return axios.get(API_URL + "/contato").then(contato => contato.data);
   },
   //Login
+<<<<<<< HEAD
   async autenticar() {
     return axios.post(API_URL + "/autenticar", autenticar).then(autenticar => autenticar.data);
   },
 
   async buscarDepartmentos(){
     return axios.get(API_URL + "/departamentos").then(re)
+=======
+  async autenticar(usuario) {
+    return axios.post(API_URL + "/autenticar", usuario).then(response => response.data);
+>>>>>>> caed4c8d2386fba961a31b740ce79c7d8b856360
   }
   
 }

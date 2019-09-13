@@ -53,7 +53,8 @@
                                 rows="15"
                                 label="Resposta"
                                 :rules="respostaRules"
-                                :counter="20"
+                                :maxlength="max"
+                                :counter="150"
                                 required
                               ></v-textarea>
                             </v-col>
@@ -87,6 +88,7 @@ export default {
     textoresposta: "",
     dialog: false,
     selected: [2],
+    max: 150,
     items: [
       {
         _id: "r1",
@@ -143,7 +145,7 @@ export default {
     },
     enviarResposta() {
       if (this.textoresposta.length < 20){
-        alert("A resposta deve conter no mínimo 20 caracteres")
+        // alert("A resposta deve conter no mínimo 20 caracteres")
       }else{
         for (let i = 0; i < this.items.length; i++) {
           if (this.items[i]._id == this.indiceResposta) {
