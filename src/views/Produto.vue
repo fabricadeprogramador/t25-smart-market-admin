@@ -161,6 +161,8 @@ export default {
 
           alert(JSON.stringify(produto));
         });
+      } else {
+        alert("Você está em uma edição de produto");
       }
     },
 
