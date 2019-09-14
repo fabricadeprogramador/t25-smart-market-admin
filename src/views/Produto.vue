@@ -42,6 +42,12 @@
               required
             ></v-text-field>
           </v-col>
+          <v-col class="d-flex" cols="12" sm="6">
+        <v-select
+          :items="departamentos"
+          label="Departamentos"
+        ></v-select>
+      </v-col>
         </v-row>
 
         <div class="text-center">
@@ -124,31 +130,28 @@
   </div>
 </template>
 <script>
-import HttpRequestUtil from "@/util/HttpRequestUtil";
+  import HttpRequestUtil from "@/util/HttpRequestUtil";
 export default {
   data: () => ({
     valid: false,
     nome: "",
     produtoEditado: null,
     statusProduto: "mdi-cart",
-
     produtos: [],
     usernameRules: [v => !!v || "Campo preenchido é obrigatório"],
     valor: "",
     descricao: "",
     qtdeDisponivel: "",
     imagem: "",
-    marca: "z",
-
-    departamento: {
-      _id: "5cabd8ee1890cc0017f858d7",
-      imageM: "Imagem"
-    }
+    marca: "",
+    departamentos: [],
   }),
   methods: {
-    salvar() {
-      if (this.produtoEditado == null) {
-        let produto = {};
+    salvar()
+     {        
+       
+       if (this.produtoEditado == null) {
+       let produto = {};
         produto.valor = parseFloat(this.valor);
         produto.descricao = this.descricao;
         produto.qtdeDisponivel = parseFloat(this.qtdeDisponivel);
@@ -156,14 +159,29 @@ export default {
         produto.marca = this.marca;
         produto.departamento = this.departamento;
 
-        HttpRequestUtil.salvarProduto(produto).then(produto => {
+          HttpRequestUtil.salvarProduto(produto).then(produto => {
           this.produtos.push(produto);
 
           alert(JSON.stringify(produto));
         });
+<<<<<<< HEAD
       } else {
         alert("Você está em uma edição de produto");
+=======
+      }else{
+        this.produtoEditado.valor = parseFloat(this.valor);
+        this.produtoEditado.descricao = this.descricao;
+        this.produtoEditado.qtdeDisponivel = parseFloat(this.qtdeDisponivel);
+        this.produtoEditado.imagem = this.imagem;
+        this.produtoEditado.marca = this.marca;
+        this.produtoEditado.departamento = this.departamento;
+        HttpRequestUtil.editarProduto(this.produtoEditado).then(produtos => {
+        })
+
+        this.produtoEditado = null
+>>>>>>> 98f1dfb19299fd22abb18c04c48d69bd60ea44ce
       }
+    this.limparCampos()
     },
 
     editarProdutos(produto) {
@@ -179,7 +197,13 @@ export default {
         this.produtos = produtos;
       });
     },
-
+    limparCampos(){
+        this.valor = "",
+      this.descricao = "",
+      this.qtdeDisponivel ="",
+      this.imagem = "",
+      this.marca = ""
+    },
     buscarProdutos() {
       HttpRequestUtil.buscarProdutos().then(produtos => {
         this.produtos = produtos;
