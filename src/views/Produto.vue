@@ -157,6 +157,7 @@ export default {
         HttpRequestUtil.salvarProduto(produto).then(produto => {
           this.produtos.push(produto);
         });
+
       } else {
         this.produtoEditado.valor = parseFloat(this.valor);
         this.produtoEditado.descricao = this.descricao;
