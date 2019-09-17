@@ -164,6 +164,7 @@ export default {
 
           alert(JSON.stringify(produto));
         });
+        /*
 <<<<<<< HEAD
       } else {
         alert("Você está em uma edição de produto");
@@ -181,6 +182,8 @@ export default {
         this.produtoEditado = null
 >>>>>>> 98f1dfb19299fd22abb18c04c48d69bd60ea44ce
       }
+      */
+    }
     this.limparCampos()
     },
 
