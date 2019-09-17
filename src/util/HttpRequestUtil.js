@@ -56,8 +56,8 @@ export default {
     return axios.post(API_URL + "/autenticar", autenticar).then(autenticar => autenticar.data);
   },
 
-  async buscarDepartmentos() {
-    return axios.get(API_URL + "/departamentos").then(re)
+  async buscarDepartamentos() {
+    return axios.get(API_URL + "/departamentos").then(departamentos => departamentos.data);
   }
 
 }
