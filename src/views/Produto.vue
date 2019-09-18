@@ -1,5 +1,20 @@
 <template>
   <div>
+    <div>
+      <v-alert
+        v-model="alert"
+        border="left"
+        close-text="Close Alert"
+        class="text-center"
+        color="deep-purple accent-4"
+        dark
+        dismissible
+      >PRODUTO EDITADO COM SUCESSO!</v-alert>
+      <div class="text-center">
+        <v-btn v-if="!alert" color="deep-purple accent-4" dark @click="alert = true">Reset</v-btn>
+      </div>
+    </div>
+
     <v-form v-model="valid">
       <v-container>
         <v-row>
@@ -43,7 +58,12 @@
             ></v-text-field>
           </v-col>
           <v-col class="d-flex" cols="12" sm="6">
-            <v-select :items="departamentos"  item-text = "nome" label="Departamentos"></v-select>
+            <v-select
+              v-model="departamento"
+              :items="departamentos"
+              item-text="nome"
+              label="Departamentos"
+            ></v-select>
           </v-col>
         </v-row>
 
@@ -141,7 +161,9 @@ export default {
     qtdeDisponivel: "",
     imagem: "",
     marca: "",
-    departamentos: []
+    departamentos: [],
+    departamento: { _id: "_id", nome: "nome" },
+    alert: false
   }),
   methods: {
     salvar() {
@@ -154,10 +176,20 @@ export default {
         produto.marca = this.marca;
         produto.departamento = this.departamento;
 
+        alert(JSON.stringify(produto));
+
         HttpRequestUtil.salvarProduto(produto).then(produto => {
           this.produtos.push(produto);
         });
-
+      } else if (
+        this.valor == "" &&
+        this.descricao == "" &&
+        this.qtdeDisponivel == "" &&
+        this.imagem == "" &&
+        this.marca == "" &&
+        this.departamento == "Departamento"
+      ) {
+        this.alert = true;
       } else {
         this.produtoEditado.valor = parseFloat(this.valor);
         this.produtoEditado.descricao = this.descricao;
@@ -167,7 +199,7 @@ export default {
         this.produtoEditado.departamento = this.departamento;
 
         HttpRequestUtil.editarProduto(this.produtoEditado).then(produtos => {});
-
+        this.alert = true;
         this.produtoEditado = null;
       }
       this.limparCampos();
@@ -192,6 +224,7 @@ export default {
         (this.qtdeDisponivel = ""),
         (this.imagem = ""),
         (this.marca = "");
+      this.departamentos = this.departamentos;
     },
     buscarProdutos() {
       HttpRequestUtil.buscarProdutos().then(produtos => {
