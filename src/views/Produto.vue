@@ -43,7 +43,7 @@
             ></v-text-field>
           </v-col>
           <v-col class="d-flex" cols="12" sm="6">
-            <v-select :items="departamentos" label="Departamentos"></v-select>
+            <v-select :items="departamentos"  item-text = "nome" label="Departamentos"></v-select>
           </v-col>
         </v-row>
 
