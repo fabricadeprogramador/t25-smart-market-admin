@@ -1,40 +1,17 @@
 <template>
   <div>
     <div>
-      <v-alert
-        v-model="salvo"
-        border="left"
-        close-text="Close Alert"
-        class="text-center"
-        color="info"
-        dark
-        dismissible
-        transition="scale-transition"
-      >PRODUTO CADASTRADO COM SUCESSO!</v-alert>
+      <v-alert v-model="salvo" border="left" close-text="Close Alert" class="text-center" color="info" dark dismissible
+        transition="scale-transition">PRODUTO CADASTRADO COM SUCESSO!</v-alert>
     </div>
     <div>
-      <v-alert
-        v-model="editado"
-        border="left"
-        close-text="Close Alert"
-        class="text-center"
-        color="info"
-        dark
-        dismissible
-        transition="scale-transition"
-      >PRODUTO EDITADO COM SUCESSO!</v-alert>
+      <v-alert v-model="editado" border="left" close-text="Close Alert" class="text-center" color="info" dark
+        dismissible transition="scale-transition">PRODUTO EDITADO COM SUCESSO!</v-alert>
     </div>
     <div>
-      <v-alert
-        v-model="naoCadastrado"
-        border="left"
-        close-text="Close Alert"
-        class="text-center"
-        color="red"
-        dark
-        dismissible
-        transition="scale-transition"
-      >NÃO FOI POSSÍVEL CADASTRAR O PRODUTO, PREENCHA OS CAMPOS VAZIOS!</v-alert>
+      <v-alert v-model="naoCadastrado" border="left" close-text="Close Alert" class="text-center" color="red" dark
+        dismissible transition="scale-transition">NÃO FOI POSSÍVEL CADASTRAR O PRODUTO, PREENCHA OS CAMPOS VAZIOS!
+      </v-alert>
     </div>
 
     <v-form v-model="valid">
@@ -44,49 +21,23 @@
             <v-text-field v-model="nome" :rules="usernameRules" :counter="100" label="Nome" required></v-text-field>
           </v-col>-->
           <v-col cols="12" md="6">
-            <v-text-field
-              v-model="valor"
-              :rules="usernameRules"
-              label="Valor"
-              required
-              type="number"
-            ></v-text-field>
+            <v-text-field v-model="valor" :rules="usernameRules" label="Valor" required type="number"></v-text-field>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-              v-model="descricao"
-              :rules="usernameRules"
-              :counter="100"
-              label="Descrição"
-              required
-            ></v-text-field>
+            <v-text-field v-model="descricao" :rules="usernameRules" :counter="100" label="Descrição" required>
+            </v-text-field>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-              v-model="qtdeDisponivel"
-              :rules="usernameRules"
-              label="Quantidade disponível"
-              required
-              type="number"
-            ></v-text-field>
+            <v-text-field v-model="qtdeDisponivel" :rules="usernameRules" label="Quantidade disponível" required
+              type="number"></v-text-field>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-              v-model="imagem"
-              :rules="usernameRules"
-              :counter="100"
-              label="Adicione o link da imagem do produto"
-              required
-            ></v-text-field>
+            <v-text-field v-model="imagem" :rules="usernameRules" :counter="100"
+              label="Adicione o link da imagem do produto" required></v-text-field>
           </v-col>
           <v-col class="d-flex" cols="12" sm="6">
-            <v-select
-              v-model="departamento"
-              :items="departamentos"
-              item-text="nome"
-              label="Departamentos"
-              return-object
-            ></v-select>
+            <v-select v-model="departamento" :items="departamentos" item-text="nome" label="Departamentos"
+              return-object></v-select>
           </v-col>
         </v-row>
 
@@ -170,132 +121,139 @@
   </div>
 </template>
 <script>
-import HttpRequestUtil from "@/util/HttpRequestUtil";
-export default {
-  data: () => ({
-    valid: false,
-    nome: "",
-    produtoEditado: null,
-    statusProduto: "mdi-cart",
-    produtos: [],
-    usernameRules: [v => !!v || "Campo preenchido é obrigatório"],
-    valor: "",
-    descricao: "",
-    qtdeDisponivel: "",
-    imagem: "",
-    marca: "",
-    departamentos: [],
-    departamento: {},
-    salvo: false,
-    editado: false,
-    naoCadastrado: false
-  }),
-  methods: {
-    salvar() {
-      let ehvalido = this.validar();
+  import HttpRequestUtil from "@/util/HttpRequestUtil";
+  export default {
+    data: () => ({
+      valid: false,
+      nome: "",
+      produtoEditado: null,
+      statusProduto: "mdi-cart",
+      produtos: [],
+      usernameRules: [v => !!v || "Campo preenchido é obrigatório"],
+      valor: "",
+      descricao: "",
+      qtdeDisponivel: "",
+      imagem: "",
+      marca: "",
+      departamentos: [],
+      departamento: null,
+      salvo: false,
+      editado: false,
+      naoCadastrado: false
+    }),
+    methods: {
+      salvar() {
 
-      if (ehvalido) {
-        if (this.produtoEditado == null) {
-          let produto = {};
-          produto.valor = parseFloat(this.valor);
-          produto.descricao = this.descricao;
-          produto.qtdeDisponivel = parseFloat(this.qtdeDisponivel);
-          produto.imagem = this.imagem;
-          produto.marca = this.marca;
-          produto.departamento = this.departamento;
+        let ehvalido = this.validar();
 
-          alert(JSON.stringify(produto));
+        alert("É valido: " + ehvalido)
 
-          HttpRequestUtil.salvarProduto(produto).then(produto => {
-            this.produtos.push(produto);
-          });
-          this.salvo = true;
-        } else {
-          this.produtoEditado.valor = parseFloat(this.valor);
-          this.produtoEditado.descricao = this.descricao;
-          this.produtoEditado.qtdeDisponivel = parseFloat(this.qtdeDisponivel);
-          this.produtoEditado.imagem = this.imagem;
-          this.produtoEditado.marca = this.marca;
-          this.produtoEditado.departamento = this.departamento;
+        if (ehvalido) {
+          if (this.produtoEditado == null) {
+            alert("Entrou Inserção")
+            let produto = {};
+            produto.valor = parseFloat(this.valor);
+            produto.descricao = this.descricao;
+            produto.qtdeDisponivel = parseFloat(this.qtdeDisponivel);
+            produto.imagem = this.imagem;
+            produto.marca = "Teste"
+            // produto.marca = this.marca;
+            produto.departamento = this.departamento;
 
-          HttpRequestUtil.editarProduto(this.produtoEditado).then(
-            produtos => {}
-          );
-          this.editado = true;
-          this.produtoEditado = null;
+            alert(JSON.stringify(produto));
+
+            HttpRequestUtil.salvarProduto(produto).then(produto => {
+              this.produtos.push(produto);
+            });
+            this.salvo = true;
+          } else {
+            alert("Entrou Edição")
+
+            this.produtoEditado.valor = parseFloat(this.valor);
+            this.produtoEditado.descricao = this.descricao;
+            this.produtoEditado.qtdeDisponivel = parseFloat(this.qtdeDisponivel);
+            this.produtoEditado.imagem = this.imagem;
+            this.produtoEditado.marca = "Teste"
+            // this.produtoEditado.marca = this.marca;
+            this.produtoEditado.departamento = this.departamento;
+
+            HttpRequestUtil.editarProduto(this.produtoEditado).then(
+              produtos => {}
+            );
+            this.editado = true;
+            this.produtoEditado = null;
+          }
+          this.limparCampos();
         }
-        this.limparCampos();
+      },
+
+      editarProdutos(produto) {
+        this.produtoEditado = produto;
+
+        this.valor = produto.valor;
+        this.descricao = produto.descricao;
+        this.qtdeDisponivel = produto.qtdeDisponivel;
+        this.imagem = produto.imagem;
+      },
+      excluirProduto() {
+        HttpRequestUtil.excluirProduto().then(produtos => {
+          this.produtos = produtos;
+        });
+      },
+      limparCampos() {
+        this.valor = ""
+        this.descricao = ""
+        this.qtdeDisponivel = ""
+        this.imagem = ""
+        this.marca = ""
+        this.departamentos = this.departamentos;
+      },
+      buscarProdutos() {
+        HttpRequestUtil.buscarProdutos().then(produtos => {
+          this.produtos = produtos;
+        });
+      },
+
+      validar() {
+
+        if (
+          this.valor == "" ||
+          this.descricao == "" ||
+          this.qtdeDisponivel == "" ||
+          this.imagem == "" ||
+          this.departamento == null
+        ) {
+          this.naoCadastrado = true;
+          return false;
+        }
+        return true;
+      },
+
+      editarProduto(produto) {
+        this.produtoEditado = produto;
+
+        this.valor = parseFloat(produto.valor);
+        this.descricao = produto.descricao;
+        this.qtdeDisponivel = parseFloat(produto.qtdeDisponivel);
+        this.imagem = produto.imagem;
+      },
+      buscarDepartamentos() {
+        HttpRequestUtil.buscarDepartamentos().then(departamentos => {
+          this.departamentos = departamentos;
+        });
+      },
+      alterarStatus(produto) {
+        if (this.statusProduto == "mdi-cart") {
+          this.statusProduto = "mdi-cart-off";
+        } else {
+          this.statusProduto = "mdi-cart";
+        }
       }
     },
 
-    editarProdutos(produto) {
-      this.produtoEditado = produto;
-
-      this.valor = produto.valor;
-      this.descricao = produto.descricao;
-      this.qtdeDisponivel = produto.qtdeDisponivel;
-      this.imagem = produto.imagem;
-    },
-    excluirProduto() {
-      HttpRequestUtil.excluirProduto().then(produtos => {
-        this.produtos = produtos;
-      });
-    },
-    limparCampos() {
-      (this.valor = ""),
-        (this.descricao = ""),
-        (this.qtdeDisponivel = ""),
-        (this.imagem = ""),
-        (this.marca = "");
-      this.departamentos = this.departamentos;
-    },
-    buscarProdutos() {
-      HttpRequestUtil.buscarProdutos().then(produtos => {
-        this.produtos = produtos;
-
-        this.buscarDepartamentos();
-      });
-    },
-
-    validar() {
-      if (
-        this.valor == null ||
-        this.descricao == "" ||
-        this.qtdeDisponivel == null ||
-        this.imagem == "" ||
-        this.marca == "" ||
-        this.departamento == {}
-      ) {
-        return false;
-        this.naoCadastrado = true;
-      }
-      return true;
-    },
-
-    editarProduto(produto) {
-      this.produtoEditado = produto;
-
-      this.valor = parseFloat(produto.valor);
-      this.descricao = produto.descricao;
-      this.qtdeDisponivel = parseFloat(produto.qtdeDisponivel);
-      this.imagem = produto.imagem;
-    },
-    buscarDepartamentos() {
-      HttpRequestUtil.buscarDepartamentos().then(departamentos => {
-        this.departamentos = departamentos;
-      });
-    },
-    alterarStatus(produto) {
-      if (this.statusProduto == "mdi-cart") {
-        this.statusProduto = "mdi-cart-off";
-      } else {
-        this.statusProduto = "mdi-cart";
-      }
+    mounted() {
+      this.buscarProdutos();
+      this.buscarDepartamentos();
     }
-  },
-
-  mounted() {
-    this.buscarProdutos();
-  }
-};
+  };
 </script>
