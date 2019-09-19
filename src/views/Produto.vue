@@ -2,17 +2,39 @@
   <div>
     <div>
       <v-alert
-        v-model="alert"
+        v-model="salvo"
         border="left"
         close-text="Close Alert"
         class="text-center"
         color="info"
         dark
         dismissible
+        transition="scale-transition"
+      >PRODUTO CADASTRADO COM SUCESSO!</v-alert>
+    </div>
+    <div>
+      <v-alert
+        v-model="editado"
+        border="left"
+        close-text="Close Alert"
+        class="text-center"
+        color="info"
+        dark
+        dismissible
+        transition="scale-transition"
       >PRODUTO EDITADO COM SUCESSO!</v-alert>
-      <div class="text-center">
-        <v-btn v-if="!alert" color="info" dark @click="alert = true">Reset</v-btn>
-      </div>
+    </div>
+    <div>
+      <v-alert
+        v-model="naoCadastrado"
+        border="left"
+        close-text="Close Alert"
+        class="text-center"
+        color="red"
+        dark
+        dismissible
+        transition="scale-transition"
+      >NÃO FOI POSSÍVEL CADASTRAR O PRODUTO, PREENCHA OS CAMPOS VAZIOS!</v-alert>
     </div>
 
     <v-form v-model="valid">
@@ -164,46 +186,46 @@ export default {
     marca: "",
     departamentos: [],
     departamento: {},
-    alert: false
+    salvo: false,
+    editado: false,
+    naoCadastrado: false
   }),
   methods: {
     salvar() {
-      if (this.produtoEditado == null) {
-        let produto = {};
-        produto.valor = parseFloat(this.valor);
-        produto.descricao = this.descricao;
-        produto.qtdeDisponivel = parseFloat(this.qtdeDisponivel);
-        produto.imagem = this.imagem;
-        produto.marca = this.marca;
-        produto.departamento = this.departamento;
+      let ehvalido = this.validar();
 
-        alert(JSON.stringify(produto));
+      if (ehvalido) {
+        if (this.produtoEditado == null) {
+          let produto = {};
+          produto.valor = parseFloat(this.valor);
+          produto.descricao = this.descricao;
+          produto.qtdeDisponivel = parseFloat(this.qtdeDisponivel);
+          produto.imagem = this.imagem;
+          produto.marca = this.marca;
+          produto.departamento = this.departamento;
 
-        HttpRequestUtil.salvarProduto(produto).then(produto => {
-          this.produtos.push(produto);
-        });
-      } else if (
-        this.valor == "" &&
-        this.descricao == "" &&
-        this.qtdeDisponivel == "" &&
-        this.imagem == "" &&
-        this.marca == "" &&
-        this.departamento == "Departamento"
-      ) {
-        this.alert = true;
-      } else {
-        this.produtoEditado.valor = parseFloat(this.valor);
-        this.produtoEditado.descricao = this.descricao;
-        this.produtoEditado.qtdeDisponivel = parseFloat(this.qtdeDisponivel);
-        this.produtoEditado.imagem = this.imagem;
-        this.produtoEditado.marca = this.marca;
-        this.produtoEditado.departamento = this.departamento;
+          alert(JSON.stringify(produto));
 
-        HttpRequestUtil.editarProduto(this.produtoEditado).then(produtos => {});
-        this.alert = true;
-        this.produtoEditado = null;
+          HttpRequestUtil.salvarProduto(produto).then(produto => {
+            this.produtos.push(produto);
+          });
+          this.salvo = true;
+        } else {
+          this.produtoEditado.valor = parseFloat(this.valor);
+          this.produtoEditado.descricao = this.descricao;
+          this.produtoEditado.qtdeDisponivel = parseFloat(this.qtdeDisponivel);
+          this.produtoEditado.imagem = this.imagem;
+          this.produtoEditado.marca = this.marca;
+          this.produtoEditado.departamento = this.departamento;
+
+          HttpRequestUtil.editarProduto(this.produtoEditado).then(
+            produtos => {}
+          );
+          this.editado = true;
+          this.produtoEditado = null;
+        }
+        this.limparCampos();
       }
-      this.limparCampos();
     },
 
     editarProdutos(produto) {
@@ -233,6 +255,21 @@ export default {
 
         this.buscarDepartamentos();
       });
+    },
+
+    validar() {
+      if (
+        this.valor == null ||
+        this.descricao == "" ||
+        this.qtdeDisponivel == null ||
+        this.imagem == "" ||
+        this.marca == "" ||
+        this.departamento == {}
+      ) {
+        return false;
+        this.naoCadastrado = true;
+      }
+      return true;
     },
 
     editarProduto(produto) {
