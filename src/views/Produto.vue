@@ -6,12 +6,12 @@
         border="left"
         close-text="Close Alert"
         class="text-center"
-        color="deep-purple accent-4"
+        color="info"
         dark
         dismissible
       >PRODUTO EDITADO COM SUCESSO!</v-alert>
       <div class="text-center">
-        <v-btn v-if="!alert" color="deep-purple accent-4" dark @click="alert = true">Reset</v-btn>
+        <v-btn v-if="!alert" color="info" dark @click="alert = true">Reset</v-btn>
       </div>
     </div>
 
@@ -63,6 +63,7 @@
               :items="departamentos"
               item-text="nome"
               label="Departamentos"
+              return-object
             ></v-select>
           </v-col>
         </v-row>
@@ -162,7 +163,7 @@ export default {
     imagem: "",
     marca: "",
     departamentos: [],
-    departamento: { _id: "_id", nome: "nome" },
+    departamento: {},
     alert: false
   }),
   methods: {
