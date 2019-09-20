@@ -67,8 +67,10 @@ import HttpRequestUtil from "@/util/HttpRequestUtil";
 export default {
   data: () => ({
     valid: false,
+    id: 0,
+    ativo: true,
     username: "",
-    password: "",
+    password: 0,
     passwordRules: [
       v => !!v || "Senha é obrigatória",
       v => v.length <= 10 || "Senha deve ter no máximo 10 caracteres"
@@ -84,7 +86,8 @@ export default {
   methods: {
     salvar() {
       let usuario = {};
-      usuario.ativo = true;
+      usuario.id = this.id;
+      usuario.ativo = this.ativo;
       usuario.username = this.username;
       usuario.senha = this.password;
       usuario.tipo = this.tipo;
