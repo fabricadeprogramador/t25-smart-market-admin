@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 // const API_URL = "https://loja-ht-api-t23.herokuapp.com";
->>>>>>> 911c0fb5e321bf418756fb06abc5593c90b732c6
 const API_URL = "http://localhost:3000";
 
 import axios from "axios";
