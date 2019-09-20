@@ -6,7 +6,7 @@
               <v-card class="elevation-12">
                 <v-toolbar color="amber" flat>
                   <v-toolbar-title>Login Market</v-toolbar-title>
-                  <div class="flex-grow-1"></div>
+                  <div class = "flex-grow-1"></div>
                 </v-toolbar>
                 <v-card-text>
                   <v-form>
