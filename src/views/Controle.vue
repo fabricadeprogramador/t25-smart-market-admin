@@ -34,12 +34,7 @@ export default {
       headersProdVencto: [
         { text: "Produto", align: "left", sortable: true, value: "descricao" },
         { text: "Marca", align: "left", sortable: true, value: "marca" },
-        {
-          text: "Validade",
-          align: "right",
-          sortable: true,
-          value: "validade"
-        }
+        { text: "Validade", align: "right", sortable: true, value: "validade"}
       ],
       listaProdVencto: []
     };

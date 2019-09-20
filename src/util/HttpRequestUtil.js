@@ -1,9 +1,12 @@
 const API_URL = "http://localhost:3000";
 
 import axios from "axios";
-import { async } from "q";
+import {
+  async
+} from "q";
 
 export default {
+
   //Usuários
   async buscarUsuarios() {
     return axios.get(API_URL + "/usuarios").then(response => response.data);
@@ -47,15 +50,18 @@ export default {
   async salvarCliente(cliente) {
     return axios.post(API_URL + "/clientes", cliente).then(response => response.data);
   },
+
   //Contato
   async buscarContatos() {
     return axios.get(API_URL + "/contato").then(contato => contato.data);
   },
+
   //Login
   async autenticar() {
     return axios.post(API_URL + "/autenticar", autenticar).then(autenticar => autenticar.data);
   },
 
+  //Departamentos
   async buscarDepartamentos() {
     return axios.get(API_URL + "/departamentos").then(departamentos => departamentos.data);
   },
