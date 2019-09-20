@@ -41,18 +41,7 @@ export default {
           value: "validade"
         }
       ],
-      listaProdVencto: [
-        {
-          descricao: "Arroz",
-          marca: "Tio João",
-          validade: "11/11/2019"
-        },
-        {
-          descricao: "Feijão",
-          marca: "Tio X",
-          validade: "11/09/2019"
-        }
-      ]
+      listaProdVencto: []
     };
   },
   methods: {

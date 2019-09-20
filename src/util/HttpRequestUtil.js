@@ -1,4 +1,4 @@
-const API_URL = "https://loja-ht-api-t23.herokuapp.com";
+const API_URL = "http://localhost:3000";
 
 import axios from "axios";
 import { async } from "q";
@@ -58,6 +58,7 @@ export default {
 
   async buscarDepartamentos() {
     return axios.get(API_URL + "/departamentos").then(departamentos => departamentos.data);
-  }
+  },
+
 
 }
