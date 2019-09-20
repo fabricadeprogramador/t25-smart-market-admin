@@ -89,41 +89,7 @@ export default {
     dialog: false,
     selected: [2],
     max: 150,
-    items: [
-      {
-        _id: "r1",
-        icon: "mdi-star",
-        datacontato: "03/09/2019 21:00am",
-        assunto: "Assunto:11",
-        cliente: "Cliente 1",
-        mensagem:
-          "Problema na compra do produto xxxx.",
-        resposta: "",
-        respondido: false
-      },
-      {
-        _id: "r2",
-        icon: "mdi-star",
-        datacontato: "04/09/2019 21:00am",
-        assunto: "Assunto:22",
-        cliente: "Cliente 2",
-        mensagem:
-          "Esse app é show.",
-        resposta: "",
-        respondido: false
-      },
-      {
-        _id: "r3",
-        icon: "mdi-star",
-        datacontato: "05/09/2019 21:00am",
-        assunto: "Assunto:Técnico",
-        cliente: "Cliente 3",
-        mensagem:
-          "Problema ao finalizar compra.",
-        resposta: "",
-        respondido: false
-      }
-    ],
+    items: [],
     respostaRules: [
         v => !!v || 'Preencha o campo resposta',
         v => v.length >= 20 || 'A resposta deve ter no mínimo 20 caractetes',
@@ -158,6 +124,11 @@ export default {
         }
       }
     }
+  },
+  mounted(){
+    HttpRequestUtil.buscarContatos().then(response => {
+      this.items = response
+    })
   }
 };
 </script>
