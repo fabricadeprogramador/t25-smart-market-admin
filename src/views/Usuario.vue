@@ -37,7 +37,7 @@
 
     <v-card class="ma-3">
       <v-list>
-        <v-list-item v-for="usuario in usuarios" :key="usuario.title" @click>
+        <v-list-item v-for="usuario in usuarios" :key="usuario.title">
           <v-list-item-content>
             <v-list-item-title v-text="usuario.username"></v-list-item-title>
           </v-list-item-content>
