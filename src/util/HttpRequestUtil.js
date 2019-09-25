@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 // const API_URL = "https://loja-ht-api-t23.herokuapp.com";
->>>>>>> 911c0fb5e321bf418756fb06abc5593c90b732c6
 const API_URL = "http://localhost:3000";
 
 import axios from "axios";
@@ -30,15 +27,15 @@ export default {
 
   //Produtos
   async buscarProdutos() {
-    return axios.get(API_URL + "/produtos").then(produto => produto.data);
+    return axios.get(API_URL + "/produto").then(produto => produto.data);
   },
 
   async editarProduto(produto) {
-    return axios.put(API_URL + "/produtos", produto).then(produto => produto.data)
+    return axios.put(API_URL + "/produto", produto).then(produto => produto.data)
   },
   async salvarProduto(produto) {
     return axios
-      .post(API_URL + "/produtos", produto)
+      .post(API_URL + "/produto", produto)
       .then(response => response.data);
   },
   //Compras

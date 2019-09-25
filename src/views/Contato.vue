@@ -27,13 +27,12 @@
 
                 <v-col cols="1" align="right">
                   <v-icon v-if="!item.respondido" color="grey lighten-1">
-                    {{ item.icon }}
-                    star_border
+                    mdi-star-outline
+                   
                   </v-icon>
 
-                  <v-icon v-else color="yellow">
-                    {{ item.icon }}
-                    star
+                  <v-icon v-else color="green">
+                    mdi-star
                   </v-icon>
                 </v-col>
 
@@ -90,6 +89,7 @@ export default {
     selected: [2],
     max: 150,
     items: [],
+
     respostaRules: [
         v => !!v || 'Preencha o campo resposta',
         v => v.length >= 20 || 'A resposta deve ter no mínimo 20 caractetes',
@@ -100,7 +100,8 @@ export default {
        for (let i = 0; i < this.items.length; i++) {
         if (this.items[i]._id == idContato) {
           if (this.items[i].respondido) {
-            alert("Resposta já enviada anteriormente")
+            this.dialog = false
+            alert("Resposta já enviada anteriormente" this.dialog)
           }else{
             (this.indiceResposta = idContato), (this.dialog = true);
           }
