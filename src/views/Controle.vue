@@ -34,25 +34,9 @@ export default {
       headersProdVencto: [
         { text: "Produto", align: "left", sortable: true, value: "descricao" },
         { text: "Marca", align: "left", sortable: true, value: "marca" },
-        {
-          text: "Validade",
-          align: "right",
-          sortable: true,
-          value: "validade"
-        }
+        { text: "Validade", align: "right", sortable: true, value: "validade"}
       ],
-      listaProdVencto: [
-        {
-          descricao: "Arroz",
-          marca: "Tio João",
-          validade: "11/11/2019"
-        },
-        {
-          descricao: "Feijão",
-          marca: "Tio X",
-          validade: "11/09/2019"
-        }
-      ]
+      listaProdVencto: []
     };
   },
   methods: {
@@ -61,7 +45,8 @@ export default {
         for (let i = 0; i < produtos.length; i++) {
           if (parseFloat(produtos[i].qtdeDisponivel) < 50) {
             this.listaProdEst.push(produtos[i]);
-          }
+          }       
+
         }
       });
     }

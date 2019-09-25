@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 // const API_URL = "https://loja-ht-api-t23.herokuapp.com";
+=======
+>>>>>>> 22a97c8c912057e3a7a8e75c52dcddd6494c4141
 const API_URL = "http://localhost:3000";
 
 import axios from "axios";
@@ -65,6 +68,7 @@ export default {
   //Departamentos
   async buscarDepartamentos() {
     return axios.get(API_URL + "/departamentos").then(departamentos => departamentos.data);
-  }
+  },
+
 
 }
