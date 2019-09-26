@@ -2,7 +2,7 @@
   <v-list-item-group class="mx-2 my-4">
     <template v-for="(item, index) in items">
       <v-list-item :key="item.cliente">
-        <template>
+       
           <v-list-item-content>
             <v-list-item-title v-text="item.cliente"></v-list-item-title>
             <v-conteiner fluid>
@@ -27,12 +27,13 @@
 
                 <v-col cols="1" align="right">
                   <v-icon v-if="!item.respondido" color="grey lighten-1">
-                    mdi-star-outline
-                   
+                    {{ item.icon }}
+                    star_border
                   </v-icon>
 
-                  <v-icon v-else color="green">
-                    mdi-star
+                  <v-icon v-else color="yellow">
+                    {{ item.icon }}
+                    star
                   </v-icon>
                 </v-col>
 
@@ -71,7 +72,7 @@
               </v-row>
             </v-conteiner>
           </v-list-item-content>
-        </template>
+        
       </v-list-item>
 
       <v-divider v-if="index + 1 < items.length" :key="index"></v-divider>
@@ -89,7 +90,6 @@ export default {
     selected: [2],
     max: 150,
     items: [],
-
     respostaRules: [
         v => !!v || 'Preencha o campo resposta',
         v => v.length >= 20 || 'A resposta deve ter no mínimo 20 caractetes',
@@ -101,14 +101,11 @@ export default {
         if (this.items[i]._id == idContato) {
           if (this.items[i].respondido) {
             alert("Resposta já enviada anteriormente")
-            this.dialog = false
           }else{
             (this.indiceResposta = idContato), (this.dialog = true);
           }
         }
       }
-
-
     },
     enviarResposta() {
       if (this.textoresposta.length < 20){
