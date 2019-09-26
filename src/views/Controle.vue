@@ -45,7 +45,8 @@ export default {
         for (let i = 0; i < produtos.length; i++) {
           if (parseFloat(produtos[i].qtdeDisponivel) < 50) {
             this.listaProdEst.push(produtos[i]);
-          }
+          }       
+
         }
       });
     }

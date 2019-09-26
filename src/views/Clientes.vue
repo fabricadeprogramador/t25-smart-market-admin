@@ -13,39 +13,31 @@
           class="title"
           >
           <v-list-item-title>
-            NOME DE USUÁRIO
+            CPF
           </v-list-item-title>
-
           <v-list-item-title>
             NOME
           </v-list-item-title>
 
           <v-list-item-title>
-            DATA DE NASCIMENTO 
+            E-MAIL 
           </v-list-item-title>
 
-          <v-list-item-title>
-            CPF
-          </v-list-item-title>
           </v-list-item>
-
 
           <v-list-item v-for="cliente in clientes" :key="cliente.title">
             <v-list-item-content>
-              <v-list-item-title v-text="cliente.usuario.username"></v-list-item-title>
+              <v-list-item-title v-text="cliente.cpf"></v-list-item-title>
             </v-list-item-content>
-
+           
             <v-list-item-content>
               <v-list-item-title v-text="cliente.nome"></v-list-item-title>
             </v-list-item-content>
 
             <v-list-item-content>
-              <v-list-item-title v-text="cliente.dataNascimento"></v-list-item-title>
+              <v-list-item-title v-text="cliente.email"></v-list-item-title>
             </v-list-item-content>
 
-            <v-list-item-content>
-              <v-list-item-title v-text="cliente.cpf"></v-list-item-title>
-            </v-list-item-content>
 
             <!--
             <v-list-item-action>
@@ -69,18 +61,10 @@
 import HttpRequestUtil from "@/util/HttpRequestUtil";
 
 export default {
-  data: () => ({
-    valid: false,
-    passwordRules: [
-      v => !!v || "Senha é obrigatória",
-      v => v.length <= 10 || "Senha deve ter no máximo 10 caracteres"
-    ],
-    usernameRules: [
-      v => !!v || "Username é obrigatório",
-      v => v.length <= 10 || "Username deve ter no máximo 10 caracteres"
-    ],
+  data() {
+    return {
     clientes: []
-  }),
+  }},
   methods: {
 
    /* O metodo salvar não pode ser usado por conta de problemas na API

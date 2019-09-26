@@ -26,15 +26,15 @@ export default {
 
   //Produtos
   async buscarProdutos() {
-    return axios.get(API_URL + "/produtos").then(produto => produto.data);
+    return axios.get(API_URL + "/produto").then(produto => produto.data);
   },
 
   async editarProduto(produto) {
-    return axios.put(API_URL + "/produtos", produto).then(produto => produto.data)
+    return axios.put(API_URL + "/produto", produto).then(produto => produto.data)
   },
   async salvarProduto(produto) {
     return axios
-      .post(API_URL + "/produtos", produto)
+      .post(API_URL + "/produto", produto)
       .then(response => response.data);
   },
   //Compras
