@@ -1,16 +1,9 @@
-<<<<<<< HEAD
-// const API_URL = "https://loja-ht-api-t23.herokuapp.com";
-=======
->>>>>>> 22a97c8c912057e3a7a8e75c52dcddd6494c4141
 const API_URL = "http://localhost:3000";
 
 import axios from "axios";
-import {
-  async
-} from "q";
+import { async } from "q";
 
 export default {
-
   //Usuários
   async buscarUsuarios() {
     return axios.get(API_URL + "/usuarios").then(response => response.data);
@@ -34,7 +27,9 @@ export default {
   },
 
   async editarProduto(produto) {
-    return axios.put(API_URL + "/produto", produto).then(produto => produto.data)
+    return axios
+      .put(API_URL + "/produto", produto)
+      .then(produto => produto.data);
   },
   async salvarProduto(produto) {
     return axios
@@ -43,7 +38,7 @@ export default {
   },
   //Compras
   async buscarCompras() {
-    return axios.get(API_URL + "/compras").then(compra => compra.data)
+    return axios.get(API_URL + "/compras").then(compra => compra.data);
   },
 
   //Clientes
@@ -52,7 +47,9 @@ export default {
   },
 
   async salvarCliente(cliente) {
-    return axios.post(API_URL + "/clientes", cliente).then(response => response.data);
+    return axios
+      .post(API_URL + "/clientes", cliente)
+      .then(response => response.data);
   },
 
   //Contato
@@ -62,13 +59,15 @@ export default {
 
   //Login
   async autenticar() {
-    return axios.post(API_URL + "/autenticar", autenticar).then(autenticar => autenticar.data);
+    return axios
+      .post(API_URL + "/autenticar", autenticar)
+      .then(autenticar => autenticar.data);
   },
 
   //Departamentos
   async buscarDepartamentos() {
-    return axios.get(API_URL + "/departamentos").then(departamentos => departamentos.data);
-  },
-
-
-}
+    return axios
+      .get(API_URL + "/departamentos")
+      .then(departamentos => departamentos.data);
+  }
+};
