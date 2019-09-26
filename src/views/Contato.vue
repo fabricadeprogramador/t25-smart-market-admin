@@ -100,8 +100,8 @@ export default {
        for (let i = 0; i < this.items.length; i++) {
         if (this.items[i]._id == idContato) {
           if (this.items[i].respondido) {
+            alert("Resposta já enviada anteriormente")
             this.dialog = false
-            alert("Resposta já enviada anteriormente" this.dialog)
           }else{
             (this.indiceResposta = idContato), (this.dialog = true);
           }
