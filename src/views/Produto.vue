@@ -101,7 +101,7 @@
             </v-col>
 
             <v-col md="2">
-              <v-list-item-title v-text="produto.qtdeDisponivel"></v-list-item-title>​
+              <v-list-item-title v-text="produto.qtdDisponivel"></v-list-item-title>​
             </v-col>
 
             <v-col md="1">
@@ -132,7 +132,7 @@
       usernameRules: [v => !!v || "Campo preenchido é obrigatório"],
       valor: "",
       descricao: "",
-      qtdeDisponivel: "",
+      qtdDisponivel: "",
       imagem: "",
       marca: "",
       departamentos: [],
@@ -154,7 +154,7 @@
             let produto = {};
             produto.valor = parseFloat(this.valor);
             produto.descricao = this.descricao;
-            produto.qtdeDisponivel = parseFloat(this.qtdeDisponivel);
+            produto.qtdDisponivel = parseFloat(this.qtdDisponivel);
             produto.imagem = this.imagem;
             produto.marca = "Teste"
             // produto.marca = this.marca;

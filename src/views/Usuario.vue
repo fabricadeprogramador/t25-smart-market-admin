@@ -70,7 +70,7 @@ export default {
     id: 0,
     ativo: true,
     username: "",
-    password: 0,
+    password: "",
     passwordRules: [
       v => !!v || "Senha é obrigatória",
       v => v.length <= 10 || "Senha deve ter no máximo 10 caracteres"
