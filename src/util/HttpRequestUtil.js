@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 const API_URL = "http://localhost:3000";
 
@@ -5,9 +6,14 @@ import axios from "axios";
 // import {
 //   async
 // } from "q";
+=======
+const API_URL = "http://localhost:3000";
+
+import axios from "axios";
+import { async } from "q";
+>>>>>>> 4934913bcd51bc19a7cdfa31c7ef442ccd1c5147
 
 export default {
-
   //Usuários
   async buscarUsuarios() {
     return axios.get(API_URL + "/usuarios").then(response => response.data);
@@ -31,7 +37,13 @@ export default {
   },
 
   async editarProduto(produto) {
+<<<<<<< HEAD
     return axios.put(API_URL + "/produtos", produto).then(produto => produto.data)
+=======
+    return axios
+      .put(API_URL + "/produto", produto)
+      .then(produto => produto.data);
+>>>>>>> 4934913bcd51bc19a7cdfa31c7ef442ccd1c5147
   },
   async salvarProduto(produto) {
     return axios
@@ -40,7 +52,7 @@ export default {
   },
   //Compras
   async buscarCompras() {
-    return axios.get(API_URL + "/compras").then(compra => compra.data)
+    return axios.get(API_URL + "/compras").then(compra => compra.data);
   },
 
   //Clientes
@@ -49,7 +61,9 @@ export default {
   },
 
   async salvarCliente(cliente) {
-    return axios.post(API_URL + "/clientes", cliente).then(response => response.data);
+    return axios
+      .post(API_URL + "/clientes", cliente)
+      .then(response => response.data);
   },
 
   //Contato
@@ -57,15 +71,22 @@ export default {
     return axios.get(API_URL + "/contato").then(contato => contato.data);
   },
 
+  //Contato Salvar
+  async salvarResposta(item){
+    return axios.put(API_URL + "/contato", item).then(contato => contato.data);
+  },
+
   //Login
   async autenticar() {
-    return axios.post(API_URL + "/autenticar", autenticar).then(autenticar => autenticar.data);
+    return axios
+      .post(API_URL + "/autenticar", autenticar)
+      .then(autenticar => autenticar.data);
   },
 
   //Departamentos
   async buscarDepartamentos() {
-    return axios.get(API_URL + "/departamentos").then(departamentos => departamentos.data);
-  },
-
-
-}
+    return axios
+      .get(API_URL + "/departamentos")
+      .then(departamentos => departamentos.data);
+  }
+};
