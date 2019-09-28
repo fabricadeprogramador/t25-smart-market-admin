@@ -11,24 +11,21 @@
     <div>
       <v-alert v-model="naoCadastrado" border="left" close-text="Close Alert" class="text-center" color="red" dark
         dismissible transition="scale-transition">NÃO FOI POSSÍVEL CADASTRAR O PRODUTO, PREENCHA OS CAMPOS VAZIOS!
-      </v-alert>
+      </v-alert>  
     </div>
 
-    <v-form v-model="valid">
+    <v-form>
       <v-container>
         <v-row>
-          <!-- <v-col cols="12" md="6">
-            <v-text-field v-model="nome" :rules="usernameRules" :counter="100" label="Nome" required></v-text-field>
-          </v-col>-->
           <v-col cols="12" md="6">
-            <v-text-field v-model="valor" :rules="usernameRules" label="Valor" required type="number"></v-text-field>
+            <v-text-field v-model="preco" :rules="usernameRules" label="preco" required type="number"></v-text-field>
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field v-model="descricao" :rules="usernameRules" :counter="100" label="Descrição" required>
             </v-text-field>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field v-model="qtdeDisponivel" :rules="usernameRules" label="Quantidade disponível" required
+            <v-text-field v-model="qtdDisponivel" :rules="usernameRules" label="Quantidade disponível" required
               type="number"></v-text-field>
           </v-col>
           <v-col cols="12" md="6">
@@ -36,7 +33,7 @@
               label="Adicione o link da imagem do produto" required></v-text-field>
           </v-col>
           <v-col class="d-flex" cols="12" sm="6">
-            <v-select v-model="departamento" :items="departamentos" item-text="nome" label="Departamentos"
+            <v-select v-model="setor" item-text="nome" label="setor"
               return-object></v-select>
           </v-col>
         </v-row>
@@ -52,7 +49,7 @@
         <v-list>
           <v-list-item class="text-start title">
             <v-col md="2">
-              <v-list-item-title>Valor</v-list-item-title>​
+              <v-list-item-title>preco</v-list-item-title>​
             </v-col>
 
             <v-col md="3">
@@ -83,7 +80,7 @@
 
           <v-list-item v-for="produto in produtos" :key="produto.title" class="text-start">
             <v-col md="2">
-              <v-list-item-title>R$ {{produto.valor}}</v-list-item-title>​
+              <v-list-item-title>R$ {{(produto.preco).toFixed(2)}}</v-list-item-title>​
             </v-col>
 
             <v-col md="3">
@@ -105,8 +102,9 @@
             </v-col>
 
             <v-col md="1">
-              <v-btn icon @click="alterarStatus(produto)">
-                <v-icon>{{statusProduto}}</v-icon>
+              <v-btn icon @click="statusProduto(produto)">
+                <v-icon v-if="produto.ativo">{{ativado}}</v-icon>
+                <v-icon v-else>{{desativado}}</v-icon>                
               </v-btn>
             </v-col>
             <v-col md="1">
@@ -124,58 +122,56 @@
   import HttpRequestUtil from "@/util/HttpRequestUtil";
   export default {
     data: () => ({
-      valid: false,
       nome: "",
-      produtoEditado: null,
-      statusProduto: "mdi-cart",
-      produtos: [],
-      usernameRules: [v => !!v || "Campo preenchido é obrigatório"],
-      valor: "",
+      ativado: "mdi-cart",
+      desativado: "mdi-cart-off",
+      preco: "",
       descricao: "",
       qtdDisponivel: "",
       imagem: "",
       marca: "",
-      departamentos: [],
-      departamento: null,
+      setor: "",
+
+      produtos: [],     
+
+      produtoEditado: null,
+
+      ativo: true,
       salvo: false,
       editado: false,
-      naoCadastrado: false
+      naoCadastrado: false,
+
+      usernameRules: [v => !!v || "Campo preenchido é obrigatório"]
+
     }),
     methods: {
       salvar() {
-
         let ehvalido = this.validar();
-
-        alert("É valido: " + ehvalido)
 
         if (ehvalido) {
           if (this.produtoEditado == null) {
-            alert("Entrou Inserção")
             let produto = {};
-            produto.valor = parseFloat(this.valor);
+
+            produto.preco = parseFloat(this.preco);
+            produto.status = this.ativo
             produto.descricao = this.descricao;
             produto.qtdDisponivel = parseFloat(this.qtdDisponivel);
             produto.imagem = this.imagem;
-            produto.marca = "Teste"
-            // produto.marca = this.marca;
-            produto.departamento = this.departamento;
-
-            alert(JSON.stringify(produto));
+            produto.marca = ""
+            produto.setor = this.setor;
 
             HttpRequestUtil.salvarProduto(produto).then(produto => {
               this.produtos.push(produto);
             });
             this.salvo = true;
           } else {
-            alert("Entrou Edição")
 
-            this.produtoEditado.valor = parseFloat(this.valor);
+            this.produtoEditado.preco = parseFloat(this.preco);
             this.produtoEditado.descricao = this.descricao;
-            this.produtoEditado.qtdeDisponivel = parseFloat(this.qtdeDisponivel);
+            this.produtoEditado.qtdDisponivel = parseFloat(this.qtdDisponivel);
             this.produtoEditado.imagem = this.imagem;
             this.produtoEditado.marca = "Teste"
-            // this.produtoEditado.marca = this.marca;
-            this.produtoEditado.departamento = this.departamento;
+            this.produtoEditado.setor = this.setor;
 
             HttpRequestUtil.editarProduto(this.produtoEditado).then(
               produtos => {}
@@ -190,24 +186,21 @@
       editarProdutos(produto) {
         this.produtoEditado = produto;
 
-        this.valor = produto.valor;
+        this.preco = produto.preco;
         this.descricao = produto.descricao;
-        this.qtdeDisponivel = produto.qtdeDisponivel;
+        this.qtdDisponivel = produto.qtdDisponivel;
         this.imagem = produto.imagem;
       },
-      excluirProduto() {
-        HttpRequestUtil.excluirProduto().then(produtos => {
-          this.produtos = produtos;
-        });
-      },
+     
       limparCampos() {
-        this.valor = ""
+        this.preco = ""
         this.descricao = ""
-        this.qtdeDisponivel = ""
+        this.qtdDisponivel = ""
         this.imagem = ""
         this.marca = ""
-        this.departamentos = this.departamentos;
+        this.setor = this.setor;
       },
+
       buscarProdutos() {
         HttpRequestUtil.buscarProdutos().then(produtos => {
           this.produtos = produtos;
@@ -215,13 +208,12 @@
       },
 
       validar() {
-
         if (
-          this.valor == "" ||
+          this.preco == "" ||
           this.descricao == "" ||
-          this.qtdeDisponivel == "" ||
+          this.qtdDisponivel == "" ||
           this.imagem == "" ||
-          this.departamento == null
+          this.setor == null
         ) {
           this.naoCadastrado = true;
           return false;
@@ -232,28 +224,24 @@
       editarProduto(produto) {
         this.produtoEditado = produto;
 
-        this.valor = parseFloat(produto.valor);
+        this.preco = parseFloat(produto.preco);
         this.descricao = produto.descricao;
-        this.qtdeDisponivel = parseFloat(produto.qtdeDisponivel);
+        this.qtdDisponivel = parseFloat(produto.qtdDisponivel);
         this.imagem = produto.imagem;
       },
-      buscarDepartamentos() {
-        HttpRequestUtil.buscarDepartamentos().then(departamentos => {
-          this.departamentos = departamentos;
+     
+      statusProduto(produto) {
+        
+      produto.ativo = !produto.ativo
+
+       HttpRequestUtil.editarProduto(produto).then(produtos => { 
+         
         });
-      },
-      alterarStatus(produto) {
-        if (this.statusProduto == "mdi-cart") {
-          this.statusProduto = "mdi-cart-off";
-        } else {
-          this.statusProduto = "mdi-cart";
-        }
       }
     },
 
     mounted() {
       this.buscarProdutos();
-      this.buscarDepartamentos();
     }
   };
 </script>

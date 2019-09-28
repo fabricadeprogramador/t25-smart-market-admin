@@ -1,7 +1,17 @@
+<<<<<<< HEAD
+
+const API_URL = "http://localhost:3000";
+
+import axios from "axios";
+// import {
+//   async
+// } from "q";
+=======
 const API_URL = "http://localhost:3000";
 
 import axios from "axios";
 import { async } from "q";
+>>>>>>> 4934913bcd51bc19a7cdfa31c7ef442ccd1c5147
 
 export default {
   //Usuários
@@ -23,17 +33,21 @@ export default {
 
   //Produtos
   async buscarProdutos() {
-    return axios.get(API_URL + "/produto").then(produto => produto.data);
+    return axios.get(API_URL + "/produtos").then(produto => produto.data);
   },
 
   async editarProduto(produto) {
+<<<<<<< HEAD
+    return axios.put(API_URL + "/produtos", produto).then(produto => produto.data)
+=======
     return axios
       .put(API_URL + "/produto", produto)
       .then(produto => produto.data);
+>>>>>>> 4934913bcd51bc19a7cdfa31c7ef442ccd1c5147
   },
   async salvarProduto(produto) {
     return axios
-      .post(API_URL + "/produto", produto)
+      .post(API_URL + "/produtos", produto)
       .then(response => response.data);
   },
   //Compras
