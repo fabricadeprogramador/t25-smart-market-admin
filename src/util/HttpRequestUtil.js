@@ -1,17 +1,7 @@
-<<<<<<< HEAD
-
-const API_URL = "http://localhost:3000";
-
-import axios from "axios";
-// import {
-//   async
-// } from "q";
-=======
 const API_URL = "http://localhost:3000";
 
 import axios from "axios";
 import { async } from "q";
->>>>>>> 4934913bcd51bc19a7cdfa31c7ef442ccd1c5147
 
 export default {
   //Usuários
@@ -37,13 +27,7 @@ export default {
   },
 
   async editarProduto(produto) {
-<<<<<<< HEAD
     return axios.put(API_URL + "/produtos", produto).then(produto => produto.data)
-=======
-    return axios
-      .put(API_URL + "/produto", produto)
-      .then(produto => produto.data);
->>>>>>> 4934913bcd51bc19a7cdfa31c7ef442ccd1c5147
   },
   async salvarProduto(produto) {
     return axios

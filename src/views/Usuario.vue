@@ -47,12 +47,9 @@
           </v-list-item-content>
 
           <v-list-item-action>
-            <v-btn icon v-if="usuario.ativo">
-              <v-icon color="green">mdi-check-bold</v-icon>
-            </v-btn>
-
-            <v-btn icon v-else>
-              <v-icon color="grey">mdi-cancel</v-icon>
+            <v-btn icon >
+              <v-icon v-if="usuario.ativo" color="green">{{ativado}}</v-icon>
+              <v-icon v-else color="grey">{{desativado}}</v-icon>
             </v-btn>
           </v-list-item-action>
         </v-list-item>
@@ -67,6 +64,8 @@ import HttpRequestUtil from "@/util/HttpRequestUtil";
 export default {
   data: () => ({
     valid: false,
+    ativado: mdi-check-bold,
+    desativado: mdi-cancel,
     id: 0,
     ativo: true,
     username: "",
