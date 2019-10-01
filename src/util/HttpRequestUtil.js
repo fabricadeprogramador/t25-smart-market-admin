@@ -21,6 +21,10 @@ export default {
       .then(response => response.data);
   },
 
+  async mudarStatus(usuario) {
+    return axios.put(API_URL + "/usuarios", usuario).then(usuario => usuario.data);
+  },
+  
   //Produtos
   async buscarProdutos() {
     return axios.get(API_URL + "/produtos").then(produto => produto.data);
@@ -56,7 +60,7 @@ export default {
   },
 
   //Contato Salvar
-  async salvarResposta(item){
+  async salvarResposta(item) {
     return axios.put(API_URL + "/contato", item).then(contato => contato.data);
   },
 

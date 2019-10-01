@@ -47,7 +47,7 @@
           </v-list-item-content>
 
           <v-list-item-action>
-            <v-btn icon >
+            <v-btn icon @click = "statusUsuario(usuario)">
               <v-icon v-if="usuario.ativo" color="green">{{ativado}}</v-icon>
               <v-icon v-else color="grey">{{desativado}}</v-icon>
             </v-btn>
@@ -64,8 +64,8 @@ import HttpRequestUtil from "@/util/HttpRequestUtil";
 export default {
   data: () => ({
     valid: false,
-    ativado: mdi-check-bold,
-    desativado: mdi-cancel,
+    ativado: 'mdi-check-bold',
+    desativado: 'mdi-cancel',
     id: 0,
     ativo: true,
     username: "",
@@ -99,6 +99,13 @@ export default {
     buscarTodos() {
       HttpRequestUtil.buscarUsuarios().then(usuarios => {
         this.usuarios = usuarios;
+      });
+    },
+
+    statusUsuario(usuario) {
+      usuario.ativo = !usuario.ativo;
+      
+      HttpRequestUtil.mudarStatus(usuario).then(usuario => {
       });
     }
   },

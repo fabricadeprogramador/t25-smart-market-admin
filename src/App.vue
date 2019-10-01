@@ -81,10 +81,15 @@ export default {
         route: "/compras"
       },
       {
+        title: "Setor",
+        icon: "",
+        route: "/setor"
+      },
+      {
         title: "Sair",
         icon: "mdi-exit-to-app",
         route: "/login"
-      }
+      },
     ]
   })
 };
