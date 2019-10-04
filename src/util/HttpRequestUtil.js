@@ -24,7 +24,7 @@ export default {
   async mudarStatus(usuario) {
     return axios.put(API_URL + "/usuarios", usuario).then(usuario => usuario.data);
   },
-  
+
   //Produtos
   async buscarProdutos() {
     return axios.get(API_URL + "/produtos").then(produto => produto.data);
@@ -71,10 +71,16 @@ export default {
       .then(autenticar => autenticar.data);
   },
 
-  //Departamentos
-  async buscarDepartamentos() {
-    return axios
-      .get(API_URL + "/departamentos")
-      .then(departamentos => departamentos.data);
+  //Setores
+  async buscarSetores() {
+    return axios.get(API_URL + "/setores").then(setor => setor.data);
+  },
+
+  async salvarSetor(setor) {
+    return axios.post(API_URL + "/setores", setor).then(setor => setor.data);
+  },
+
+  async alterarStatus(setor) {
+    return axios.put(API_URL + "/setores", setor).then(setor => setor.data);
   }
 };

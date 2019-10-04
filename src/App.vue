@@ -81,9 +81,9 @@ export default {
         route: "/compras"
       },
       {
-        title: "Setor",
-        icon: "",
-        route: "/setor"
+        title: "Setores",
+        icon: "mdi-apps-box",
+        route: "/setores"
       },
       {
         title: "Sair",

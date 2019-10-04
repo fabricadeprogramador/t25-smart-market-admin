@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="ma-12 elevation-1">
+    <div class="text-center">
+      <h1>Cadastro de Usuários</h1>
+    </div>
     <v-form v-model="valid">
       <v-container>
         <v-row>
@@ -34,10 +38,31 @@
         </div>
       </v-container>
     </v-form>
+    </div>
 
-    <v-card class="ma-3">
-      <v-list>
-        <v-list-item v-for="usuario in usuarios" :key="usuario.title">
+  <!--Lista de Usuarios-->
+  <div class="ma-12 elevation-1">
+    <v-card>
+      <v-list class="pa-12">
+      <div class="text-center">
+        <h1>Usuários</h1>
+      </div>
+      <v-list-item
+          flat
+          class="title"
+          >
+
+          <v-list-item-title>
+            NOME
+          </v-list-item-title>
+          
+          <v-list-item-title>
+            TIPO
+          </v-list-item-title>
+
+          </v-list-item>
+    
+        <v-list-item v-for="usuario in usuarios"  :key="usuario.title">
           <v-list-item-content>
             <v-list-item-title v-text="usuario.username"></v-list-item-title>
           </v-list-item-content>
@@ -56,6 +81,7 @@
       </v-list>
     </v-card>
   </div>
+</div>
 </template>
 
 <script>
