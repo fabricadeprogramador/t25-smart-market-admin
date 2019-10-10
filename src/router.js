@@ -8,7 +8,7 @@ import Usuario from './views/Usuario.vue'
 import Contato from './views/Contato.vue'
 import Compras from './views/Compras.vue'
 import Login from './views/Login.vue'
-import Setor from './views/Setores.vue'
+import Setor from './views/Setor.vue'
 
 Vue.use(Router)
 
