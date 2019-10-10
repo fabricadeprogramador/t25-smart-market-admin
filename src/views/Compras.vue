@@ -8,6 +8,29 @@
           <v-text-field v-model="search" label="Procurar produto" single-line hide-details></v-text-field>
         </v-card-title>
         <v-data-table :headers="headers" :items="compras" :search="search"></v-data-table>
+        <v-row justify="center">
+          <v-dialog v-model="dialog" scrollable max-width="300px">
+            <template v-slot:activator="{ on }">
+              <v-btn color="primary" dark v-on="on">Produtos da compra</v-btn>
+            </template>
+            <v-card>
+              <v-card-title>Lista de produtos</v-card-title>
+              <v-divider></v-divider>
+              <v-card-text style="height: 300px;">
+                <v-list v-model="dialogm1" column>
+                  <v-list-item-title>nome do produto 1</v-list-item-title>​
+                  <v-list-item-title>nome do produto 2</v-list-item-title>​
+                  <v-list-item-title>nome do produto 3</v-list-item-title>​
+                  <v-list-item-title>nome do produto 4</v-list-item-title>​
+                </v-list>
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-card-actions>
+                <v-btn color="blue darken-1" text @click="dialog = false">Fechar</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-row>
         <v-col>
           <v-list-item-title class="title">
             VALOR TOTAL DAS COMPRAS :
@@ -27,12 +50,14 @@ export default {
     return {
       valortotalDasCompras: 0,
       search: "",
+      dialogm1: "",
+      dialog: false,
       headers: [
         {
           text: "Produtos",
           align: "left",
           sortable: false,
-          value: "produtos"
+          value: []
         },
 
         {
@@ -49,7 +74,7 @@ export default {
         },
         {
           text: "Cliente",
-          value: "cliente"
+          value: {}
         }
       ],
       compras: []
