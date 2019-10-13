@@ -7,7 +7,13 @@
           <div class="flex-grow-1"></div>
           <v-text-field v-model="search" label="Procurar produto" single-line hide-details></v-text-field>
         </v-card-title>
-        <v-data-table :headers="headers" :items="compras" :search="search"></v-data-table>
+        <v-data-table :headers="headers" :items="compras" item-key="compras.length" :search="search" single-expand:true
+    show-expand>
+    
+    <template v-slot:expanded-item="{ headers }">
+      <td :colspan="headers.length">Nome do(s) produtos</td>
+    </template>
+    </v-data-table>
         <v-row justify="center">
           <v-dialog v-model="dialog" scrollable max-width="300px">
             <template v-slot:activator="{ on }">
@@ -52,12 +58,14 @@ export default {
       search: "",
       dialogm1: "",
       dialog: false,
+      expanded: [],
+      
       headers: [
         {
           text: "Produtos",
           align: "left",
           sortable: false,
-          value: []
+          value: "produtos"
         },
 
         {
@@ -74,7 +82,7 @@ export default {
         },
         {
           text: "Cliente",
-          value: {}
+          value: "cliente"
         }
       ],
       compras: []

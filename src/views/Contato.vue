@@ -3,11 +3,11 @@
     <template v-for="(item, index) in items">
       <v-list-item :key="item.cliente">
         <v-list-item-content>
-          <v-list-item-title v-text="item.cliente"></v-list-item-title>
+          <v-list-item-title class="title ml-3 mr-5"> Cliente: <v-list-item-title class="font-weight-light">{{item.cliente}}</v-list-item-title></v-list-item-title>
           <v-container fluid>
             <v-row>
               <v-col cols="10">
-                <v-list-item-subtitle class="text--primary" v-text="item.assunto"></v-list-item-subtitle>
+               <v-list-item-title class="title ml-3 mr-5"> Assunto: <v-list-item-subtitle class="font-weight-light" v-text="item.assunto"></v-list-item-subtitle></v-list-item-title>
               </v-col>
               <v-col cols="2" align="right">
                 <v-list-item-action-text v-text="item.datacontato"></v-list-item-action-text>
@@ -15,7 +15,7 @@
             </v-row>
             <v-row>
               <v-col cols="12">
-                <v-list-item-subtitle v-text="item.mensagem"></v-list-item-subtitle>
+                <v-list-item-title class="title ml-3 mr-5"> Mensagem: </v-list-item-title>
               </v-col>
             </v-row>
 
