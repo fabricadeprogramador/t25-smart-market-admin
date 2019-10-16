@@ -64,7 +64,7 @@
                       <!-- dark v-on="on" -->
                       <v-btn
                         color="primary"
-                        @click="responder(item._id)"
+                        @click="responder(item.id)"
                       >Responder</v-btn>
                     </template>
                     <v-card>
