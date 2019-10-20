@@ -15,6 +15,7 @@
           single-expand="true"
           show-expand
         >
+         <v-btn color="primary" dark v-on="on">Lista de produtos</v-btn>
           <template v-slot:expanded-item="{ headers }">
             <td :colspan="headers.length">{{headers.produtos}}</td>
           </template>
