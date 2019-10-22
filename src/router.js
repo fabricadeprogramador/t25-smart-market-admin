@@ -8,6 +8,7 @@ import Usuario from './views/Usuario.vue'
 import Contato from './views/Contato.vue'
 import Compras from './views/Compras.vue'
 import Login from './views/Login.vue'
+import Setor from './views/Setor.vue'
 
 Vue.use(Router)
 
@@ -51,6 +52,11 @@ export default new Router({
     path: '/contato',
     name: 'Contato',
     component: Contato
+  },
+  {
+    path: '/setores',
+    name: 'Setores',
+    component: Setor
   },
   {
     path: '/login',

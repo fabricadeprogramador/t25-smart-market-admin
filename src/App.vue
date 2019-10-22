@@ -81,10 +81,15 @@ export default {
         route: "/compras"
       },
       {
+        title: "Setores",
+        icon: "mdi-apps-box",
+        route: "/setores"
+      },
+      {
         title: "Sair",
         icon: "mdi-exit-to-app",
         route: "/login"
-      }
+      },
     ]
   })
 };
