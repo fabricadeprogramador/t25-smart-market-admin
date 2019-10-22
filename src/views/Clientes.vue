@@ -1,60 +1,18 @@
 <template>
-  <div>
-    <!--LISTA DE CLIENTES-->
-    <div class="ma-12 elevation-1">
+ 
+ <div class="text-center">
+    <v-col cols="12">
       <v-card>
-        <v-list class="pa-12">
-          <div class="text-center">
-            <h1>Clientes</h1>
-          </div>
-
-          <v-list-item
-          flat
-          class="title"
-          >
-          <v-list-item-title>
-            CPF
-          </v-list-item-title>
-          <v-list-item-title>
-            NOME
-          </v-list-item-title>
-
-          <v-list-item-title>
-            E-MAIL 
-          </v-list-item-title>
-
-          </v-list-item>
-
-          <v-list-item v-for="cliente in clientes" :key="cliente.title">
-            <v-list-item-content>
-              <v-list-item-title v-text="cliente.cpf"></v-list-item-title>
-            </v-list-item-content>
-           
-            <v-list-item-content>
-              <v-list-item-title v-text="cliente.nome"></v-list-item-title>
-            </v-list-item-content>
-
-            <v-list-item-content>
-              <v-list-item-title v-text="cliente.email"></v-list-item-title>
-            </v-list-item-content>
-
-
-            <!--
-            <v-list-item-action>
-              <v-btn icon v-if="clientes.ativo">
-                <v-icon color="green">mdi-check-bold</v-icon>
-              </v-btn>
-
-              <v-btn icon v-else>
-                <v-icon color="grey">mdi-cancel</v-icon>
-              </v-btn>
-            </v-list-item-action>
-            -->
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </div>
+        <v-card-title>
+          Listagem de Clientes
+          <div class="flex-grow-1"></div>
+          <v-text-field v-model="search" label="Buscar Cliente" single-line hide-details></v-text-field>
+        </v-card-title>
+        <v-data-table :headers="headers" :items="clientes" :search="search"></v-data-table>
+       </v-card>
+    </v-col>
   </div>
+
 </template>
 
 <script>
@@ -63,28 +21,31 @@ import HttpRequestUtil from "@/util/HttpRequestUtil";
 export default {
   data() {
     return {
+    search: "",
+    headers: [
+        {
+          text: "CPF",
+          align: "left",
+          sortable: false,
+          value: "cpf"
+        },
+
+        {
+          text: "Nome",
+          value: "nome"
+        },
+        {
+          text: "Telefone",
+          value: "telefone"
+        },
+        {
+          text: "E-mail",
+          value: "email"
+        }
+      ],
     clientes: []
   }},
   methods: {
-
-   /* O metodo salvar não pode ser usado por conta de problemas na API
-
-   salvar() {
-      let usuario = {}
-      usuario._id = "5d5f2f64e638d00017ad8f38"
-      let cliente = {
-        nome: "Maria",
-        dataNascimento: "12-03-1960",
-        CPF: "12903107910"
-      }
-
-      cliente.usuario = usuario
-        
-        HttpRequestUtil.salvarCliente(cliente).then(cliente => {
-        this.clientes.push(cliente);
-      });
-    },*/
-    
     buscarTodos() {
       HttpRequestUtil.buscarClientes().then(clientes => {
         this.clientes = clientes;
