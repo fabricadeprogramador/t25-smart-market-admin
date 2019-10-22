@@ -6,7 +6,7 @@
     </v-card>
 
     <v-card class="mt-10">
-      <v-card-title>Produtos com vencimento próximo</v-card-title>
+      <v-card-title>Produtos vencendo em 7 dias</v-card-title>
       <v-data-table :headers="headersProdVencto" :items="listaProdVencto" :items-per-page="5"></v-data-table>
     </v-card>
   </v-card>
@@ -26,7 +26,7 @@ export default {
           text: "Qtde. Disponível",
           align: "right",
           sortable: true,
-          value: "qtdeDisponivel"
+          value: "qtdDisponivel"
         }
       ],
       listaProdEst: [],
@@ -34,19 +34,31 @@ export default {
       headersProdVencto: [
         { text: "Produto", align: "left", sortable: true, value: "descricao" },
         { text: "Marca", align: "left", sortable: true, value: "marca" },
-        { text: "Validade", align: "right", sortable: true, value: "validade"}
+        { text: "Validade", align: "right", sortable: true, value: "validade" }
       ],
       listaProdVencto: []
     };
   },
   methods: {
     buscarTodos() {
+      let dataVencimento = new Date();
+      let limiteVen = new Date();
+      
       HttpRequestUtil.buscarProdutos().then(produtos => {
         for (let i = 0; i < produtos.length; i++) {
-          if (parseFloat(produtos[i].qtdeDisponivel) < 50) {
+          if (parseFloat(produtos[i].qtdDisponivel) < 50) {
             this.listaProdEst.push(produtos[i]);
-          }       
+          }
 
+          dataVencimento = new Date(produtos[i].validade);
+          limiteVen = new Date();
+          limiteVen.setDate(limiteVen.getDate() + 7);
+
+          if (dataVencimento <= limiteVen) {
+            //produtos[i].vencimento = 
+            this.listaProdVencto.push(produtos[i]);
+             
+          }
         }
       });
     }
@@ -59,4 +71,4 @@ export default {
 
 
 <style>
-</style>
+</style>	
