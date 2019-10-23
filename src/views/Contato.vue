@@ -1,13 +1,31 @@
 <template>
   <v-list-item-group class="mx-2 my-4">
+    <div>
+      <v-alert
+        v-model="salvo"
+        border="left"
+        close-text="Close Alert"
+        class="text-center"
+        color="info"
+        dark
+        dismissible
+        transition="scale-transition"
+      >RESPOSTA JÁ ENVIADA!</v-alert>
+    </div>
     <template v-for="(item, index) in items">
       <v-list-item :key="item.cliente">
         <v-list-item-content>
-          <v-list-item-title class="title ml-3 mr-5"> Cliente: <v-list-item-title class="font-weight-light">{{item.cliente}}</v-list-item-title></v-list-item-title>
+          <v-list-item-title class="title ml-3 mr-5">
+            Cliente:
+            <v-list-item-title class="font-weight-light">{{item.cliente}}</v-list-item-title>
+          </v-list-item-title>
           <v-container fluid>
             <v-row>
               <v-col cols="10">
-               <v-list-item-title class="title ml-3 mr-5"> Assunto: <v-list-item-subtitle class="font-weight-light" v-text="item.assunto"></v-list-item-subtitle></v-list-item-title>
+                <v-list-item-title class="title ml-3 mr-5">
+                  Assunto:
+                  <v-list-item-subtitle class="font-weight-light" v-text="item.assunto"></v-list-item-subtitle>
+                </v-list-item-title>
               </v-col>
               <v-col cols="2" align="right">
                 <v-list-item-action-text v-text="item.datacontato"></v-list-item-action-text>
@@ -15,12 +33,14 @@
             </v-row>
             <v-row>
               <v-col cols="12">
-                <v-list-item-title class="title ml-3 mr-5"> Mensagem: </v-list-item-title>
+                <v-list-item-title class="title ml-3 mr-5">Mensagem:</v-list-item-title>
+                <v-list-item-action-text v-text="item.mensagem"></v-list-item-action-text>
               </v-col>
             </v-row>
 
             <v-row>
               <v-col cols="9">
+                <v-list-item-title class="title ml-3 mr-5">Resposta:</v-list-item-title>
                 <v-list-item-subtitle v-text="item.resposta"></v-list-item-subtitle>
               </v-col>
 
@@ -34,7 +54,7 @@
                 <v-dialog v-model="dialog" persistent max-width="600px">
                   <template v-slot:activator="{ on }">
                     <!-- dark v-on="on" -->
-                    <v-btn color="primary" @click="responder(item.id)">Responder</v-btn>
+                    <v-btn color="primary" @click="responder(item._id)">Responder</v-btn>
                   </template>
                   <v-card>
                     <v-card-text>
@@ -79,6 +99,7 @@ export default {
     idContato: "1",
     textoresposta: "",
     dialog: false,
+    salvo: false,
     selected: [2],
     max: 150,
     items: [],
@@ -91,10 +112,10 @@ export default {
   methods: {
     responder(idContato) {
       for (let i = 0; i < this.items.length; i++) {
-        if (this.items[i].id == idContato) {
+        if (this.items[i]._id == idContato) {
           if (this.items[i].respondido) {
-            alert("Resposta já enviada anteriormente" + this.dialog);
-            this.dialog = false;
+            // alert("Resposta já enviada anteriormente" + this.dialog);
+            this.salvo = true;
           } else {
             (this.indiceResposta = idContato), (this.dialog = true);
           }
@@ -106,7 +127,7 @@ export default {
         // alert("A resposta deve conter no mínimo 20 caracteres")
       } else {
         for (let i = 0; i < this.items.length; i++) {
-          if (this.items[i].id == this.indiceResposta) {
+          if (this.items[i]._id == this.indiceResposta) {
             this.items[i].resposta = this.textoresposta;
             this.items[i].respondido = true;
             this.indiceResposta = null;
@@ -114,14 +135,23 @@ export default {
             this.textoresposta = "";
           }
           this.salvarResposta(this.items[i]);
-          HttpRequestUtil.buscarContatos().then(response => {
-            this.items = response;
-          });
+          // HttpRequestUtil.buscarContatos().then(response => {
+          //   this.items = response;
+          // });
+          this.buscarContatos();
         }
       }
     },
     salvarResposta(contato) {
-      HttpRequestUtil.salvarResposta(contato).then(response => {});
+      HttpRequestUtil.salvarResposta(contato).then(response => {
+        this.buscarContatos();
+      });
+    },
+
+    buscarContatos() {
+      HttpRequestUtil.buscarContatos().then(response => {
+        this.items = response;
+      });
     }
   },
   mounted() {
