@@ -5,30 +5,36 @@
         <v-card-title>
           Compras realizadas:
           <div class="flex-grow-1"></div>
-          <v-text-field v-model="search" label="Procurar produto" single-line hide-details></v-text-field>
+          <v-text-field
+            v-model="search"
+            label="Procurar compra por cliente"
+            single-line
+            hide-details
+          ></v-text-field>
         </v-card-title>
         <v-data-table
           :headers="headers"
           :items="compras"
           item-key="valorTotal"
           :search="search"
-          :single-expand= "singleExpand"
+          :single-expand="singleExpand"
           show-expand
           :expanded.sync="expanded"
         >
-         
           <template v-slot:expanded-item="{ headers }">
             <td :colspan="headers.length">
-              <ul>
-                <li v-for="item in expanded" :key="item._id">Valor: {{item.valorTotal}}</li>
-               
-              </ul></td>
+              <v-list-item
+                v-for="item in expanded"
+                :key="item._id"
+                class="text-start"
+              >Produto(s): {{expanded[0].Produtos[0].descricao}}, {{expanded[0].Produtos[2].marca}}, R$: {{expanded[0].Produtos[1].valor}}</v-list-item>
+            </td>
           </template>
         </v-data-table>
-        
+
         <v-col>
           <v-list-item-title class="title">
-            VALOR TOTAL DAS COMPRAS :
+            Valor Total Das Compras :
             <v-list-item-title>R$: {{valortotalDasCompras}}</v-list-item-title>
           </v-list-item-title>
         </v-col>
@@ -51,13 +57,13 @@ export default {
       singleExpand: true,
 
       headers: [
-        { text: "Detalhes da compra", align: "left"  },
+        { text: "Detalhes da compra", align: "left" },
 
         {
           text: "Produtos",
           align: "left",
           sortable: false,
-          value: "produtos"
+          value: "Produtos[0].descricao"
         },
 
         {
@@ -74,7 +80,7 @@ export default {
         },
         {
           text: "Cliente",
-          value: "cliente"
+          value: "cliente.nome"
         }
       ],
       compras: []
