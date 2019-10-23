@@ -1,7 +1,6 @@
 const API_URL = "http://localhost:3000";
 
 import axios from "axios";
-import { async } from "q";
 
 export default {
   //Usuários
@@ -21,19 +20,21 @@ export default {
       .then(response => response.data);
   },
 
+  async mudarStatus(usuario) {
+    return axios.put(API_URL + "/usuarios", usuario).then(usuario => usuario.data);
+  },
+
   //Produtos
   async buscarProdutos() {
-    return axios.get(API_URL + "/produto").then(produto => produto.data);
+    return axios.get(API_URL + "/produtos").then(produto => produto.data);
   },
 
   async editarProduto(produto) {
-    return axios
-      .put(API_URL + "/produto", produto)
-      .then(produto => produto.data);
+    return axios.put(API_URL + "/produtos", produto).then(produto => produto.data)
   },
   async salvarProduto(produto) {
     return axios
-      .post(API_URL + "/produto", produto)
+      .post(API_URL + "/produtos", produto)
       .then(response => response.data);
   },
   //Compras
@@ -57,6 +58,11 @@ export default {
     return axios.get(API_URL + "/contato").then(contato => contato.data);
   },
 
+  //Contato Salvar
+  async salvarResposta(item) {
+    return axios.put(API_URL + "/contato", item).then(contato => contato.data);
+  },
+
   //Login
   async autenticar() {
     return axios
@@ -64,10 +70,16 @@ export default {
       .then(autenticar => autenticar.data);
   },
 
-  //Departamentos
-  async buscarDepartamentos() {
-    return axios
-      .get(API_URL + "/departamentos")
-      .then(departamentos => departamentos.data);
+  //Setores
+  async buscarSetores() {
+    return axios.get(API_URL + "/setores").then(setor => setor.data);
+  },
+
+  async salvarSetor(setor) {
+    return axios.post(API_URL + "/setores", setor).then(setor => setor.data);
+  },
+
+  async alterarStatus(setor) {
+    return axios.put(API_URL + "/setores", setor).then(setor => setor.data);
   }
 };
