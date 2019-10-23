@@ -12,9 +12,10 @@
           :items="compras"
           item-key="compras.length"
           :search="search"
-          single-expand="true"
+          :single-expand= "singleExpand"
           show-expand
         >
+         
           <template v-slot:expanded-item="{ headers }">
             <td :colspan="headers.length">{{headers.produtos}}</td>
           </template>
@@ -64,6 +65,7 @@ export default {
       dialogm1: "",
       dialog: false,
       expanded: [],
+      singleExpand: true,
 
       headers: [
         { text: "Detalhes da compra", align: "left" },
