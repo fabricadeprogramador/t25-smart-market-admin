@@ -10,39 +10,22 @@
         <v-data-table
           :headers="headers"
           :items="compras"
-          item-key="compras.length"
+          item-key="valorTotal"
           :search="search"
           :single-expand= "singleExpand"
           show-expand
+          :expanded.sync="expanded"
         >
          
           <template v-slot:expanded-item="{ headers }">
-            <td :colspan="headers.length">{{headers.produtos}}</td>
+            <td :colspan="headers.length">
+              <ul>
+                <li v-for="item in expanded" :key="item._id">Valor: {{item.valorTotal}}</li>
+               
+              </ul></td>
           </template>
         </v-data-table>
-        <v-row justify="center">
-          <v-dialog v-model="dialog" scrollable max-width="300px">
-            <template v-slot:activator="{ on }">
-              <v-btn color="primary" dark v-on="on">Lista de produtos</v-btn>
-            </template>
-            <v-card>
-              <v-card-title>Lista de produtos</v-card-title>
-              <v-divider></v-divider>
-              <v-card-text style="height: 300px;">
-                <v-list v-model="dialogm1" column>
-                  <v-list-item-title>nome do produto 1</v-list-item-title>​
-                  <v-list-item-title>nome do produto 2</v-list-item-title>​
-                  <v-list-item-title>nome do produto 3</v-list-item-title>​
-                  <v-list-item-title>nome do produto 4</v-list-item-title>​
-                </v-list>
-              </v-card-text>
-              <v-divider></v-divider>
-              <v-card-actions>
-                <v-btn color="blue darken-1" text @click="dialog = false">Fechar</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-row>
+        
         <v-col>
           <v-list-item-title class="title">
             VALOR TOTAL DAS COMPRAS :
@@ -68,7 +51,7 @@ export default {
       singleExpand: true,
 
       headers: [
-        { text: "Detalhes da compra", align: "left" },
+        { text: "Detalhes da compra", align: "left"  },
 
         {
           text: "Produtos",
