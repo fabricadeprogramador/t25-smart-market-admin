@@ -1,7 +1,6 @@
 const API_URL = "http://localhost:3000";
 
 import axios from "axios";
-import { async } from "q";
 
 export default {
   //Usuários
