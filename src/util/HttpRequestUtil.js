@@ -1,5 +1,5 @@
-const API_URL = "http://localhost:3000";
 
+const API_URL = "http://localhost:3001";
 import axios from "axios";
 import { async } from "q";
 
@@ -82,5 +82,9 @@ export default {
 
   async alterarStatus(setor) {
     return axios.put(API_URL + "/setores", setor).then(setor => setor.data);
+  },
+
+  async removerSetor(setor) {
+    return axios.delete(API_URL + "/setores/:id", setor).then(setor => setor.data);
   }
 };
