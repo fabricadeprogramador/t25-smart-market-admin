@@ -15,11 +15,6 @@ export default {
       .then(response => response.data);
   },
 
-  async deletarUsuario(usuario) {
-    return axios
-      .delete(API_URL + "/usuarios", usuario)
-      .then(response => response.data);
-  },
 
   async mudarStatus(usuario) {
     return axios.put(API_URL + "/usuarios", usuario).then(usuario => usuario.data);
@@ -33,7 +28,7 @@ export default {
   async editarProduto(produto) {
     return axios.put(API_URL + "/produtos", produto).then(produto => produto.data)
   },
-  async salvarProduto(produto) {
+  async adicionarProduto(produto) {
     return axios
       .post(API_URL + "/produtos", produto)
       .then(response => response.data);
