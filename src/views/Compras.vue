@@ -5,46 +5,36 @@
         <v-card-title>
           Compras realizadas:
           <div class="flex-grow-1"></div>
-          <v-text-field v-model="search" label="Procurar produto" single-line hide-details></v-text-field>
+          <v-text-field
+            v-model="search"
+            label="Procurar compra por cliente"
+            single-line
+            hide-details
+          ></v-text-field>
         </v-card-title>
         <v-data-table
           :headers="headers"
           :items="compras"
-          item-key="compras.length"
+          item-key="valorTotal"
           :search="search"
-          single-expand="true"
+          :single-expand="singleExpand"
           show-expand
+          :expanded.sync="expanded"
         >
           <template v-slot:expanded-item="{ headers }">
-            <td :colspan="headers.length">{{headers.produtos}}</td>
+            <td :colspan="headers.length">
+              <v-list-item
+                v-for="item in expanded"
+                :key="item._id"
+                class="text-start"
+              >Produto(s): {{expanded[0].Produtos[0].descricao}}, {{expanded[0].Produtos[2].marca}}, R$: {{expanded[0].Produtos[1].valor}}</v-list-item>
+            </td>
           </template>
         </v-data-table>
-        <v-row justify="center">
-          <v-dialog v-model="dialog" scrollable max-width="300px">
-            <template v-slot:activator="{ on }">
-              <v-btn color="primary" dark v-on="on">Lista de produtos</v-btn>
-            </template>
-            <v-card>
-              <v-card-title>Lista de produtos</v-card-title>
-              <v-divider></v-divider>
-              <v-card-text style="height: 300px;">
-                <v-list v-model="dialogm1" column>
-                  <v-list-item-title>nome do produto 1</v-list-item-title>​
-                  <v-list-item-title>nome do produto 2</v-list-item-title>​
-                  <v-list-item-title>nome do produto 3</v-list-item-title>​
-                  <v-list-item-title>nome do produto 4</v-list-item-title>​
-                </v-list>
-              </v-card-text>
-              <v-divider></v-divider>
-              <v-card-actions>
-                <v-btn color="blue darken-1" text @click="dialog = false">Fechar</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-row>
+
         <v-col>
           <v-list-item-title class="title">
-            VALOR TOTAL DAS COMPRAS :
+            Valor Total Das Compras :
             <v-list-item-title>R$: {{valortotalDasCompras}}</v-list-item-title>
           </v-list-item-title>
         </v-col>
@@ -64,6 +54,7 @@ export default {
       dialogm1: "",
       dialog: false,
       expanded: [],
+      singleExpand: true,
 
       headers: [
         { text: "Detalhes da compra", align: "left" },
@@ -72,7 +63,7 @@ export default {
           text: "Produtos",
           align: "left",
           sortable: false,
-          value: "produtos"
+          value: "Produtos[0].descricao"
         },
 
         {
@@ -89,7 +80,7 @@ export default {
         },
         {
           text: "Cliente",
-          value: "cliente"
+          value: "cliente.nome"
         }
       ],
       compras: []
