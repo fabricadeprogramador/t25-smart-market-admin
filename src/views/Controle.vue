@@ -1,15 +1,18 @@
 <template>
-  <v-card class="elevation-1 pa-12">
-    <v-card>
-      <v-card-title>Produtos com estoque menor que 50 unidades</v-card-title>
-      <v-data-table :headers="headerProdEst" :items="listaProdEst" :items-per-page="5"></v-data-table>
-    </v-card>
+  <div class="text-center">
+    <v-col cols="12">
+      <v-card>
+        <v-card-title>Produtos com estoque menor que 50 unidades</v-card-title>
+        
+        <v-data-table :headers="headerProdEst" :items="listaProdEst" :items-per-page="5"></v-data-table>
+      </v-card>
 
-    <v-card class="mt-10">
-      <v-card-title>Produtos vencendo em 7 dias</v-card-title>
-      <v-data-table :headers="headersProdVencto" :items="listaProdVencto" :items-per-page="5"></v-data-table>
-    </v-card>
-  </v-card>
+      <v-card class="mt-10">
+        <v-card-title>Produtos vencendo em 7 dias</v-card-title>
+        <v-data-table :headers="headersProdVencto" :items="listaProdVencto" :items-per-page="5"></v-data-table>
+      </v-card>
+    </v-col>
+  </div>
 </template>
 
 
@@ -20,20 +23,26 @@ export default {
   data() {
     return {
       headerProdEst: [
-        { text: "Produto", align: "left", sortable: true, value: "descricao" },
+        { text: "Produto", align: "left", sortable: true, value: "nome" },
         { text: "Marca", align: "left", sortable: true, value: "marca" },
         {
           text: "Qtde. Disponível",
           align: "right",
           sortable: true,
-          value: "qtdDisponivel"
+          value: "quantidade"
         }
       ],
       listaProdEst: [],
 
       headersProdVencto: [
-        { text: "Produto", align: "left", sortable: true, value: "descricao" },
+        { text: "Produto", align: "left", sortable: true, value: "nome" },
         { text: "Marca", align: "left", sortable: true, value: "marca" },
+        {
+          text: "Qtde. Disponível",
+          align: "right",
+          sortable: true,
+          value: "quantidade"
+        },
         { text: "Validade", align: "right", sortable: true, value: "validade" }
       ],
       listaProdVencto: []
@@ -43,10 +52,10 @@ export default {
     buscarTodos() {
       let dataVencimento = new Date();
       let limiteVen = new Date();
-      
+
       HttpRequestUtil.buscarProdutos().then(produtos => {
         for (let i = 0; i < produtos.length; i++) {
-          if (parseFloat(produtos[i].qtdDisponivel) < 50) {
+          if (parseFloat(produtos[i].quantidade) < 50) {
             this.listaProdEst.push(produtos[i]);
           }
 
@@ -55,9 +64,8 @@ export default {
           limiteVen.setDate(limiteVen.getDate() + 7);
 
           if (dataVencimento <= limiteVen) {
-            //produtos[i].vencimento = 
+            //produtos[i].vencimento =
             this.listaProdVencto.push(produtos[i]);
-             
           }
         }
       });
