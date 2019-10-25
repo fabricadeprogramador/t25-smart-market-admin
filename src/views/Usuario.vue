@@ -132,6 +132,7 @@ export default {
       usuario.ativo = !usuario.ativo;
       
       HttpRequestUtil.mudarStatus(usuario).then(usuario => {
+        this.buscarTodos();
       });
     }
   },
