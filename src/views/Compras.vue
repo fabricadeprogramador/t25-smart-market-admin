@@ -15,19 +15,20 @@
         <v-data-table
           :headers="headers"
           :items="compras"
-          item-key="valorTotal"
+          item-key="cliente.nome"
           :search="search"
           :single-expand="singleExpand"
           show-expand
           :expanded.sync="expanded"
         >
           <template v-slot:expanded-item="{ headers }">
-            <td :colspan="headers.length">
+            <td :colspan="headers.length"
+               v-if="expanded[0] != undefined">
               <v-list-item
-                v-for="item in expanded"
-                :key="item._id"
+                v-for="produto in expanded[0].Produtos"
+                :key="produto._id"
                 class="text-start"
-              >Produto(s): {{expanded[0].Produtos[0].descricao}}, {{expanded[0].Produtos[2].marca}}, R$: {{expanded[0].Produtos[1].valor}}</v-list-item>
+              >Produto: {{produto.nome}}, Marca:  {{produto.marca}}, Valor: R$  {{produto.valor}}, Quantidade:  {{produto.quantidade}}</v-list-item>
             </td>
           </template>
         </v-data-table>
@@ -59,12 +60,7 @@ export default {
       headers: [
         { text: "Detalhes da compra", align: "left" },
 
-        {
-          text: "Produtos",
-          align: "left",
-          sortable: false,
-          value: "Produtos[0].descricao"
-        },
+       
 
         {
           text: "Valor (R$)",
