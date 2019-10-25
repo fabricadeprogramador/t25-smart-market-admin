@@ -67,7 +67,7 @@
               </v-list-item-avatar>
             </v-col>
 
-            <v-col md="2">
+            <v-col md="1">
               <v-list-item-title>Valor</v-list-item-title>​
             </v-col>
 
