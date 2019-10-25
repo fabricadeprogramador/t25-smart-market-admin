@@ -44,7 +44,7 @@
           </v-list-item>
 
           <v-list-item v-for="setor in setores"  :key="setor.title">
-            <v-col md="12">
+            <v-col md="11">
               <v-list-item-title>{{setor.name}}</v-list-item-title>​
             </v-col>
         <v-list-item-action>
@@ -52,6 +52,11 @@
               <v-icon v-if="setor.ativo" color="green">{{ativado}}</v-icon>
               <v-icon v-else color="grey">{{desativado}}</v-icon>
             </v-btn>
+          </v-list-item-action>
+          <v-list-item-action>
+              <v-btn  icon @click= "remover(setor)">
+                <v-icon color="red">mdi-delete-empty</v-icon>
+              </v-btn>
           </v-list-item-action>
           </v-list-item>
 
@@ -69,9 +74,8 @@ export default {
       valid: false,
       ativado: 'mdi-check-bold',
       desativado: 'mdi-cancel',
-      id: 0,
       ativo: true,
-      name: '',
+      name: "",
       setores: [],
       nameRules: [
         v => !!v || 'Nome do setor é obrigatório!',
@@ -83,13 +87,13 @@ export default {
       salvar() {
 
         let setor = {};
-        setor.id = this.id;
         setor.ativo = this.ativo;
         setor.name = this.name;
 
       HttpRequestUtil.salvarSetor(setor).then(response => {
         this.setores.push(response);
         });
+
       
       },
 
@@ -105,7 +109,14 @@ export default {
 
         HttpRequestUtil.alterarStatus(setor).then( setores => {
         });
-      }  
+      },
+
+      remover(setor) {
+
+        HttpRequestUtil.removerSetor(setor).then(response => {
+
+        });
+      }
 
     },
 
