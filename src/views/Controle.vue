@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       headerProdEst: [
-        { text: "Produto", align: "left", sortable: true, value: "descricao" },
+        { text: "Produto", align: "left", sortable: true, value: "nome" },
         { text: "Marca", align: "left", sortable: true, value: "marca" },
         {
           text: "Qtde. Disponível",
@@ -32,7 +32,7 @@ export default {
       listaProdEst: [],
 
       headersProdVencto: [
-        { text: "Produto", align: "left", sortable: true, value: "descricao" },
+        { text: "Produto", align: "left", sortable: true, value: "nome" },
         { text: "Marca", align: "left", sortable: true, value: "marca" },
         { text: "Validade", align: "right", sortable: true, value: "validade" }
       ],
