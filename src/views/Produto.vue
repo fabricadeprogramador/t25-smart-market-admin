@@ -108,6 +108,8 @@
       {text: 'setor', align: 'center', value: 'setor', 
       },
       { text: 'validade', align: 'center', value: 'validade', 
+
+      
       },
       ],     
 
