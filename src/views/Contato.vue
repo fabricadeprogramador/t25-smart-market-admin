@@ -1,6 +1,8 @@
 <template>
   <v-list-item-group class="mx-2 my-4">
-    <div>
+    <template v-for="(item, index) in items">
+      <v-list-item :key="item.cliente">
+    <v-card>
       <v-alert
         v-model="salvo"
         border="left"
@@ -11,9 +13,7 @@
         dismissible
         transition="scale-transition"
       >RESPOSTA JÁ ENVIADA!</v-alert>
-    </div>
-    <template v-for="(item, index) in items">
-      <v-list-item :key="item.cliente">
+    </v-card>
         <v-list-item-content>
           <v-list-item-title class="title ml-3 mr-5">
             Cliente:
