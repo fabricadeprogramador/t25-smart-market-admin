@@ -42,6 +42,23 @@
             </v-col>
 
             <v-list-item-action>
+              <v-dialog v-model="dialog" persistent max-width="290">
+                <template v-slot:activator="{ on }">
+                  <v-btn icon  color="primary" dark v-on="on">
+                    <v-icon v-if="setor.ativo" color="green">{{ativado}}</v-icon>
+                    <v-icon v-else color="grey">{{desativado}}</v-icon>
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-title class="headline">Deseja alterar status do Setor?</v-card-title>
+                  <v-card-text>Tem certeza que deseja alterar o status do Setor?</v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" text @click="dialog = false" >Cancelar</v-btn>
+                    <v-btn color="green darken-1" text @click="dialog = false & alterarStatus(setor)">Aceito</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </v-list-item-action>
           </v-list-item>
         </v-list>
