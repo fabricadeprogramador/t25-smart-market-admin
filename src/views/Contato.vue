@@ -1,25 +1,9 @@
 <template>
   <v-list-item-group class="mx-2 my-4">
-    <v-snackbar 
-    type="info" 
-    v-model="salvo" 
-    close-text="Close Alert"
-    
-    color="blue"
-     
-      :top="y === 'top'"
-      
-    
->RESPOSTA JÁ ENVIADA!
-
-<v-btn
-        dark
-        text
-        @click="salvo = false"
-      >
-        Close
-      </v-btn>
- </v-snackbar>
+    <v-snackbar type="info" v-model="salvo" close-text="Close Alert" color="red" :top="y === 'top'">
+      RESPOSTA JÁ ENVIADA!
+      <v-btn dark text @click="salvo = false">Fechar</v-btn>
+    </v-snackbar>
 
     <template v-for="(item, index) in items">
       <v-list-item :key="item.cliente">
@@ -117,12 +101,8 @@ export default {
     items: [],
     indiceResposta: null,
 
-    
-    
-    
-   
     timeout: 6000,
-    
+
     y: "top",
 
     respostaRules: [
