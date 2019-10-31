@@ -38,6 +38,7 @@
             <v-list-item-title md="2">SETOR</v-list-item-title>
           </v-list-item>
 
+
           <v-list-item v-for="setor in setores" :key="setor.title">
             <v-col md="11">
               <v-list-item-title>{{setor.name}}</v-list-item-title>​
@@ -73,6 +74,7 @@
 import HttpRequestUtil from "@/util/HttpRequestUtil";
 
 export default {
+
   data: () => ({
     valid: false,
     dialog: false,
@@ -96,7 +98,6 @@ export default {
         this.setores.push(response);
       });
     },
-
     buscarTodos() {
       HttpRequestUtil.buscarSetores().then(setores => {
         this.setores = setores;
@@ -106,10 +107,10 @@ export default {
     alterarStatus(setor) {
       setor.ativo = !setor.ativo;
 
+
       HttpRequestUtil.setorStatus(setor).then(setores => {});
     }
   },
-
   mounted() {
     this.buscarTodos();
   }

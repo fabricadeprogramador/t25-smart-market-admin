@@ -32,12 +32,15 @@
             <v-text-field v-model="valor" :rules="usernameRules" :counter="10" label="Valor" required type="number"></v-text-field>
           </v-col>
           <v-col cols="12" md="6">
+            <v-text-field v-model="validade" :rules="usernameRules" :counter="10" label="Validade" required></v-text-field>
+          </v-col>
+          <v-col cols="12" md="6">
             <v-text-field v-model="quantidade" :rules="usernameRules" label="Quantidade disponível" required type="number"></v-text-field>
           </v-col>
           <v-col class="d-flex" cols="12" sm="6">
             <v-select v-model="setor" item-text="setor" label="setor" return-object></v-select>
           </v-col>
-          <v-col cols="12" md="12">
+          <v-col cols="12" md="6">
             <v-text-field v-model="imagem" :rules="usernameRules" :counter="200" label="Link da imagem do produto" required></v-text-field>
           </v-col>
         </v-row>
@@ -52,16 +55,25 @@
     <v-col cols="12">
       <v-card>
         <v-list>
+         <v-col md="6">
+            <v-text-field
+          v-model="pesquisar"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+         </v-col>
           <v-list-item class="text-start title">
-            <v-col md="2">
+            <v-col md="1">
               <v-list-item-title>Nome</v-list-item-title>​
             </v-col>
 
-            <v-col md="2">
+            <v-col md="1">
               <v-list-item-title>Marca</v-list-item-title>​
             </v-col>
 
-            <v-col md="2" class="mb-8">
+            <v-col md="1" class="mb-8">
               <v-list-item-avatar>
                 <v-list-item-title>Img</v-list-item-title>
               </v-list-item-avatar>
@@ -70,6 +82,15 @@
             <v-col md="1">
               <v-list-item-title>Valor</v-list-item-title>​
             </v-col>
+
+            <v-col md="2">
+              <v-list-item-title>Validade</v-list-item-title>​
+            </v-col>
+
+               <v-col md="1">
+              <v-list-item-title>Descrição</v-list-item-title>​
+            </v-col>
+
 
             <v-col md="1" >
               <v-list-item-title>Setor</v-list-item-title>​
@@ -87,24 +108,32 @@
             </v-col>
           </v-list-item>
 
-          <v-list-item v-for="produto in produtos" :key="produto.title" class="text-start">
+          <v-list-item v-for="produto in produtos" :key="produto.title" :search="pesquisar" class="text-start">
 
-            <v-col md="2">
+            <v-col md="1">
               <v-list-item-title v-text="produto.nome"></v-list-item-title>​
             </v-col>
 
-            <v-col md="2">
+            <v-col md="1">
               <v-list-item-title v-text="produto.marca"></v-list-item-title>​
             </v-col>
 
-            <v-col md="2">
+            <v-col md="1">
               <v-list-item-avatar>
                 <v-img :src="produto.imagem"></v-img>
               </v-list-item-avatar>
             </v-col>
 
+            <v-col md="2">
+              <v-list-item-title>R$ {{(produto.valor)}}</v-list-item-title>​
+            </v-col>
+
+             <v-col md="2">
+              <v-list-item-title v-text="produto.validade"></v-list-item-title>​
+            </v-col>
+
             <v-col md="1">
-              <v-list-item-title>R$ {{(produto.valor).toFixed(2)}}</v-list-item-title>​
+              <v-list-item-title v-text="produto.descricao"></v-list-item-title>​
             </v-col>
 
             <v-col md="1">
@@ -117,12 +146,12 @@
 
             <v-col md="1">
               <v-btn icon @click="statusProduto(produto)">
-                <v-icon v-if="produto.produtoDisponivel">{{produtoDisponivel}}</v-icon>
-                <v-icon v-else>{{produtoIndisponvel}}</v-icon>                
+                <v-icon v-if="produto.disponivel">{{disponivel}}</v-icon>
+                <v-icon v-else>{{indisponivel}}</v-icon>                
               </v-btn>
             </v-col>
             <v-col md="1">
-              <v-btn icon @click="editarProdutos(produto)">
+              <v-btn icon @click="editar(produto)">
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </v-col>
@@ -143,15 +172,16 @@
       imagem: "",
       descricao: "",
       setor: "",
+      validade: "",
+      pesquisar: "",
       
-      produtoDisponivel: "mdi-cart",
-      produtoIndisponvel: "mdi-cart-off",
+      disponivel: "mdi-cart",
+      indisponivel: "mdi-cart-off",
 
       produtos: [],     
 
       produtoEditado: null,
 
-      disponivel: true,
       salvo: false,
       editado: false,
       naoCadastrado: false,
@@ -174,6 +204,7 @@
             produto.setor = this.setor;
             produto.quantidade = parseFloat(this.quantidade);
             produto.status = this.disponivel
+            produto.validade = this.validade
 
             HttpRequestUtil.adicionarProduto(produto).then(produto => {
               this.produtos.push(produto);
@@ -187,6 +218,7 @@
             this.produtoEditado.quantidade = parseFloat(this.quantidade);
             this.produtoEditado.imagem = this.imagem;
             this.produtoEditado.setor = this.setor;
+            this.produtoEditado.validade = this.validade
 
             HttpRequestUtil.editarProduto(this.produtoEditado).then(
               produtos => {}
@@ -204,7 +236,8 @@
         this.quantidade = ""
         this.imagem = ""
         this.marca = ""
-        this.setor = this.setor;
+        // this.setor = this.setor;
+        this.validade = ""
       },
 
       buscarProdutos() {
@@ -221,7 +254,8 @@
           this.quantidade == "" ||
           this.imagem == "" ||
           this.descricao == "" ||
-          this.setor == null
+          this.validade == ""
+          // this.setor == null
         ) {
           this.naoCadastrado = true;
           return false;
@@ -229,18 +263,21 @@
         return true;
       },
 
-      editarProduto(produto) {
+      editar(produto) {
         this.produtoEditado = produto;
 
+        this.nome = produto.nome
         this.valor = parseFloat(produto.valor);
+        this.marca = produto.marca;
         this.descricao = produto.descricao;
         this.quantidade = parseFloat(produto.quantidade);
         this.imagem = produto.imagem;
+        this.validade = produto.validade
       },
      
       statusProduto(produto) {
         
-      produto.produtoDisponivel = !produto.produtoDisponivel
+      produto.disponivel = !produto.disponivel
 
        HttpRequestUtil.editarProduto(produto).then(produtos => { 
          

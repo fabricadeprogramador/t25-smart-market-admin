@@ -22,6 +22,7 @@
           :expanded.sync="expanded"
         >
           <template v-slot:expanded-item="{ headers }">
+
             <td :colspan="headers.length" v-if="expanded[0] != undefined">
               <v-list-item
                 v-for="produto in expanded[0].produtos"
