@@ -1,5 +1,5 @@
 
-const API_URL = "http://localhost:3000";
+const API_URL = "http://ht-smart-market-api.herokuapp.com";
 import axios from "axios";
 
 export default {
@@ -13,7 +13,6 @@ export default {
       .post(API_URL + "/usuarios", usuario)
       .then(response => response.data);
   },
-
 
   async mudarStatus(usuario) {
     return axios.put(API_URL + "/usuarios", usuario).then(usuario => usuario.data);
@@ -74,11 +73,8 @@ export default {
     return axios.post(API_URL + "/setores", setor).then(setor => setor.data);
   },
 
-  async alterarStatus(setor) {
+  async setorStatus(setor) {
     return axios.put(API_URL + "/setores", setor).then(setor => setor.data);
   },
 
-  async removerSetor(setor) {
-    return axios.delete(API_URL + "/setores/:id", setor).then(setor => setor.data);
-  }
 };

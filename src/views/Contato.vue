@@ -1,5 +1,6 @@
 <template>
   <v-list-item-group class="mx-2 my-4">
+<<<<<<< HEAD
     <div id="divAlert"  >
       <v-alert
         
@@ -14,6 +15,13 @@
         transition="scale-transition"
       >RESPOSTA JÁ ENVIADA!</v-alert>
     </div>
+=======
+    <v-snackbar type="info" v-model="salvo" close-text="Close Alert" color="red" :top="y === 'top'">
+      RESPOSTA JÁ ENVIADA!
+      <v-btn dark text @click="salvo = false">Fechar</v-btn>
+    </v-snackbar>
+
+>>>>>>> a9d2901cdb65adf3d753e13f14e0bd63116a3eb4
     <template v-for="(item, index) in items">
       <v-list-item :key="item.cliente">
         <v-list-item-content>
@@ -71,7 +79,9 @@
                               :maxlength="max"
                               :counter="150"
                               required
-                            ></v-textarea>
+                            >
+                              <v-btn dark text @click="snackbar = false">Close</v-btn>
+                            </v-textarea>
                           </v-col>
                         </v-row>
                       </v-container>
@@ -102,10 +112,16 @@ export default {
     textoresposta: "",
     dialog: false,
     salvo: false,
+
     selected: [2],
     max: 150,
     items: [],
     indiceResposta: null,
+
+    timeout: 6000,
+
+    y: "top",
+
     respostaRules: [
       v => !!v || "Preencha o campo resposta",
       v => v.length >= 20 || "A resposta deve ter no mínimo 20 caractetes"
