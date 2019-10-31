@@ -22,13 +22,12 @@
           :expanded.sync="expanded"
         >
           <template v-slot:expanded-item="{ headers }">
-            <td :colspan="headers.length"
-               v-if="expanded[0] != undefined">
+            <td :colspan="headers.length" v-if="expanded[0] != undefined">
               <v-list-item
-                v-for="produto in expanded[0].Produtos"
+                v-for="produto in expanded[0].produtos"
                 :key="produto._id"
                 class="text-start"
-              >Produto: {{produto.nome}}, Marca:  {{produto.marca}}, Valor: R$  {{produto.valor}}, Quantidade:  {{produto.quantidade}}</v-list-item>
+              >Produto: {{produto.nome}}, Marca: {{produto.marca}}, Valor: R$ {{produto.valor}}, Quantidade: {{produto.quantidade}}</v-list-item>
             </td>
           </template>
         </v-data-table>
@@ -59,8 +58,6 @@ export default {
 
       headers: [
         { text: "Detalhes da compra", align: "left" },
-
-       
 
         {
           text: "Valor (R$)",
