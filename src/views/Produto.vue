@@ -55,6 +55,15 @@
     <v-col cols="12">
       <v-card>
         <v-list>
+         <v-col md="6">
+            <v-text-field
+          v-model="pesquisar"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+         </v-col>
           <v-list-item class="text-start title">
             <v-col md="1">
               <v-list-item-title>Nome</v-list-item-title>​
@@ -70,7 +79,7 @@
               </v-list-item-avatar>
             </v-col>
 
-            <v-col md="2">
+            <v-col md="1">
               <v-list-item-title>Valor</v-list-item-title>​
             </v-col>
 
@@ -99,7 +108,7 @@
             </v-col>
           </v-list-item>
 
-          <v-list-item v-for="produto in produtos" :key="produto.title" class="text-start">
+          <v-list-item v-for="produto in produtos" :key="produto.title" :search="pesquisar" class="text-start">
 
             <v-col md="1">
               <v-list-item-title v-text="produto.nome"></v-list-item-title>​
@@ -164,6 +173,7 @@
       descricao: "",
       setor: "",
       validade: "",
+      pesquisar: "",
       
       disponivel: "mdi-cart",
       indisponivel: "mdi-cart-off",
