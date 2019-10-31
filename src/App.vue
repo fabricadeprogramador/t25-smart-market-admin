@@ -1,5 +1,6 @@
 <template>
   <v-app id="keep">
+    <router-link to='/login'>Login</router-link>
     <v-app-bar app clipped-left color="amber">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <span class="title ml-3 mr-5">
@@ -25,6 +26,7 @@
     </v-navigation-drawer>
 
     <v-content>
+      
       <router-view />
     </v-content>
 
@@ -46,7 +48,7 @@ export default {
       {
         title: "Home",
         icon: "mdi-home",
-        route: "/"
+        route: "/home"
       },
       {
         title: "Clientes",
@@ -88,7 +90,7 @@ export default {
       {
         title: "Sair",
         icon: "mdi-exit-to-app",
-        route: "/login"
+        route: "/"
       },
     ]
   })

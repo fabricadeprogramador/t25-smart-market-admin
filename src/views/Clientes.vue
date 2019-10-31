@@ -1,18 +1,15 @@
 <template>
- 
- <div class="text-center">
+  <div class="text-center">
     <v-col cols="12">
       <v-card>
-        <v-card-title>
-          Listagem de Clientes
+        <v-card-title>Listagem de Clientes
           <div class="flex-grow-1"></div>
           <v-text-field v-model="search" label="Buscar Cliente" single-line hide-details></v-text-field>
         </v-card-title>
         <v-data-table :headers="headers" :items="clientes" :search="search"></v-data-table>
-       </v-card>
+      </v-card>
     </v-col>
   </div>
-
 </template>
 
 <script>
@@ -21,8 +18,8 @@ import HttpRequestUtil from "@/util/HttpRequestUtil";
 export default {
   data() {
     return {
-    search: "",
-    headers: [
+      search: "",
+      headers: [
         {
           text: "CPF",
           align: "left",
@@ -43,8 +40,9 @@ export default {
           value: "email"
         }
       ],
-    clientes: []
-  }},
+      clientes: []
+    };
+  },
   methods: {
     buscarTodos() {
       HttpRequestUtil.buscarClientes().then(clientes => {
