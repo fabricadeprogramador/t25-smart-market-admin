@@ -1,10 +1,27 @@
 <template>
   <v-list-item-group class="mx-2 my-4">
+<<<<<<< HEAD
+    <div id="divAlert"  >
+      <v-alert
+        
+
+        v-model="salvo"
+        border="left"
+        close-text="Close Alert"
+        class="text-center"
+        color="info"
+        dark
+        dismissible
+        transition="scale-transition"
+      >RESPOSTA JÁ ENVIADA!</v-alert>
+    </div>
+=======
     <v-snackbar type="info" v-model="salvo" close-text="Close Alert" color="red" :top="y === 'top'">
       RESPOSTA JÁ ENVIADA!
       <v-btn dark text @click="salvo = false">Fechar</v-btn>
     </v-snackbar>
 
+>>>>>>> a9d2901cdb65adf3d753e13f14e0bd63116a3eb4
     <template v-for="(item, index) in items">
       <v-list-item :key="item.cliente">
         <v-list-item-content>
@@ -117,6 +134,7 @@ export default {
           if (this.items[i].respondido) {
             // alert("Resposta já enviada anteriormente" + this.dialog);
             this.salvo = true;
+            document.getElementById("divAlert").focus()
           } else {
             (this.indiceResposta = idContato), (this.dialog = true);
           }

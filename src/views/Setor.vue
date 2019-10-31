@@ -1,23 +1,7 @@
 <template>
 <div>
-<div class="ma-12 elevation-1">
-<div class="text-center">
-  <h1>Cadastro de Setores</h1>
-</div>
-<v-form v-model="valid">
-    <v-container>
-      <v-row >
-        <v-col cols="12" md="12">
-          <v-text-field
-            v-model="name"
-            :rules="nameRules"
-            :counter="10"
-            label="Nome do Setor"
-            required
-          ></v-text-field>
-        </v-col>
-      </v-row>
-  <div>
+
+  
     <div class="ma-12 elevation-1">
       <div class="text-center">
         <h1>Cadastro de Setores</h1>
@@ -25,7 +9,7 @@
       <v-form v-model="valid">
         <v-container>
           <v-row>
-            <v-col cols="12" md="4">
+            <v-col cols="12" md="12">
               <v-text-field
                 v-model="name"
                 :rules="nameRules"
