@@ -1,7 +1,9 @@
 <template>
   <v-list-item-group class="mx-2 my-4">
-    <div>
+    <div id="divAlert"  >
       <v-alert
+        
+
         v-model="salvo"
         border="left"
         close-text="Close Alert"
@@ -116,6 +118,7 @@ export default {
           if (this.items[i].respondido) {
             // alert("Resposta já enviada anteriormente" + this.dialog);
             this.salvo = true;
+            document.getElementById("divAlert").focus()
           } else {
             (this.indiceResposta = idContato), (this.dialog = true);
           }
