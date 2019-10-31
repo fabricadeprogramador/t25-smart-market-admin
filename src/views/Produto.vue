@@ -54,109 +54,22 @@
 
     <v-col cols="12">
       <v-card>
-        <v-list>
-         <v-col md="6">
-            <v-text-field
-          v-model="pesquisar"
+       <v-card-title>
+      Lista de Produtos
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="pesquisar"
         append-icon="mdi-magnify"
-        label="Search"
+        label="Pesquisar produto"
         single-line
         hide-details
       ></v-text-field>
-         </v-col>
-          <v-list-item class="text-start title">
-            <v-col md="1">
-              <v-list-item-title>Nome</v-list-item-title>​
-            </v-col>
-
-            <v-col md="1">
-              <v-list-item-title>Marca</v-list-item-title>​
-            </v-col>
-
-            <v-col md="1" class="mb-8">
-              <v-list-item-avatar>
-                <v-list-item-title>Img</v-list-item-title>
-              </v-list-item-avatar>
-            </v-col>
-
-            <v-col md="1">
-              <v-list-item-title>Valor</v-list-item-title>​
-            </v-col>
-
-            <v-col md="2">
-              <v-list-item-title>Validade</v-list-item-title>​
-            </v-col>
-
-               <v-col md="1">
-              <v-list-item-title>Descrição</v-list-item-title>​
-            </v-col>
-
-
-            <v-col md="1" >
-              <v-list-item-title>Setor</v-list-item-title>​
-            </v-col>
-
-            <v-col md="1" >
-              <v-list-item-title>Qtd</v-list-item-title>​
-            </v-col>
-
-            <v-col md="1">
-              <v-list-item-title>Status</v-list-item-title>​
-            </v-col>
-            <v-col md="1" class="mb-8">
-              <v-list-item-title>Editar</v-list-item-title>
-            </v-col>
-          </v-list-item>
-
-          <v-list-item v-for="produto in produtos" :key="produto.title" :search="pesquisar" class="text-start">
-
-            <v-col md="1">
-              <v-list-item-title v-text="produto.nome"></v-list-item-title>​
-            </v-col>
-
-            <v-col md="1">
-              <v-list-item-title v-text="produto.marca"></v-list-item-title>​
-            </v-col>
-
-            <v-col md="1">
-              <v-list-item-avatar>
-                <v-img :src="produto.imagem"></v-img>
-              </v-list-item-avatar>
-            </v-col>
-
-            <v-col md="2">
-              <v-list-item-title>R$ {{(produto.valor)}}</v-list-item-title>​
-            </v-col>
-
-             <v-col md="2">
-              <v-list-item-title v-text="produto.validade"></v-list-item-title>​
-            </v-col>
-
-            <v-col md="1">
-              <v-list-item-title v-text="produto.descricao"></v-list-item-title>​
-            </v-col>
-
-            <v-col md="1">
-              <v-list-item-title v-text="produto.setor"></v-list-item-title>​
-            </v-col>
-
-            <v-col md="1">
-              <v-list-item-title v-text="produto.quantidade"></v-list-item-title>​
-            </v-col>
-
-            <v-col md="1">
-              <v-btn icon @click="statusProduto(produto)">
-                <v-icon v-if="produto.disponivel">{{disponivel}}</v-icon>
-                <v-icon v-else>{{indisponivel}}</v-icon>                
-              </v-btn>
-            </v-col>
-            <v-col md="1">
-              <v-btn icon @click="editar(produto)">
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-            </v-col>
-          </v-list-item>
-        </v-list>
+    </v-card-title>
+    <v-data-table
+      :headers="cabecalho"
+      :items="produtos"
+      :search="pesquisar"
+    ></v-data-table>
       </v-card>
     </v-col>
   </div>
@@ -178,7 +91,25 @@
       disponivel: "mdi-cart",
       indisponivel: "mdi-cart-off",
 
-      produtos: [],     
+      produtos: [],
+      cabecalho: [
+      {text: 'nome', align: 'center', value: 'nome', 
+      },
+      {text: 'marca', align: 'center', value: 'marca', 
+      },
+      { text: 'valor', align: 'center', value: 'valor', 
+      },
+      {text: 'quantidade', align: 'center', value: 'quantidade', 
+      },
+      {text: 'imagem', align: 'center', value: 'imagem', type:'image', 
+      },
+      {text: 'descricao', align: 'center', value: 'descricao', 
+      },
+      {text: 'setor', align: 'center', value: 'setor', 
+      },
+      { text: 'validade', align: 'center', value: 'validade', 
+      },
+      ],     
 
       produtoEditado: null,
 
@@ -231,7 +162,7 @@
       },
 
       limparCampos() {
-        this.nome
+        this.nome = ""
         this.valor = ""
         this.quantidade = ""
         this.imagem = ""
