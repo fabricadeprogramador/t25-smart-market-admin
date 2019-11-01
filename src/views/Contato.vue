@@ -117,6 +117,7 @@ export default {
           if (this.items[i].respondido) {
             // alert("Resposta já enviada anteriormente" + this.dialog);
             this.salvo = true;
+            document.getElementById("divAlert").focus()
           } else {
             (this.indiceResposta = idContato), (this.dialog = true);
           }
