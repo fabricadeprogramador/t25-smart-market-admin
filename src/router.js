@@ -17,51 +17,51 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [{
 
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
+      path: '/home',
+      name: 'Home',
+      component: Home
+    },
+    {
 
-    path: '/clientes',
-    name: 'clientes',
-    component: Clientes
-  },
-  {
-    path: '/produtos',
-    name: 'Produtos',
-    component: Produtos
-  },
-  {
-    path: '/controle',
-    name: 'Controle',
-    component: Controle
-  },
-  {
-    path: '/usuarios',
-    name: 'Usuarios',
-    component: Usuario
-  },
-  {
+      path: '/clientes',
+      name: 'clientes',
+      component: Clientes
+    },
+    {
+      path: '/produtos',
+      name: 'Produtos',
+      component: Produtos
+    },
+    {
+      path: '/controle',
+      name: 'Controle',
+      component: Controle
+    },
+    {
+      path: '/usuarios',
+      name: 'Usuarios',
+      component: Usuario
+    },
+    {
 
-    path: '/compras',
-    name: 'Compras',
-    component: Compras
-  },
-  {
-    path: '/contato',
-    name: 'Contato',
-    component: Contato
-  },
-  {
-    path: '/setores',
-    name: 'Setores',
-    component: Setor
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login
-  }
+      path: '/compras',
+      name: 'Compras',
+      component: Compras
+    },
+    {
+      path: '/contato',
+      name: 'Contato',
+      component: Contato
+    },
+    {
+      path: '/setores',
+      name: 'Setores',
+      component: Setor
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    }
   ]
 })
