@@ -69,7 +69,62 @@
       :headers="cabecalho"
       :items="produtos"
       :search="pesquisar"
-    ></v-data-table>
+    >
+    <template v-slot:top>
+      <v-toolbar flat color="white">
+        
+      
+        <v-dialog v-model="dialog" max-width="500px">
+         
+          <v-card>
+              <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field v-model="produto.nome" label="Dessert name"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+              <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-toolbar>
+    </template>
+    <!-- <template v-slot:item.action="{ item }">
+      <v-icon
+        small
+        class="mr-2"
+        @click="editar()"
+      >
+        edit
+      </v-icon>
+      <v-icon
+        small
+        @click="deleteItem(item)"
+      >
+        delete
+      </v-icon>
+    </template>
+     -->
+    </v-data-table>
       </v-card>
     </v-col>
   </div>
@@ -101,15 +156,17 @@
       },
       {text: 'quantidade', align: 'center', value: 'quantidade', 
       },
-      {text: 'imagem', align: 'center', value: 'imagem', type:'image', 
+      {text: 'imagem', align: 'center', value: 'imagem', 
       },
       {text: 'descricao', align: 'center', value: 'descricao', 
       },
       {text: 'setor', align: 'center', value: 'setor', 
       },
       { text: 'validade', align: 'center', value: 'validade', 
-
-      
+      },
+       { text: 'disponivel', align: 'center', value: 'disponivel', 
+      },
+       { text: 'editar', align: 'center', value: 'editar', 
       },
       ],     
 
@@ -136,6 +193,7 @@
             produto.imagem = this.imagem;
             produto.setor = this.setor;
             produto.quantidade = parseFloat(this.quantidade);
+            produto.descricao = this.descricao
             produto.status = this.disponivel
             produto.validade = this.validade
 
@@ -149,6 +207,7 @@
             this.produtoEditado.marca = this.marca
             this.produtoEditado.valor = parseFloat(this.valor);
             this.produtoEditado.quantidade = parseFloat(this.quantidade);
+            this.produtoEditado.descricao = this.descricao
             this.produtoEditado.imagem = this.imagem;
             this.produtoEditado.setor = this.setor;
             this.produtoEditado.validade = this.validade
@@ -167,6 +226,7 @@
         this.nome = ""
         this.valor = ""
         this.quantidade = ""
+        this.descricao = ""
         this.imagem = ""
         this.marca = ""
         // this.setor = this.setor;
@@ -185,6 +245,7 @@
           this.marca == "" ||
           this.valor == "" ||
           this.quantidade == "" ||
+          this.descricao == "" ||
           this.imagem == "" ||
           this.descricao == "" ||
           this.validade == ""
