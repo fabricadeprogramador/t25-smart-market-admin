@@ -11,67 +11,129 @@
     <div>
       <v-alert v-model="naoCadastrado" border="left" close-text="Close Alert" class="text-center" color="red" dark
         dismissible transition="scale-transition">NÃO FOI POSSÍVEL CADASTRAR O PRODUTO, PREENCHA OS CAMPOS VAZIOS!
-      </v-alert>  
+      </v-alert>
     </div>
 
     <v-form>
       <v-container>
+
         <v-row>
-            <v-col cols="12" md="6">
-              <v-text-field v-model="nome" :rules="usernameRules" :counter="100" label="Nome" required></v-text-field>
-            </v-col>    
+          <v-col cols="12" md="6">
+            <v-text-field v-model="nome" :rules="usernameRules" :counter="100" label="Nome" required></v-text-field>
+          </v-col>
 
-            <v-col cols="12" md="6">
-              <v-text-field v-model="descricao" :rules="usernameRules" :counter="100" label="Descrição" required></v-text-field>
-            </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field v-model="descricao" :rules="usernameRules" :counter="100" label="Descrição" required>
+            </v-text-field>
+          </v-col>
 
-         <v-col cols="12" md="6">
+          <v-col cols="12" md="6">
             <v-text-field v-model="marca" :rules="usernameRules" :counter="50" label="Marca" required></v-text-field>
           </v-col>
+
           <v-col cols="12" md="6">
-            <v-text-field v-model="valor" :rules="usernameRules" :counter="10" label="Valor" required type="number"></v-text-field>
+            <v-text-field v-model="valor" :rules="usernameRules" :counter="10" label="Valor" required type="number">
+            </v-text-field>
           </v-col>
+
           <v-col cols="12" md="6">
-            <v-text-field v-model="validade" :rules="usernameRules" :counter="10" label="Validade" required></v-text-field>
+            <v-text-field v-model="validade" :rules="usernameRules" :counter="10" label="Validade" required>
+            </v-text-field>
           </v-col>
+
           <v-col cols="12" md="6">
-            <v-text-field v-model="quantidade" :rules="usernameRules" label="Quantidade disponível" required type="number"></v-text-field>
+            <v-text-field v-model="quantidade" :rules="usernameRules" label="Quantidade disponível" required
+              type="number"></v-text-field>
           </v-col>
+
           <v-col class="d-flex" cols="12" sm="6">
-            <v-select v-model="setor" item-text="setor" label="setor" return-object></v-select>
+            <v-select v-model="setorSelecionado" :items="setores" item-text="name" label="Setor" return-object>
+            </v-select>
           </v-col>
+
           <v-col cols="12" md="6">
-            <v-text-field v-model="imagem" :rules="usernameRules" :counter="200" label="Link da imagem do produto" required></v-text-field>
+            <v-text-field v-model="imagem" :rules="usernameRules" :counter="200" label="Link da imagem do produto"
+              required></v-text-field>
           </v-col>
         </v-row>
-        
 
         <div class="text-center">
           <v-btn color="info" class="my-5" @click="salvar">Salvar</v-btn>
         </div>
+
       </v-container>
     </v-form>
 
     <v-col cols="12">
+
       <v-card>
-       <v-card-title>
-      Lista de Produtos
-      <v-spacer></v-spacer>
-      <v-text-field
-        v-model="pesquisar"
-        append-icon="mdi-magnify"
-        label="Pesquisar produto"
-        single-line
-        hide-details
-      ></v-text-field>
-    </v-card-title>
-    <v-data-table
-      :headers="cabecalho"
-      :items="produtos"
-      :search="pesquisar"
-    ></v-data-table>
+
+        <v-card-title>
+          Lista de Produtos
+          <v-spacer></v-spacer>
+          <v-text-field v-model="pesquisar" append-icon="mdi-magnify" label="Pesquisar produto" single-line
+            hide-details></v-text-field>
+        </v-card-title>
+
+        <v-data-table :headers="cabecalho" :items="produtos" :search="pesquisar">
+          <template v-slot:top>
+            <!-- <v-toolbar flat color="white"> -->
+
+            <!-- <v-dialog v-model="dialog" max-width="500px"> -->
+
+            <!-- <v-card>
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-text-field v-model="produto.nome" label="Dessert name"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+                    <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog> -->
+            <!-- </v-toolbar> -->
+          </template>
+
+          <!-- <template v-slot:item.action="{ item }">
+          <v-icon
+            small
+            class="mr-2"
+            @click="editar()"
+          >
+            edit
+          </v-icon>
+          <v-icon
+            small
+            @click="deleteItem(item)"
+          >
+            delete
+          </v-icon>
+        </template>
+        -->
+        </v-data-table>
       </v-card>
     </v-col>
+
   </div>
 </template>
 <script>
@@ -87,31 +149,64 @@
       setor: "",
       validade: "",
       pesquisar: "",
-      
+
       disponivel: "mdi-cart",
       indisponivel: "mdi-cart-off",
 
       produtos: [],
-      cabecalho: [
-      {text: 'nome', align: 'center', value: 'nome', 
-      },
-      {text: 'marca', align: 'center', value: 'marca', 
-      },
-      { text: 'valor', align: 'center', value: 'valor', 
-      },
-      {text: 'quantidade', align: 'center', value: 'quantidade', 
-      },
-      {text: 'imagem', align: 'center', value: 'imagem', type:'image', 
-      },
-      {text: 'descricao', align: 'center', value: 'descricao', 
-      },
-      {text: 'setor', align: 'center', value: 'setor', 
-      },
-      { text: 'validade', align: 'center', value: 'validade', 
-
-      
-      },
-      ],     
+      setores: [],
+      setorSelecionado: {},
+      cabecalho: [{
+          text: 'nome',
+          align: 'center',
+          value: 'nome',
+        },
+        {
+          text: 'marca',
+          align: 'center',
+          value: 'marca',
+        },
+        {
+          text: 'valor',
+          align: 'center',
+          value: 'valor',
+        },
+        {
+          text: 'quantidade',
+          align: 'center',
+          value: 'quantidade',
+        },
+        {
+          text: 'imagem',
+          align: 'center',
+          value: 'imagem',
+        },
+        {
+          text: 'descricao',
+          align: 'center',
+          value: 'descricao',
+        },
+        // {
+        //   text: 'setor',
+        //   align: 'center',
+        //   value: 'setor',
+        // },
+        {
+          text: 'validade',
+          align: 'center',
+          value: 'validade',
+        },
+        {
+          text: 'disponivel',
+          align: 'center',
+          value: 'disponivel',
+        },
+        // {
+        //   text: 'editar',
+        //   align: 'center',
+        //   value: 'editar',
+        // },
+      ],
 
       produtoEditado: null,
 
@@ -129,13 +224,14 @@
         if (ehvalido) {
           if (this.produtoEditado == null) {
             let produto = {};
- 
+
             produto.nome = this.nome
             produto.marca = this.marca
             produto.valor = parseFloat(this.valor);
             produto.imagem = this.imagem;
-            produto.setor = this.setor;
+            produto.setor = this.setorSelecionado;
             produto.quantidade = parseFloat(this.quantidade);
+            produto.descricao = this.descricao
             produto.status = this.disponivel
             produto.validade = this.validade
 
@@ -149,6 +245,7 @@
             this.produtoEditado.marca = this.marca
             this.produtoEditado.valor = parseFloat(this.valor);
             this.produtoEditado.quantidade = parseFloat(this.quantidade);
+            this.produtoEditado.descricao = this.descricao
             this.produtoEditado.imagem = this.imagem;
             this.produtoEditado.setor = this.setor;
             this.produtoEditado.validade = this.validade
@@ -167,6 +264,7 @@
         this.nome = ""
         this.valor = ""
         this.quantidade = ""
+        this.descricao = ""
         this.imagem = ""
         this.marca = ""
         // this.setor = this.setor;
@@ -179,12 +277,19 @@
         });
       },
 
+      buscarSetores() {
+        HttpRequestUtil.buscarSetores().then(setores => {
+          this.setores = setores;
+        });
+      },
+
       validar() {
         if (
           this.nome == "" ||
           this.marca == "" ||
           this.valor == "" ||
           this.quantidade == "" ||
+          this.descricao == "" ||
           this.imagem == "" ||
           this.descricao == "" ||
           this.validade == ""
@@ -207,19 +312,20 @@
         this.imagem = produto.imagem;
         this.validade = produto.validade
       },
-     
-      statusProduto(produto) {
-        
-      produto.disponivel = !produto.disponivel
 
-       HttpRequestUtil.editarProduto(produto).then(produtos => { 
-         
+      statusProduto(produto) {
+
+        produto.disponivel = !produto.disponivel
+
+        HttpRequestUtil.editarProduto(produto).then(produtos => {
+
         });
       }
     },
 
     mounted() {
       this.buscarProdutos();
+      this.buscarSetores();
     }
   };
 </script>
