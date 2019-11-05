@@ -17,19 +17,13 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [{
 
-<<<<<<< HEAD
-    path: '/home',
-    name: 'Home',
-    component: Home
-  },
-  {
-=======
+
       path: '/home',
       name: 'Home',
       component: Home
     },
     {
->>>>>>> 721085e620c4e51e294a49990f7cd9712b2d5d83
+
 
       path: '/clientes',
       name: 'clientes',
