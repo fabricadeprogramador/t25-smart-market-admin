@@ -91,7 +91,7 @@
             >
               <template v-slot:activator="{ on }">
                 <v-text-field
-                  v-model="date"
+                  v-model="datec"
                   label="Validade do produto:"
                   
                   readonly
