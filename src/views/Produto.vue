@@ -90,13 +90,7 @@
               width="290px"
             >
               <template v-slot:activator="{ on }">
-                <v-text-field
-                  v-model="validade"
-                  label="Validade do produto:"
-                  
-                  readonly
-                  v-on="on"
-                ></v-text-field>
+                <v-text-field v-model="validade" label="Validade do produto:" readonly v-on="on"></v-text-field>
               </template>
               <v-date-picker v-model="validade" scrollable>
                 <v-spacer></v-spacer>
@@ -158,60 +152,10 @@
         </v-card-title>
 
         <v-data-table :headers="cabecalho" :items="produtos" :search="pesquisar">
-          <template v-slot:top>
-            <!-- <v-toolbar flat color="white"> -->
-
-            <!-- <v-dialog v-model="dialog" max-width="500px"> -->
-
-            <!-- <v-card>
-                  <v-card-text>
-                    <v-container>
-                      <v-row>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="produto.nome" label="Dessert name"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                  </v-card-text>
-
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                    <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-                  </v-card-actions>
-                </v-card>
-            </v-dialog>-->
-            <!-- </v-toolbar> -->
+          <template v-slot:item.action="{ produtos }" small>
+            <v-icon v-if="item.ativo" small class="mr-2" @click="editItem(item)">{{disponivel}}</v-icon>
+            <v-icon v-else small class="mr-2" @click="chamarDialog(item)">{{indisponivel}}</v-icon>
           </template>
-
-          <!-- <template v-slot:item.action="{ item }">
-          <v-icon
-            small
-            class="mr-2"
-            @click="editar()"
-          >
-            edit
-          </v-icon>
-          <v-icon
-            small
-            @click="deleteItem(item)"
-          >
-            delete
-          </v-icon>
-        </template>
-          -->
         </v-data-table>
       </v-card>
     </v-col>
@@ -221,6 +165,7 @@
 import HttpRequestUtil from "@/util/HttpRequestUtil";
 export default {
   data: () => ({
+    ativo: true,
     nome: "",
     marca: "",
     valor: "",
@@ -281,7 +226,7 @@ export default {
       {
         text: "disponivel",
         align: "center",
-        value: "disponivel"
+        value: "action"
       }
       // {
       //   text: 'editar',
@@ -305,7 +250,7 @@ export default {
       if (ehvalido) {
         if (this.produtoEditado == null) {
           let produto = {};
-
+          produto.ativo = this.ativo
           produto.nome = this.nome;
           produto.marca = this.marca;
           produto.valor = parseFloat(this.valor);
