@@ -152,10 +152,30 @@
         </v-card-title>
 
         <v-data-table :headers="cabecalho" :items="produtos" :search="pesquisar">
-          <template v-slot:item.action="{ produtos }" small>
-            <v-icon v-if="item.ativo" small class="mr-2" @click="editItem(item)">{{disponivel}}</v-icon>
-            <v-icon v-else small class="mr-2" @click="chamarDialog(item)">{{indisponivel}}</v-icon>
+          <template v-slot:item.action="{ produto }" small>
+            <v-btn icon @click="mostrarDialog(produto)">
+              <v-icon  small class="mr-2" >{{disponivel}}</v-icon>
+              
+            </v-btn>
+            <v-row justify="center">
+              <v-dialog v-model="dialog" max-width="290">
+                <v-card>
+                  <v-card-title class="headline">Olá Admin!</v-card-title>
+
+                  <v-card-text>Deseja realmente alterar status do produto?</v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                    <v-btn color="green darken-1" text @click="dialog = false">Cancelar</v-btn>
+
+                    <v-btn color="green darken-1" text @click="statusProduto()">Aceitar</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-row>
           </template>
+          
         </v-data-table>
       </v-card>
     </v-col>
@@ -165,7 +185,7 @@
 import HttpRequestUtil from "@/util/HttpRequestUtil";
 export default {
   data: () => ({
-    ativo: true,
+    disponivel: true,
     nome: "",
     marca: "",
     valor: "",
@@ -178,6 +198,8 @@ export default {
     modal: false,
     disponivel: "mdi-cart",
     indisponivel: "mdi-cart-off",
+    dialog: false,
+    produtoStatus: null,
 
     produtos: [],
     setores: [],
@@ -250,7 +272,7 @@ export default {
       if (ehvalido) {
         if (this.produtoEditado == null) {
           let produto = {};
-          produto.ativo = this.ativo
+
           produto.nome = this.nome;
           produto.marca = this.marca;
           produto.valor = parseFloat(this.valor);
@@ -342,8 +364,28 @@ export default {
       produto.disponivel = !produto.disponivel;
 
       HttpRequestUtil.editarProduto(produto).then(produtos => {});
+    },
+
+    mostrarDialog(produto) {
+      
+      this.produtoStatus = produto
+      this.dialog = true;
+    },
+
+    statusProduto( ){
+      if(produtoStatus != null){
+        this.produtoStatus.disponivel = !this.produtoStatus.disponivel
+
+         HttpRequestUtil.mudarStatus(this.produtoStatus).then(produto => {
+          this.produtoStatus = null
+          this.buscarProdutos();
+        });
+      }
     }
+  
   },
+
+  
 
   mounted() {
     this.buscarProdutos();
