@@ -1,41 +1,24 @@
 <template>
   <div>
     <div>
-      <v-alert
-        v-model="salvo"
-        border="left"
-        close-text="Close Alert"
-        class="text-center"
-        color="info"
-        dark
-        dismissible
-        transition="scale-transition"
-      >PRODUTO CADASTRADO COM SUCESSO!</v-alert>
+      <v-snackbar type="info" v-model="salvo" close-text="Close Alert" color="info" :top="y === 'top'">
+      PRODUTO CADASTRADO COM SUCESSO
+      <v-btn dark text @click="salvo = false">Fechar</v-btn>
+    </v-snackbar>
     </div>
     <div>
-      <v-alert
-        v-model="editado"
-        border="left"
-        close-text="Close Alert"
-        class="text-center"
-        color="info"
-        dark
-        dismissible
-        transition="scale-transition"
-      >PRODUTO EDITADO COM SUCESSO!</v-alert>
+      <v-snackbar type="info" v-model="editado" close-text="Close Alert" color="info" :top="y === 'top'">
+      PRODUTO EDITADO COM SUCESSO
+      <v-btn dark text @click="editado = false">Fechar</v-btn>
+    </v-snackbar>
     </div>
     <div>
-      <v-alert
-        v-model="naoCadastrado"
-        border="left"
-        close-text="Close Alert"
-        class="text-center"
-        color="red"
-        dark
-        dismissible
-        transition="scale-transition"
-      >NÃO FOI POSSÍVEL CADASTRAR O PRODUTO, PREENCHA OS CAMPOS VAZIOS!</v-alert>
+      <v-snackbar type="info" v-model="naoCadastrado" close-text="Close Alert" color="red" :top="y === 'top'">
+      NÃO FOI POSSÍVEL CADASTRAR O PRODUTO, PREENCHA O(S) CAMPO(S) VAZIOS!
+      <v-btn dark text @click="naoCadastrado = false">Fechar</v-btn>
+    </v-snackbar>
     </div>
+    
 
     <v-form>
       <v-container>
@@ -110,7 +93,7 @@
             ></v-text-field>
           </v-col>
 
-          <v-col class="d-flex" cols="12" sm="6">
+          <v-col  cols="12" md="6">
             <v-select
               v-model="setorSelecionado"
               :items="setores"
@@ -152,9 +135,10 @@
         </v-card-title>
 
         <v-data-table :headers="cabecalho" :items="produtos" :search="pesquisar">
-          <template v-slot:item.action="{ produto }" small>
-            <v-btn icon @click="mostrarDialog(produto)">
-              <v-icon  small class="mr-2" >{{disponivel}}</v-icon>
+          <template v-slot:item.action="{ item }" small>
+            <v-btn icon @click="mostrarDialog(item)">
+              <v-icon v-if="item.disponivel" small class="mr-2" >{{disponivel}}</v-icon>
+              <v-icon v-else small class="mr-2" >{{indisponivel}}</v-icon>
               
             </v-btn>
             <v-row justify="center">
@@ -185,7 +169,7 @@
 import HttpRequestUtil from "@/util/HttpRequestUtil";
 export default {
   data: () => ({
-    disponivel: true,
+    
     nome: "",
     marca: "",
     valor: "",
@@ -262,6 +246,7 @@ export default {
     salvo: false,
     editado: false,
     naoCadastrado: false,
+    y: "top",
 
     usernameRules: [v => !!v || "Campo preenchido é obrigatório"]
   }),
@@ -282,6 +267,7 @@ export default {
           produto.descricao = this.descricao;
           produto.status = this.disponivel;
           produto.validade = this.validade;
+          produto.disponivel = true
 
           HttpRequestUtil.adicionarProduto(produto).then(produto => {
             this.produtos.push(produto);
@@ -360,20 +346,16 @@ export default {
       this.validade = produto.validade;
     },
 
-    statusProduto(produto) {
-      produto.disponivel = !produto.disponivel;
+   
 
-      HttpRequestUtil.editarProduto(produto).then(produtos => {});
-    },
-
-    mostrarDialog(produto) {
-      
-      this.produtoStatus = produto
+    mostrarDialog(item ) {
+      alert(item)
+      this.produtoStatus = item
       this.dialog = true;
     },
 
     statusProduto( ){
-      if(produtoStatus != null){
+      if(this.produtoStatus != null){
         this.produtoStatus.disponivel = !this.produtoStatus.disponivel
 
          HttpRequestUtil.mudarStatus(this.produtoStatus).then(produto => {
@@ -381,6 +363,7 @@ export default {
           this.buscarProdutos();
         });
       }
+      this.dialog = false
     }
   
   },
