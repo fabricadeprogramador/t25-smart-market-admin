@@ -157,61 +157,38 @@
           ></v-text-field>
         </v-card-title>
 
-        <v-data-table :headers="cabecalho" :items="produtos" :search="pesquisar">
-          <template v-slot:top>
-            <!-- <v-toolbar flat color="white"> -->
-
-            <!-- <v-dialog v-model="dialog" max-width="500px"> -->
-
-            <!-- <v-card>
-                  <v-card-text>
-                    <v-container>
-                      <v-row>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="produto.nome" label="Dessert name"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                  </v-card-text>
-
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                    <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-                  </v-card-actions>
-                </v-card>
-            </v-dialog>-->
-            <!-- </v-toolbar> -->
+        <v-data-table :headers="cabecalho" :items="produtos"  :search="pesquisar">
+          <template v-slot:item.imagem="{item}">
+         <v-img style="width: 100px" :src="item.imagem"></v-img>
           </template>
 
-          <!-- <template v-slot:item.action="{ item }">
-          <v-icon
-            small
-            class="mr-2"
-            @click="editar()"
-          >
-            edit
-          </v-icon>
-          <v-icon
-            small
-            @click="deleteItem(item)"
-          >
-            delete
-          </v-icon>
-        </template>
-          -->
+          <v-dialog v-model="dialog" persistent max-width="290">
+
+          <template v-slot:item.disponivel="{ on }">
+          <v-btn icon color="black" dark  @click="marcarProduto(produto)">
+          <v-icon v-if="produto.ativo">{{disponivel}}</v-icon>
+          <v-icon v-else>{{indisponivel}}</v-icon>
+          </v-btn>
+
+          <v-card>
+          <v-card-title class="headline">Deseja alterar status do Produto?</v-card-title>
+          <v-card-text>Tem certeza que deseja alterar o status do Produto?</v-card-text>
+          <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="cancelarAtivacao()">Cancelar</v-btn>
+          <v-btn color="green darken-1" text @click="alterarStatus()">Aceito</v-btn>
+          </v-card-actions>
+          </v-card>
+          </template>
+          
+          </v-dialog>                                                                                          
+
+          <template v-slot:item.editar="{ on }">
+          <v-btn icon color="black" dark  @click="editar">
+          <v-icon >{{btnEditar}}</v-icon>
+          </v-btn>
+          </template>
+         
         </v-data-table>
       </v-card>
     </v-col>
@@ -230,8 +207,14 @@ export default {
     setor: "",
     validade: "",
     pesquisar: "",
+
     date: new Date().toISOString().substr(0, 10),
+
     modal: false,
+    ativo: true,
+    dialog: false,
+
+    btnEditar: "mdi-pencil",
     disponivel: "mdi-cart",
     indisponivel: "mdi-cart-off",
 
@@ -269,11 +252,11 @@ export default {
         align: "center",
         value: "descricao"
       },
-      // {
-      //   text: 'setor',
-      //   align: 'center',
-      //   value: 'setor',
-      // },
+      {
+        text: 'setor',
+        align: 'center',
+        value: 'setor',
+      },
       {
         text: "validade",
         align: "center",
@@ -283,15 +266,16 @@ export default {
         text: "disponivel",
         align: "center",
         value: "disponivel"
-      }
-      // {
-      //   text: 'editar',
-      //   align: 'center',
-      //   value: 'editar',
-      // },
+      },
+      {
+        text: 'editar',
+        align: 'center',
+        value: 'editar',
+      },
     ],
 
     produtoEditado: null,
+    produtoAtivar: null,
 
     salvo: false,
     editado: false,
@@ -348,7 +332,7 @@ export default {
       this.descricao = "";
       this.imagem = "";
       this.marca = "";
-      // this.setor = this.setor;
+      this.setor = this.setor;
       this.validade = "";
     },
 
@@ -373,8 +357,8 @@ export default {
         this.descricao == "" ||
         this.imagem == "" ||
         this.descricao == "" ||
-        this.validade == ""
-        // this.setor == null
+        this.validade == "" ||
+        this.setor == null
       ) {
         this.naoCadastrado = true;
         return false;
@@ -394,11 +378,29 @@ export default {
       this.validade = produto.validade;
     },
 
-    statusProduto(produto) {
-      produto.disponivel = !produto.disponivel;
 
-      HttpRequestUtil.editarProduto(produto).then(produtos => {});
-    }
+    marcarProduto(produto) {
+        this.dialog = true;
+        this.produtoAtivar = produto
+      },
+
+    cancelarAtivacao() {
+        this.produtoAtivar = null
+        this.dialog = false
+      },
+  
+  alterarStatus() {
+
+        if (this.produtoAtivar != null) {
+          this.produtoAtivar.ativo = !this.produtoAtivar.ativo
+          HttpRequestUtil.produtoStatus(this.produtoAtivar).then(produtos => {
+            this.produtoAtivar = null
+          });
+
+          this.dialog = false
+
+        }
+      }
   },
 
   mounted() {

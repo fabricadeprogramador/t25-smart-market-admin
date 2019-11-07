@@ -31,6 +31,10 @@ export default {
       .post(API_URL + "/produtos", produto)
       .then(response => response.data);
   },
+
+  async produtoStatus(produto) {
+    return axios.put(API_URL + "/produtos", produto).then(produto => produto.data);
+  },
   //Compras
   async buscarCompras() {
     return axios.get(API_URL + "/compras").then(compra => compra.data);
