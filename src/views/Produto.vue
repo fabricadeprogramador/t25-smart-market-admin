@@ -1,41 +1,24 @@
 <template>
   <div>
     <div>
-      <v-alert
-        v-model="salvo"
-        border="left"
-        close-text="Close Alert"
-        class="text-center"
-        color="info"
-        dark
-        dismissible
-        transition="scale-transition"
-      >PRODUTO CADASTRADO COM SUCESSO!</v-alert>
+      <v-snackbar type="info" v-model="salvo" close-text="Close Alert" color="info" :top="y === 'top'">
+      PRODUTO CADASTRADO COM SUCESSO
+      <v-btn dark text @click="salvo = false">Fechar</v-btn>
+    </v-snackbar>
     </div>
     <div>
-      <v-alert
-        v-model="editado"
-        border="left"
-        close-text="Close Alert"
-        class="text-center"
-        color="info"
-        dark
-        dismissible
-        transition="scale-transition"
-      >PRODUTO EDITADO COM SUCESSO!</v-alert>
+      <v-snackbar type="info" v-model="editado" close-text="Close Alert" color="info" :top="y === 'top'">
+      PRODUTO EDITADO COM SUCESSO
+      <v-btn dark text @click="editado = false">Fechar</v-btn>
+    </v-snackbar>
     </div>
     <div>
-      <v-alert
-        v-model="naoCadastrado"
-        border="left"
-        close-text="Close Alert"
-        class="text-center"
-        color="red"
-        dark
-        dismissible
-        transition="scale-transition"
-      >NÃO FOI POSSÍVEL CADASTRAR O PRODUTO, PREENCHA OS CAMPOS VAZIOS!</v-alert>
+      <v-snackbar type="info" v-model="naoCadastrado" close-text="Close Alert" color="red" :top="y === 'top'">
+      NÃO FOI POSSÍVEL CADASTRAR O PRODUTO, PREENCHA O(S) CAMPO(S) VAZIOS!
+      <v-btn dark text @click="naoCadastrado = false">Fechar</v-btn>
+    </v-snackbar>
     </div>
+    
 
     <v-form>
       <v-container>
@@ -43,7 +26,6 @@
           <v-col cols="12" md="6">
             <v-text-field
               v-model="nome"
-              :rules="usernameRules"
               :counter="100"
               label="Nome"
               required
@@ -53,7 +35,6 @@
           <v-col cols="12" md="6">
             <v-text-field
               v-model="descricao"
-              :rules="usernameRules"
               :counter="100"
               label="Descrição"
               required
@@ -63,7 +44,6 @@
           <v-col cols="12" md="6">
             <v-text-field
               v-model="marca"
-              :rules="usernameRules"
               :counter="50"
               label="Marca"
               required
@@ -73,7 +53,6 @@
           <v-col cols="12" md="6">
             <v-text-field
               v-model="valor"
-              :rules="usernameRules"
               :counter="10"
               label="Valor"
               required
@@ -85,23 +64,17 @@
             <v-dialog
               ref="dialog"
               v-model="modal"
-              :return-value.sync="date"
+              :return-value.sync="validade"
               persistent
               width="290px"
             >
               <template v-slot:activator="{ on }">
-                <v-text-field
-                  v-model="date"
-                  label="Validade do produto:"
-                  
-                  readonly
-                  v-on="on"
-                ></v-text-field>
+                <v-text-field v-model="validade" label="Validade do produto:" readonly v-on="on"></v-text-field>
               </template>
-              <v-date-picker v-model="date" scrollable>
+              <v-date-picker v-model="validade" scrollable>
                 <v-spacer></v-spacer>
                 <v-btn text color="primary" @click="modal = false">Cancelar</v-btn>
-                <v-btn text color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
+                <v-btn text color="primary" @click="$refs.dialog.save(validade)">OK</v-btn>
               </v-date-picker>
             </v-dialog>
           </v-col>
@@ -109,14 +82,13 @@
           <v-col cols="12" md="6">
             <v-text-field
               v-model="quantidade"
-              :rules="usernameRules"
               label="Quantidade disponível"
               required
               type="number"
             ></v-text-field>
           </v-col>
 
-          <v-col class="d-flex" cols="12" sm="6">
+          <v-col  cols="12" md="6">
             <v-select
               v-model="setorSelecionado"
               :items="setores"
@@ -129,7 +101,6 @@
           <v-col cols="12" md="6">
             <v-text-field
               v-model="imagem"
-              :rules="usernameRules"
               :counter="200"
               label="Link da imagem do produto"
               required
@@ -139,6 +110,8 @@
 
         <div class="text-center">
           <v-btn color="info" class="my-5" @click="salvar">Salvar</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="red" @click="cancelar">Cancelar</v-btn>
         </div>
       </v-container>
     </v-form>
@@ -157,38 +130,43 @@
           ></v-text-field>
         </v-card-title>
 
-        <v-data-table :headers="cabecalho" :items="produtos"  :search="pesquisar">
-          <template v-slot:item.imagem="{item}">
-         <v-img style="width: 100px" :src="item.imagem"></v-img>
-          </template>
-
-          <v-dialog v-model="dialog" persistent max-width="290">
-
-          <template v-slot:item.disponivel="{ on }">
-          <v-btn icon color="black" dark  @click="marcarProduto(produto)">
-          <v-icon v-if="produto.ativo">{{disponivel}}</v-icon>
-          <v-icon v-else>{{indisponivel}}</v-icon>
-          </v-btn>
-
-          <v-card>
-          <v-card-title class="headline">Deseja alterar status do Produto?</v-card-title>
-          <v-card-text>Tem certeza que deseja alterar o status do Produto?</v-card-text>
-          <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="cancelarAtivacao()">Cancelar</v-btn>
-          <v-btn color="green darken-1" text @click="alterarStatus()">Aceito</v-btn>
-          </v-card-actions>
-          </v-card>
-          </template>
-          
-          </v-dialog>                                                                                          
+         
+        <v-data-table :headers="cabecalho" :items="produtos" :search="pesquisar">
 
           <template v-slot:item.editar="{ on }">
-          <v-btn icon color="black" dark  @click="editar">
+          <v-btn icon color="black"  @click="editar">
           <v-icon >{{btnEditar}}</v-icon>
           </v-btn>
           </template>
-         
+
+          <template v-slot:item.imagem="{ item }">
+          <v-img :src="item.imagem" style="width: 100px"></v-img>
+          </template>
+
+          <template v-slot:item.action="{ item }" >
+            <v-btn icon color="black" @click="mostrarDialog(item)">
+              <v-icon v-if="item.disponivel" >{{disponivel}}</v-icon>
+              <v-icon v-else >{{indisponivel}}</v-icon>
+            </v-btn>
+            <v-row justify="center">
+              <v-dialog v-model="dialog" max-width="290">
+                <v-card>
+                  <v-card-title class="headline">Olá Admin!</v-card-title>
+
+                  <v-card-text>Deseja realmente alterar status do produto?</v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                    <v-btn color="green darken-1" text @click="dialog = false">Cancelar</v-btn>
+
+                    <v-btn color="green darken-1" text @click="statusProduto()">Aceitar</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-row>
+          </template>
+          
         </v-data-table>
       </v-card>
     </v-col>
@@ -198,6 +176,7 @@
 import HttpRequestUtil from "@/util/HttpRequestUtil";
 export default {
   data: () => ({
+    
     nome: "",
     marca: "",
     valor: "",
@@ -208,8 +187,6 @@ export default {
     validade: "",
     pesquisar: "",
 
-    date: new Date().toISOString().substr(0, 10),
-
     modal: false,
     ativo: true,
     dialog: false,
@@ -217,6 +194,8 @@ export default {
     btnEditar: "mdi-pencil",
     disponivel: "mdi-cart",
     indisponivel: "mdi-cart-off",
+    dialog: false,
+    produtoStatus: null,
 
     produtos: [],
     setores: [],
@@ -265,7 +244,7 @@ export default {
       {
         text: "disponivel",
         align: "center",
-        value: "disponivel"
+        value: "action"
       },
       {
         text: 'editar',
@@ -280,8 +259,8 @@ export default {
     salvo: false,
     editado: false,
     naoCadastrado: false,
+    y: "top",
 
-    usernameRules: [v => !!v || "Campo preenchido é obrigatório"]
   }),
   methods: {
     salvar() {
@@ -300,6 +279,7 @@ export default {
           produto.descricao = this.descricao;
           produto.status = this.disponivel;
           produto.validade = this.validade;
+          produto.disponivel = true
 
           HttpRequestUtil.adicionarProduto(produto).then(produto => {
             this.produtos.push(produto);
@@ -378,29 +358,34 @@ export default {
       this.validade = produto.validade;
     },
 
+    mostrarDialog(item ) {
+      this.produtoStatus = item
+      this.dialog = true;
+    },
 
-    marcarProduto(produto) {
-        this.dialog = true;
-        this.produtoAtivar = produto
-      },
+    statusProduto( ){
+      if(this.produtoStatus != null){
+        this.produtoStatus.disponivel = !this.produtoStatus.disponivel
 
-    cancelarAtivacao() {
-        this.produtoAtivar = null
-        this.dialog = false
-      },
-  
-  alterarStatus() {
-
-        if (this.produtoAtivar != null) {
-          this.produtoAtivar.ativo = !this.produtoAtivar.ativo
-          HttpRequestUtil.produtoStatus(this.produtoAtivar).then(produtos => {
-            this.produtoAtivar = null
-          });
-
-          this.dialog = false
-
-        }
+         HttpRequestUtil.mudarStatus(this.produtoStatus).then(produto => {
+          this.produtoStatus = null
+          this.buscarProdutos();
+        });
       }
+      this.dialog = false
+    },
+  
+    cancelar(){
+        this.nome = "" 
+        this.marca = "" 
+        this.valor = "" 
+        this.quantidade = "" 
+        this.descricao = "" 
+        this.imagem = "" 
+        this.descricao = "" 
+        this.validade = "" 
+        this.setor = ""
+    }
   },
 
   mounted() {
