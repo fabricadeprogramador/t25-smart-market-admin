@@ -1,5 +1,5 @@
 <template>
-  <v-app id="keep" v-if="logado">
+  <v-app id="keep" v-if="true">
     <v-app-bar app clipped-left color="amber">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <span class="title ml-3 mr-5">

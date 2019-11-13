@@ -1,5 +1,5 @@
 
-const API_URL = "http://ht-smart-market-api.herokuapp.com";
+const API_URL = "http://localhost:3000";
 import axios from "axios";
 
 export default {
@@ -30,6 +30,10 @@ export default {
     return axios
       .post(API_URL + "/produtos", produto)
       .then(response => response.data);
+  },
+
+  async mudarStatus(produto) {
+    return axios.put(API_URL + "/produtos", produto).then(produto => produto.data);
   },
   //Compras
   async buscarCompras() {
