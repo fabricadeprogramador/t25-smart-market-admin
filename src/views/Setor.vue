@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
     <div class="ma-12 elevation-1">
       <div class="text-center">
         <h1>Cadastro de Setores</h1>
@@ -9,9 +7,50 @@
       <v-form v-model="valid">
         <v-container>
           <v-row>
-            <v-col cols="12" md="12">
-              <v-text-field v-model="name" :rules="nameRules" :counter="10" label="Nome do Setor" required>
-              </v-text-field>
+            <!-- Coluna label de nome do setor-->
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="name"
+                :rules="nameRules"
+                :counter="10"
+                label="Nome do Setor"
+                required
+              ></v-text-field>
+            </v-col>
+
+            <!-- Coluna select de imagens -->
+
+            <v-col cols="12" md="6 ">
+              <v-dialog v-model="dialog" persistent max-width="500">
+                <template v-slot:activator="{ on }">
+                  <v-hover v-slot:default="{ hover }">
+                    <v-card :elevation="hover ? 12 : 2" style="padding: 5px 10px" v-on="on">
+                      <v-card-text style="font-size: 12pt; color: gray; padding: 8px 0px;">
+                        Selecione uma imagem
+                        <v-icon style="padding: 0px 0px 0px 210px;">mdi-image-size-select-actual</v-icon>
+                      </v-card-text>
+                    </v-card>
+                  </v-hover>
+                </template>
+                <v-card>
+                  <v-card style="margin-top: 20px;">
+                    <v-img src="https://cdn-statics.engenhariae.com.br/wp-content/uploads/2018/05/game-matem%C3%A1tica.jpg" height="150px"></v-img>
+                  </v-card>
+
+                  <v-card style="margin-top: 20px;">
+                    <v-img src="https://abrilcasa.files.wordpress.com/2019/04/gourmand-brastemp.png?w=1024" height="150px"></v-img>
+                  </v-card>
+
+                  <v-card style="margin-top: 20px;">
+                    <v-img src="https://abrilexame.files.wordpress.com/2018/10/iphone-xs-max.png" height="150px"></v-img>
+                  </v-card>
+
+                  <v-card style="margin-top: 20px;">
+                    <v-img src="http://www.folhadoms.com.br/images/ms-supermercado.jpg" height="150px"></v-img>
+                  </v-card>
+        
+                </v-card>
+              </v-dialog>
             </v-col>
           </v-row>
 
@@ -33,12 +72,12 @@
             <v-list-item-title md="2">SETOR</v-list-item-title>
           </v-list-item>
 
-
           <v-list-item v-for="setor in setores" :key="setor._id">
             <v-col md="11">
               <v-list-item-title>{{setor.name}}</v-list-item-title>​
             </v-col>
 
+            <!-- Diálogo do confirmação do botão -->
             <v-list-item-action>
               <v-dialog v-model="dialog" persistent max-width="290">
                 <template v-slot:activator="{ on }">
@@ -66,67 +105,71 @@
 </template>
 
 <script>
-  import HttpRequestUtil from "@/util/HttpRequestUtil";
+import HttpRequestUtil from "@/util/HttpRequestUtil";
 
-  export default {
+export default {
+  data: () => ({
+    valid: false,
+    dialog: false,
+    //icones
+    ativado: "mdi-check-bold",
+    desativado: "mdi-cancel",
 
-    data: () => ({
-      valid: false,
-      dialog: false,
-      ativado: "mdi-check-bold",
-      desativado: "mdi-cancel",
-      ativo: true,
-      name: "",
-      setorAtivar: null,
-      setores: [],
-      nameRules: [
-        v => !!v || "Nome do setor é obrigatório!",
-        v => v.length <= 10 || "O nome do setor deve ter menos de 10 caracteres"
-      ]
-    }),
-    methods: {
-      salvar() {
-        let setor = {};
-        setor.ativo = this.ativo;
-        setor.name = this.name;
+    ativo: true,
+    name: "",
+    imagem: "",
+    setorAtivar: null,
+    //Arrays
+    setores: [],
+    //Objeto
+    imagens: ["Ola", "blz"],
+    nameRules: [
+      v => !!v || "Nome do setor é obrigatório!",
+      v => v.length <= 10 || "O nome do setor deve ter menos de 10 caracteres"
+    ]
+  }),
+  methods: {
+    salvar() {
+      let setor = {};
+      setor.ativo = this.ativo;
+      setor.name = this.name;
+      setor.imagem = this.imagem;
 
-        HttpRequestUtil.salvarSetor(setor).then(response => {
-          this.setores.push(response);
-        });
-      },
-      buscarTodos() {
-        HttpRequestUtil.buscarSetores().then(setores => {
-          this.setores = setores;
-        });
-      },
-
-      marcarAtivar(setor) {
-        this.dialog = true;
-        this.setorAtivar = setor
-      },
-
-      cancelarAtivacao() {
-        this.setorAtivar = null
-        this.dialog = false
-      },
-
-      alterarStatus() {
-
-        if (this.setorAtivar != null) {
-          this.setorAtivar.ativo = !this.setorAtivar.ativo
-          HttpRequestUtil.setorStatus(this.setorAtivar).then(setores => {
-            this.setorAtivar = null
-          });
-
-          this.dialog = false
-
-        }
-      }
+      HttpRequestUtil.salvarSetor(setor).then(response => {
+        this.setores.push(response);
+      });
     },
-    mounted() {
-      this.buscarTodos();
+    buscarTodos() {
+      HttpRequestUtil.buscarSetores().then(setores => {
+        this.setores = setores;
+      });
+    },
+
+    marcarAtivar(setor) {
+      this.dialog = true;
+      this.setorAtivar = setor;
+    },
+
+    cancelarAtivacao() {
+      this.setorAtivar = null;
+      this.dialog = false;
+    },
+
+    alterarStatus() {
+      if (this.setorAtivar != null) {
+        this.setorAtivar.ativo = !this.setorAtivar.ativo;
+        HttpRequestUtil.setorStatus(this.setorAtivar).then(setores => {
+          this.setorAtivar = null;
+        });
+
+        this.dialog = false;
+      }
     }
-  };
+  },
+  mounted() {
+    this.buscarTodos();
+  }
+};
 </script>
 
 <style>
