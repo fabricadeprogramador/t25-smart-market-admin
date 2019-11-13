@@ -1,7 +1,5 @@
 <template>
-<div>
-
-  
+  <div>
     <div class="ma-12 elevation-1">
       <div class="text-center">
         <h1>Cadastro de Setores</h1>
@@ -38,8 +36,7 @@
             <v-list-item-title md="2">SETOR</v-list-item-title>
           </v-list-item>
 
-
-          <v-list-item v-for="setor in setores" :key="setor.title">
+          <v-list-item v-for="setor in setores" :key="setor._id">
             <v-col md="11">
               <v-list-item-title>{{setor.name}}</v-list-item-title>​
             </v-col>
@@ -47,7 +44,7 @@
             <v-list-item-action>
               <v-dialog v-model="dialog" persistent max-width="290">
                 <template v-slot:activator="{ on }">
-                  <v-btn icon  color="primary" dark v-on="on">
+                  <v-btn icon color="primary" dark v-on="on">
                     <v-icon v-if="setor.ativo" color="green">{{ativado}}</v-icon>
                     <v-icon v-else color="grey">{{desativado}}</v-icon>
                   </v-btn>
@@ -57,8 +54,8 @@
                   <v-card-text>Tem certeza que deseja alterar o status do Setor?</v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="green darken-1" text @click="dialog = false" >Cancelar</v-btn>
-                    <v-btn color="green darken-1" text @click="dialog = false & alterarStatus(setor)">Aceito</v-btn>
+                    <v-btn color="green darken-1" text @click="dialog = false">Cancelar</v-btn>
+                    <v-btn color="green darken-1" text @click="alterarStatus(setor)">Aceito</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -74,7 +71,6 @@
 import HttpRequestUtil from "@/util/HttpRequestUtil";
 
 export default {
-
   data: () => ({
     valid: false,
     dialog: false,
@@ -106,9 +102,9 @@ export default {
 
     alterarStatus(setor) {
       setor.ativo = !setor.ativo;
-
-
+      this.dialog = false;
       HttpRequestUtil.setorStatus(setor).then(setores => {});
+      alert(setor.name);
     }
   },
   mounted() {

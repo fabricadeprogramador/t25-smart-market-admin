@@ -1,4 +1,4 @@
-<template>
+<template v-else>
     <v-app id="inspire">
         <v-container class="fill-height" fluid>
           <v-row align="center" justify="center">
