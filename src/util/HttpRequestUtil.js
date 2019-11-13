@@ -62,9 +62,9 @@ export default {
   },
 
   //Login
-  async autenticar() {
+  async autenticar(usuario) {
     return axios
-      .post(API_URL + "/autenticar", autenticar)
+      .post(API_URL + "/autenticar", usuario)
       .then(autenticar => autenticar.data);
   },
 
