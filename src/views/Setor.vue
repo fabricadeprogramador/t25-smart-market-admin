@@ -7,21 +7,21 @@
       <v-form v-model="valid">
         <v-container>
           <v-row>
-            <!-- Coluna label de nome do setor-->
+
+            <!-- Coluna Input de nome do setor-->
             <v-col cols="12" md="6">
               <v-text-field
                 v-model="name"
                 :rules="nameRules"
-                :counter="10"
+                :counter="20"
                 label="Nome do Setor"
                 required
               ></v-text-field>
             </v-col>
 
-            <!-- Coluna select de imagens -->
-
+            <!-- Coluna Dialog de imagens -->
             <v-col cols="12" md="6 ">
-              <v-dialog v-model="dialog" persistent max-width="500">
+              <v-dialog v-model="dialogImage" persistent max-width="500">
                 <template v-slot:activator="{ on }">
                   <v-hover v-slot:default="{ hover }">
                     <v-card :elevation="hover ? 12 : 2" style="padding: 5px 10px" v-on="on">
@@ -32,37 +32,58 @@
                     </v-card>
                   </v-hover>
                 </template>
-                <v-card>
-                  <v-card style="margin-top: 20px;">
-                    <v-img src="https://cdn-statics.engenhariae.com.br/wp-content/uploads/2018/05/game-matem%C3%A1tica.jpg" height="150px"></v-img>
+                <v-card class="pb-4">
+
+                  <!-- Card do dialog -->
+                  <div class="text-center pt-4">
+                    <v-icon style="margin: 0px 0px 0px 430px" @click="cancelarImage()">
+                      mdi-close-circle
+                    </v-icon>
+                    <h1>Selecione uma imagem</h1>
+                  </div>
+                  <v-card style="margin: 20px 10px 0px;">
+                    <v-img
+                      src="https://cdn-statics.engenhariae.com.br/wp-content/uploads/2018/05/game-matem%C3%A1tica.jpg"
+                      height="150px"
+                    ></v-img>
                   </v-card>
 
-                  <v-card style="margin-top: 20px;">
-                    <v-img src="https://abrilcasa.files.wordpress.com/2019/04/gourmand-brastemp.png?w=1024" height="150px"></v-img>
+                  <v-card style="margin: 20px 10px 0px;">
+                    <v-img
+                      src="https://abrilcasa.files.wordpress.com/2019/04/gourmand-brastemp.png?w=1024"
+                      height="150px"
+                    ></v-img>
                   </v-card>
 
-                  <v-card style="margin-top: 20px;">
-                    <v-img src="https://abrilexame.files.wordpress.com/2018/10/iphone-xs-max.png" height="150px"></v-img>
+                  <v-card style="margin: 20px 10px 0px;">
+                  <v-img
+                    src="https://abrilexame.files.wordpress.com/2018/10/iphone-xs-max.png"
+                    height="150px"
+                  ></v-img>
                   </v-card>
 
-                  <v-card style="margin-top: 20px;">
-                    <v-img src="http://www.folhadoms.com.br/images/ms-supermercado.jpg" height="150px"></v-img>
+                  <v-card style="margin: 20px 10px 0px;">
+                    <v-img
+                      src="http://www.folhadoms.com.br/images/ms-supermercado.jpg"
+                      height="150px"
+                    ></v-img>
                   </v-card>
-        
                 </v-card>
               </v-dialog>
             </v-col>
           </v-row>
 
           <div class="text-center">
-            <v-btn color="info" class="my-5" @click="salvar">Salvar</v-btn>
+            <v-btn color="red" style="color: white" @click="cancelarCampos">Cancelar</v-btn>
+            <v-btn color="info" class="my-5 ml-5" @click="salvar">Salvar</v-btn>
           </div>
         </v-container>
       </v-form>
     </div>
+
+    <!--Lista de setores-->
     <div class="ma-12 elevation-1">
       <v-card>
-        <!--Lista de setores-->
         <v-list class="pa-12">
           <div class="text-center">
             <h1>Setores</h1>
@@ -77,9 +98,9 @@
               <v-list-item-title>{{setor.name}}</v-list-item-title>​
             </v-col>
 
-            <!-- Diálogo do confirmação do botão -->
+            <!-- Dialog de confirmação -->
             <v-list-item-action>
-              <v-dialog v-model="dialog" persistent max-width="290">
+              <v-dialog v-model="dialogAtivacao" persistent max-width="290">
                 <template v-slot:activator="{ on }">
                   <v-btn icon color="primary" dark v-on="on" @click="marcarAtivar(setor)">
                     <v-icon v-if="setor.ativo" color="green">{{ativado}}</v-icon>
@@ -110,35 +131,64 @@ import HttpRequestUtil from "@/util/HttpRequestUtil";
 export default {
   data: () => ({
     valid: false,
-    dialog: false,
-    //icones
+    dialogAtivacao: false,
+    dialogImage: false,
+
+    //Icones
     ativado: "mdi-check-bold",
     desativado: "mdi-cancel",
 
+    //Variáveis do setor
     ativo: true,
     name: "",
     imagem: "",
     setorAtivar: null,
+    salvo: false,
+
     //Arrays
     setores: [],
-    //Objeto
-    imagens: ["Ola", "blz"],
+
     nameRules: [
       v => !!v || "Nome do setor é obrigatório!",
-      v => v.length <= 10 || "O nome do setor deve ter menos de 10 caracteres"
+      v => v.length <= 20 || "O nome do setor deve ter menos de 20 caracteres"
     ]
   }),
   methods: {
     salvar() {
-      let setor = {};
-      setor.ativo = this.ativo;
-      setor.name = this.name;
-      setor.imagem = this.imagem;
+      let valido = this.validarCampos();
 
-      HttpRequestUtil.salvarSetor(setor).then(response => {
-        this.setores.push(response);
-      });
+      if (valido) {
+        if (this.setorEditado == null) {
+          let setor = {};
+          setor.ativo = this.ativo;
+          setor.name = this.name;
+          setor.imagem = this.imagem;
+
+          HttpRequestUtil.salvarSetor(setor).then(response => {
+            this.setores.push(response);
+          });
+        }
+      }
     },
+
+    validarCampos() {
+      if (
+        this.name == "" ||
+        this.setores.name & (this.imagem == "") ||
+        this.setores.imagem
+      ) {
+        return false;
+      }
+      return true;
+    },
+
+    editar(setor) {
+      this.setorEditado = setor;
+
+      this.name = setor.name;
+      this.imagem = setor.imagem;
+    },
+
     buscarTodos() {
       HttpRequestUtil.buscarSetores().then(setores => {
         this.setores = setores;
@@ -146,13 +196,21 @@ export default {
     },
 
     marcarAtivar(setor) {
-      this.dialog = true;
+      this.dialogAtivacao = true;
       this.setorAtivar = setor;
+    },
+
+    cancelarCampos() {
+      this.name = ""
+    },
+
+    cancelarImage() {
+      this.dialogImage = false;
     },
 
     cancelarAtivacao() {
       this.setorAtivar = null;
-      this.dialog = false;
+      this.dialogAtivacao = false;
     },
 
     alterarStatus() {
@@ -162,7 +220,7 @@ export default {
           this.setorAtivar = null;
         });
 
-        this.dialog = false;
+        this.dialogAtivacao = false;
       }
     }
   },
