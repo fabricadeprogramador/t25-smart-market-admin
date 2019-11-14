@@ -43,29 +43,33 @@
                   </div>
                   <v-card style="margin: 20px 10px 0px;">
                     <v-img
-                      src="https://cdn-statics.engenhariae.com.br/wp-content/uploads/2018/05/game-matem%C3%A1tica.jpg"
+                      :src="img1"
                       height="150px"
+                      @click="selecionarImage(img1)"
                     ></v-img>
                   </v-card>
 
                   <v-card style="margin: 20px 10px 0px;">
                     <v-img
-                      src="https://abrilcasa.files.wordpress.com/2019/04/gourmand-brastemp.png?w=1024"
+                      :src="img2"
                       height="150px"
+                      @click="selecionarImage(img2)"
                     ></v-img>
                   </v-card>
 
                   <v-card style="margin: 20px 10px 0px;">
                   <v-img
-                    src="https://abrilexame.files.wordpress.com/2018/10/iphone-xs-max.png"
+                    :src="img3"
                     height="150px"
+                    @click="selecionarImage(img3)"
                   ></v-img>
                   </v-card>
 
                   <v-card style="margin: 20px 10px 0px;">
                     <v-img
-                      src="http://www.folhadoms.com.br/images/ms-supermercado.jpg"
+                      :src="img4"
                       height="150px"
+                      @click="selecionarImage(img4)"
                     ></v-img>
                   </v-card>
                 </v-card>
@@ -134,6 +138,12 @@ export default {
     dialogAtivacao: false,
     dialogImage: false,
 
+    //Imagens
+    img1: "https://cdn-statics.engenhariae.com.br/wp-content/uploads/2018/05/game-matem%C3%A1tica.jpg",
+    img2: "https://abrilcasa.files.wordpress.com/2019/04/gourmand-brastemp.png?w=1024",
+    img3: "https://abrilexame.files.wordpress.com/2018/10/iphone-xs-max.png",
+    img4: "http://www.folhadoms.com.br/images/ms-supermercado.jpg",
+
     //Icones
     ativado: "mdi-check-bold",
     desativado: "mdi-cancel",
@@ -180,6 +190,11 @@ export default {
         return false;
       }
       return true;
+    },
+
+    selecionarImage(image) {
+      this.imagem = image;
+      this.dialogImage = false;
     },
 
     editar(setor) {
