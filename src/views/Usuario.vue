@@ -48,11 +48,9 @@
             <h1>Usuários</h1>
           </div>
           <v-list-item flat class="title">
-            <v-list-item-title>NOME:</v-list-item-title>
+            <v-list-item-title>NOME</v-list-item-title>
 
-            <v-list-item-title>TIPO:</v-list-item-title>
-
-            <v-list-item-title>EXCLUIR PRODUTO:</v-list-item-title>
+            <v-list-item-title>TIPO</v-list-item-title>
           </v-list-item>
 
           <v-list-item v-for="usuario in usuarios" :key="usuario._id">
@@ -72,24 +70,24 @@
             </v-list-item-action>
 
             <template>
-              <v-row justify="center">
-                <v-dialog v-model="dialog" max-width="290">
-                  <v-card>
-                    <v-card-title class="headline">Olá Admin!</v-card-title>
+                  <v-row justify="center">
+                    <v-dialog v-model="dialog" max-width="290">
+                      <v-card>
+                        <v-card-title class="headline">Olá Admin!</v-card-title>
 
-                    <v-card-text>Deseja realmente alterar status do usuário?</v-card-text>
+                        <v-card-text>Deseja realmente alterar status do usuário?</v-card-text>
 
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
 
-                      <v-btn color="green darken-1" text @click="dialog = false">Cancelar</v-btn>
+                          <v-btn color="green darken-1" text @click="dialog = false">Cancelar</v-btn>
 
-                      <v-btn color="green darken-1" text @click="statusUsuario()">Aceitar</v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-              </v-row>
-            </template>
+                          <v-btn color="green darken-1" text @click="statusUsuario()">Aceitar</v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </v-row>
+                </template>
           </v-list-item>
         </v-list>
       </v-card>
@@ -144,21 +142,22 @@ export default {
     },
 
     mostrarDialog(usuario) {
-      this.usuarioStatus = usuario;
+      this.usuarioStatus = usuario
       this.dialog = true;
     },
 
     statusUsuario() {
-      if (this.usuarioStatus != null) {
-        this.usuarioStatus.ativo = !this.usuarioStatus.ativo;
 
+      if(this.usuarioStatus != null){
+        this.usuarioStatus.ativo = !this.usuarioStatus.ativo
+  
         HttpRequestUtil.mudarStatus(this.usuarioStatus).then(usuario => {
-          this.usuarioStatus = null;
+          this.usuarioStatus = null
           this.buscarTodos();
         });
       }
 
-      this.dialog = false;
+      this.dialog = false
     }
   },
 
