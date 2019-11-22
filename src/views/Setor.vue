@@ -27,7 +27,18 @@
                     <v-card :elevation="hover ? 12 : 2" style="padding: 5px 10px" v-on="on">
                       <v-card-text style="font-size: 12pt; color: gray; padding: 8px 0px;">
                         Selecione uma imagem
-                        <v-icon style="padding: 0px 0px 0px 210px;">mdi-image-size-select-actual</v-icon>
+                        <v-icon 
+                          v-if="imgAtiva"
+                          style="padding: 0px 0px 0px 210px;"
+                          >
+                          mdi-check
+                        </v-icon>
+                        <v-icon 
+                          v-else
+                          style="padding: 0px 0px 0px 210px;"
+                        >
+                          mdi-image-size-select-actual
+                        </v-icon>
                       </v-card-text>
                     </v-card>
                   </v-hover>
@@ -137,6 +148,7 @@ export default {
     valid: false,
     dialogAtivacao: false,
     dialogImage: false,
+    imgAtiva: false,
 
     //Imagens
     img1: "https://cdn-statics.engenhariae.com.br/wp-content/uploads/2018/05/game-matem%C3%A1tica.jpg",
@@ -195,6 +207,7 @@ export default {
     selecionarImage(image) {
       this.imagem = image;
       this.dialogImage = false;
+      this.imgAtiva = true;
     },
 
     editar(setor) {
