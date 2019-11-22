@@ -1,5 +1,5 @@
 <template>
-  <v-app id="keep" v-if="true">
+  <v-app id="keep" v-if="logado">
     <v-app-bar app clipped-left color="amber">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <span class="title ml-3 mr-5">
@@ -8,6 +8,7 @@
       </span>
 
       <v-spacer></v-spacer>
+      <v-icon @click="logout">mdi-exit-to-app</v-icon>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app clipped color="grey lighten-4">
@@ -127,11 +128,6 @@ export default {
         title: "Setores",
         icon: "mdi-apps-box",
         route: "/setores"
-      },
-      {
-        title: "Sair",
-        icon: "mdi-exit-to-app",
-        route: "/"
       }
     ]
   }),
@@ -156,7 +152,25 @@ export default {
           alert("Usuário e/ou senha inválidos");
         }
       });
+    },
+    logout() {
+      localStorage.removeItem("logado");
+      this.logado = false;
+    },
+    buscarUsuarioLS() {
+      let lsUsuario = null;
+      lsUsuario = localStorage.getItem("logado");
+      if (lsUsuario == null) {
+        this.logado = false
+      }else{
+        this.logado = true
+      }
+      
     }
+  }
+  ,
+  mounted() {
+    this.buscarUsuarioLS();
   }
 };
 </script>
