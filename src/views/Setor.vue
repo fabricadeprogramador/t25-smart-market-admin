@@ -25,10 +25,14 @@
                 <template v-slot:activator="{ on }">
                   <v-hover v-slot:default="{ hover }">
                     <v-card :elevation="hover ? 12 : 2" style="padding: 5px 10px" v-on="on">
-                      <div v-if="imgAtiva">
-                        <span class="green--text">Imagem selecionada</span>
-                        <v-img :src="imagem" style="margin: 0px 0px 0px 200px;" height="30" width="30"></v-img>
-                      </div>
+                      <v-row justify="center" v-if="imgAtiva">
+                        <v-col cols="6" class="pa-0">
+                          <span class="green--text">Imagem selecionada</span>
+                        </v-col>
+                        <v-col cols="6" class="pa-0">
+                          <v-img :src="imagem" height="30" width="30" style="margin: 0px 0px 0px 180px;"></v-img>
+                        </v-col>
+                      </v-row>
                       <div v-else>
                         <span>Selecione uma imagem</span>
                         <v-icon style="padding: 0px 0px 0px 210px;">mdi-image-size-select-actual</v-icon>
