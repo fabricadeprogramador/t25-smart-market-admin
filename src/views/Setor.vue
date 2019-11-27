@@ -8,6 +8,7 @@
       <v-form v-model="valid">
         <v-container>
           <v-row>
+          
             <!-- Coluna Input de nome do setor-->
             <v-col cols="12" md="6">
               <v-text-field
@@ -24,23 +25,24 @@
               <v-menu transition="slide-x-reverse-transition">
                 <template v-slot:activator="{ on }">
                   <v-hover v-slot:default="{ hover }">
-                    <v-card :elevation="hover ? 12 : 2" height="50" v-on="on">
-                      <div v-if="imgAtiva">
-                        <span class="green--text">Imagem selecionada</span>
-                        <v-img :src="imagem" height="30" width="30"></v-img>
+                    <v-card :elevation="hover ? 12 : 2" height="50" class="pa-3" v-on="on">
+                      <div v-if="imgAtiva" class="d-flex" flat tile>
+                        <div outlined tile width="200" ><p class="green--text">Imagem selecionada</p></div>
+                        <div outlined tile width="200"><v-img :src="imagem" style="margin: 3px 0px 0px 230px" height="20" width="20"></v-img></div>
                       </div>
-                      <div v-else>
+                      <div v-else class="d-flex" flat tile>
                         <span>Selecione uma imagem</span>
                         <v-icon style="padding: 0px 0px 0px 210px;">mdi-image-size-select-actual</v-icon>
                       </div>
                     </v-card>
                   </v-hover>
                 </template>
+
                 <!-- Lista de Imagens -->
-                <v-card width="450" class="pa-4" >
-                    <div class="text-center">
-                      <h1>Selecione uma imagem</h1>
-                    </div>
+                <v-card width="450" class="pa-4">
+                  <div class="text-center">
+                    <h1>Selecione uma imagem</h1>
+                  </div>
                   <div v-for="imagem in imagens" :key="imagem">
                     <v-hover v-slot:default="{ hover }">
                       <v-col cols="12">
@@ -55,15 +57,16 @@
             </v-col>
           </v-row>
 
+          <!-- Botoẽs -->
           <div class="text-center">
-            <v-btn color="red" style="color: white" @click="cancelarCampos">Cancelar</v-btn>
+            <v-btn color="red" class="white--text" @click="cancelarCampos">Cancelar</v-btn>
             <v-btn color="info" class="my-5 ml-5" @click="salvar">Salvar</v-btn>
           </div>
         </v-container>
       </v-form>
     </div>
 
-    <!--Lista de setores-->
+    <!--Lista de setores cadastrados-->
     <div class="ma-12 elevation-1">
       <v-card>
         <v-list class="pa-12">
@@ -199,6 +202,9 @@ export default {
 
     cancelarCampos() {
       this.name = "";
+      this.imagem = "";
+      this.imgAtiva = false;
+
     },
 
     cancelarAtivacao() {
