@@ -204,7 +204,6 @@ export default {
       this.name = "";
       this.imagem = "";
       this.imgAtiva = false;
-
     },
 
     cancelarAtivacao() {
