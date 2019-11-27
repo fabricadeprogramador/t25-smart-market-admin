@@ -162,6 +162,7 @@ export default {
             this.setores.push(response);
           });
         }
+        this.cancelarCampos()
       }
     },
 
