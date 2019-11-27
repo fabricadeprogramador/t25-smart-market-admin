@@ -19,15 +19,15 @@
               ></v-text-field>
             </v-col>
 
-            <!-- Coluna Dialog de imagens -->
-            <v-col cols="12" md="6 ">
+            <!-- Coluna selecionar imagens -->
+            <v-col cols="12" md="6" >
               <v-menu transition="slide-x-reverse-transition">
                 <template v-slot:activator="{ on }">
                   <v-hover v-slot:default="{ hover }">
-                    <v-card :elevation="hover ? 12 : 2" style="padding: 5px 10px" v-on="on">
+                    <v-card :elevation="hover ? 12 : 2" height="50" v-on="on">
                       <div v-if="imgAtiva">
                         <span class="green--text">Imagem selecionada</span>
-                        <v-img :src="imagem" style="margin: 0px 0px 0px 200px;" height="30" width="30"></v-img>
+                        <v-img :src="imagem" height="30" width="30"></v-img>
                       </div>
                       <div v-else>
                         <span>Selecione uma imagem</span>
@@ -37,38 +37,14 @@
                   </v-hover>
                 </template>
                 <!-- Lista de Imagens -->
-                <v-card width="450" class="pa-4">
+                <v-card width="450" class="pa-4" v-for="imagem in imagens" :key="imagem">
                   <div class="text-center">
                     <h1>Selecione uma imagem</h1>
                   </div>
                   <v-hover v-slot:default="{ hover }">
                     <v-col cols="12">
                       <v-card class="mt-2" :elevation="hover ? 12 : 2">
-                        <v-img :src="img1" height="100" @click="selecionarImage(img1)"></v-img>
-                      </v-card>
-                    </v-col>
-                  </v-hover>
-
-                  <v-hover v-slot:default="{ hover }">
-                    <v-col cols="12">
-                      <v-card class="mt-2" :elevation="hover ? 12 : 2">
-                        <v-img :src="img2" height="100" @click="selecionarImage(img2)"></v-img>
-                      </v-card>
-                    </v-col>
-                  </v-hover>
-
-                  <v-hover v-slot:default="{ hover }">
-                    <v-col cols="12">
-                      <v-card class="mt-2" :elevation="hover ? 12 : 2">
-                        <v-img :src="img3" height="100" @click="selecionarImage(img3)"></v-img>
-                      </v-card>
-                    </v-col>
-                  </v-hover>
-
-                  <v-hover v-slot:default="{ hover }">
-                    <v-col cols="12">
-                      <v-card class="mt-2" :elevation="hover ? 12 : 2">
-                        <v-img :src="img4" height="100" @click="selecionarImage(img4)"></v-img>
+                        <v-img :src="imagem" height="100" @click="selecionarImage(imagem)"></v-img>
                       </v-card>
                     </v-col>
                   </v-hover>
@@ -140,13 +116,13 @@ export default {
     imgAtiva: false,
 
     //Imagens
-    img1:
-      "https://cdn-statics.engenhariae.com.br/wp-content/uploads/2018/05/game-matem%C3%A1tica.jpg",
-    img2:
-      "https://abrilcasa.files.wordpress.com/2019/04/gourmand-brastemp.png?w=1024",
-    img3: "https://abrilexame.files.wordpress.com/2018/10/iphone-xs-max.png",
-    img4: "http://www.folhadoms.com.br/images/ms-supermercado.jpg",
-
+    imagens: [
+     "https://cdn-statics.engenhariae.com.br/wp-content/uploads/2018/05/game-matem%C3%A1tica.jpg",
+     "https://abrilcasa.files.wordpress.com/2019/04/gourmand-brastemp.png?w=1024",
+     "https://abrilexame.files.wordpress.com/2018/10/iphone-xs-max.png",
+     "http://www.folhadoms.com.br/images/ms-supermercado.jpg",
+    ],
+    
     //Icones
     ativado: "mdi-check-bold",
     desativado: "mdi-cancel",
