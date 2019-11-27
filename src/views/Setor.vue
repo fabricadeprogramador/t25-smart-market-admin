@@ -26,8 +26,12 @@
                   <v-hover v-slot:default="{ hover }">
                     <v-card :elevation="hover ? 12 : 2" height="50" v-on="on">
                       <div v-if="imgAtiva">
-                        <span class="green--text">Imagem selecionada</span>
-                        <v-img :src="imagem" height="30" width="30"></v-img>
+                        <div>
+                          <span class="green--text">Imagem selecionada</span>
+                        </div>
+                        <div>
+                          <v-img :src="imagem" height="30" width="30"></v-img>
+                        </div>
                       </div>
                       <div v-else>
                         <span>Selecione uma imagem</span>
@@ -36,11 +40,12 @@
                     </v-card>
                   </v-hover>
                 </template>
+
                 <!-- Lista de Imagens -->
-                <v-card width="450" class="pa-4" >
-                    <div class="text-center">
-                      <h1>Selecione uma imagem</h1>
-                    </div>
+                <v-card width="450" class="pa-4">
+                  <div class="text-center">
+                    <h1>Selecione uma imagem</h1>
+                  </div>
                   <div v-for="imagem in imagens" :key="imagem">
                     <v-hover v-slot:default="{ hover }">
                       <v-col cols="12">
@@ -199,6 +204,8 @@ export default {
 
     cancelarCampos() {
       this.name = "";
+      this.imagem = "";
+      this.imgAtiva = false;
     },
 
     cancelarAtivacao() {
