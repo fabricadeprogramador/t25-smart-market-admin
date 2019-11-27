@@ -125,7 +125,8 @@ export default {
       "https://cdn-statics.engenhariae.com.br/wp-content/uploads/2018/05/game-matem%C3%A1tica.jpg",
       "https://abrilcasa.files.wordpress.com/2019/04/gourmand-brastemp.png?w=1024",
       "https://abrilexame.files.wordpress.com/2018/10/iphone-xs-max.png",
-      "http://www.folhadoms.com.br/images/ms-supermercado.jpg"
+      "http://www.folhadoms.com.br/images/ms-supermercado.jpg",
+      "https://file-service.riooportunidadesdenegocios.com.br/images/741x371/6705de0e-b304-4ef5-978a-0050d7426d93.jpg"
     ],
 
     //Icones
