@@ -20,7 +20,7 @@
             </v-col>
 
             <!-- Coluna selecionar imagens -->
-            <v-col cols="12" md="6" >
+            <v-col cols="12" md="6">
               <v-menu transition="slide-x-reverse-transition">
                 <template v-slot:activator="{ on }">
                   <v-hover v-slot:default="{ hover }">
@@ -37,17 +37,19 @@
                   </v-hover>
                 </template>
                 <!-- Lista de Imagens -->
-                <v-card width="450" class="pa-4" v-for="imagem in imagens" :key="imagem">
-                  <div class="text-center">
-                    <h1>Selecione uma imagem</h1>
+                <v-card width="450" class="pa-4" >
+                    <div class="text-center">
+                      <h1>Selecione uma imagem</h1>
+                    </div>
+                  <div v-for="imagem in imagens" :key="imagem">
+                    <v-hover v-slot:default="{ hover }">
+                      <v-col cols="12">
+                        <v-card class="mt-2" :elevation="hover ? 12 : 2">
+                          <v-img :src="imagem" height="100" @click="selecionarImage(imagem)"></v-img>
+                        </v-card>
+                      </v-col>
+                    </v-hover>
                   </div>
-                  <v-hover v-slot:default="{ hover }">
-                    <v-col cols="12">
-                      <v-card class="mt-2" :elevation="hover ? 12 : 2">
-                        <v-img :src="imagem" height="100" @click="selecionarImage(imagem)"></v-img>
-                      </v-card>
-                    </v-col>
-                  </v-hover>
                 </v-card>
               </v-menu>
             </v-col>
@@ -117,12 +119,12 @@ export default {
 
     //Imagens
     imagens: [
-     "https://cdn-statics.engenhariae.com.br/wp-content/uploads/2018/05/game-matem%C3%A1tica.jpg",
-     "https://abrilcasa.files.wordpress.com/2019/04/gourmand-brastemp.png?w=1024",
-     "https://abrilexame.files.wordpress.com/2018/10/iphone-xs-max.png",
-     "http://www.folhadoms.com.br/images/ms-supermercado.jpg",
+      "https://cdn-statics.engenhariae.com.br/wp-content/uploads/2018/05/game-matem%C3%A1tica.jpg",
+      "https://abrilcasa.files.wordpress.com/2019/04/gourmand-brastemp.png?w=1024",
+      "https://abrilexame.files.wordpress.com/2018/10/iphone-xs-max.png",
+      "http://www.folhadoms.com.br/images/ms-supermercado.jpg"
     ],
-    
+
     //Icones
     ativado: "mdi-check-bold",
     desativado: "mdi-cancel",
