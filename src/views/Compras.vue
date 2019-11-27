@@ -87,9 +87,11 @@ export default {
         this.compras = response;
 
         for (let i = 0; i < this.compras.length; i++) {
-          this.valortotalDasCompras += parseFloat(this.compras[i].valorTotal);
+          this.valortotalDasCompras += this.compras[i].valorTotal;
         }
       });
+
+       
     }
   },
   mounted() {
