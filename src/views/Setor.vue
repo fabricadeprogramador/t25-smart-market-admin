@@ -28,11 +28,13 @@
                     <v-card :elevation="hover ? 12 : 2" height="50" class="pa-3" v-on="on">
                       <div v-if="imgAtiva" class="d-flex" flat tile>
                         <div outlined tile width="200" ><p class="green--text">Imagem selecionada</p></div>
-                        <div outlined tile width="200" ><v-img :src="imagem" style="margin: 3px 0px 0px 230px" height="20" width="20"></v-img></div>
+                        <v-spacer></v-spacer>
+                        <div outlined tile width="200" ><v-img :src="imagem" class="mt-1" height="20" width="20"></v-img></div>
                       </div>
                       <div v-else class="d-flex" flat tile>
                         <span>Selecione uma imagem</span>
-                        <v-icon style="padding: 0px 0px 0px 210px;">mdi-image-size-select-actual</v-icon>
+                        <v-spacer></v-spacer>
+                        <v-icon>mdi-image-size-select-actual</v-icon>
                       </div>
                     </v-card>
                   </v-hover>
