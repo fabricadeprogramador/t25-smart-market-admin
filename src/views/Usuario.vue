@@ -27,7 +27,7 @@
     </div>
 
     <!-- Cadastro -->
-    <div class="ma-12 elevation-1">
+    <div class="ma-6 elevation-1">
       <div class="text-center pt-4">
         <h1>Cadastro de Usuários</h1>
       </div>
@@ -72,9 +72,9 @@
     </div>
 
     <!--Lista de Usuarios-->
-    <div class="ma-12 elevation-1">
+    <div class="ma-6 elevation-1">
       <v-card>
-        <div class="text-center mt-4">
+        <div class="text-center pt-4">
           <h1>Usuários</h1>
         </div>
         <v-simple-table light>

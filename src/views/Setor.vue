@@ -1,14 +1,40 @@
 <template>
   <div>
-    <div class="ma-12 elevation-2">
-      <div class="text-center pa-3">
+    <div>
+      <!-- Alert -->
+      <v-snackbar
+        type="info"
+        v-model="salvo"
+        close-text="Close Alert"
+        color="info"
+        :top="y === 'top'"
+      >
+        SETOR CADASTRADO COM SUCESSO
+        <v-btn dark text @click="salvo = false">Fechar</v-btn>
+      </v-snackbar>
+    </div>
+    <div>
+      <v-snackbar
+        type="info"
+        v-model="naoCadastrado"
+        close-text="Close Alert"
+        color="red"
+        :top="y === 'top'"
+      >
+        NÃO FOI POSSÍVEL CADASTRAR O SETOR, PREENCHA O(S) CAMPO(S) VAZIOS!
+        <v-btn dark text @click="naoCadastrado = false">Fechar</v-btn>
+      </v-snackbar>
+    </div>
+
+    <!-- Cadastro -->
+    <div class="ma-6 elevation-2">
+      <div class="text-center pa-4">
         <h1>Cadastro de Setores</h1>
       </div>
 
       <v-form v-model="valid">
         <v-container>
           <v-row>
-          
             <!-- Coluna Input de nome do setor-->
             <v-col cols="12" md="6">
               <v-text-field
@@ -27,9 +53,13 @@
                   <v-hover v-slot:default="{ hover }">
                     <v-card :elevation="hover ? 12 : 2" height="50" class="pa-3" v-on="on">
                       <div v-if="imgAtiva" class="d-flex" flat tile>
-                        <div outlined tile width="200" ><p class="green--text">Imagem selecionada</p></div>
+                        <div outlined tile width="200">
+                          <p class="green--text">Imagem selecionada</p>
+                        </div>
                         <v-spacer></v-spacer>
-                        <div outlined tile width="200" ><v-img :src="imagem" class="mt-1" height="20" width="20"></v-img></div>
+                        <div outlined tile width="200">
+                          <v-img :src="imagem" class="mt-1" height="20" width="20"></v-img>
+                        </div>
                       </div>
                       <div v-else class="d-flex" flat tile>
                         <span>Selecione uma imagem</span>
@@ -69,44 +99,51 @@
     </div>
 
     <!--Lista de setores cadastrados-->
-    <div class="ma-12 elevation-1">
+    <div class="ma-6 elevation-1">
       <v-card>
-        <v-list class="pa-12">
-          <div class="text-center">
-            <h1>Setores</h1>
-          </div>
-
-          <v-list-item flat class="title">
-            <v-list-item-title md="2">SETOR</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item v-for="setor in setores" :key="setor._id">
-            <v-col md="11">
-              <v-list-item-title>{{setor.name}}</v-list-item-title>​
-            </v-col>
-
-            <!-- Dialog de confirmação -->
-            <v-list-item-action>
-              <v-dialog v-model="dialogAtivacao" persistent max-width="290">
-                <template v-slot:activator="{ on }">
-                  <v-btn icon color="primary" dark v-on="on" @click="marcarAtivar(setor)">
-                    <v-icon v-if="setor.ativo" color="green">{{ativado}}</v-icon>
-                    <v-icon v-else color="grey">{{desativado}}</v-icon>
-                  </v-btn>
-                </template>
-                <v-card>
-                  <v-card-title class="headline">Deseja alterar status do Setor?</v-card-title>
-                  <v-card-text>Tem certeza que deseja alterar o status do Setor?</v-card-text>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="green darken-1" text @click="cancelarAtivacao()">Cancelar</v-btn>
-                    <v-btn color="green darken-1" text @click="alterarStatus()">Aceito</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </v-list-item-action>
-          </v-list-item>
-        </v-list>
+        <div class="text-center pt-4">
+          <h1>Setores</h1>
+        </div>
+        <v-simple-table light>
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-center">SETOR</th>
+                <th class="text-center">IMAGEM</th>
+                <th class="text-center">ATIVAR/INATIVAR</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+            <tbody>
+              <tr v-for="setor in setores" :key="setor._id">
+                <td class="text-center">{{ setor.name }}</td>
+                <td class="text-center">
+                  <img :src="setor.imagem" width="20" height="20" alt />
+                </td>
+                <!-- Dialog de confirmação -->
+                <td class="text-center">
+                  <v-dialog v-model="dialogAtivacao" persistent max-width="290">
+                    <template v-slot:activator="{ on }">
+                      <v-btn icon color="primary" dark v-on="on" @click="marcarAtivar(setor)">
+                        <v-icon v-if="setor.ativo" color="green">{{ativado}}</v-icon>
+                        <v-icon v-else color="grey">{{desativado}}</v-icon>
+                      </v-btn>
+                    </template>
+                    <v-card>
+                      <v-card-title class="headline">Deseja alterar status do Setor?</v-card-title>
+                      <v-card-text>Tem certeza que deseja alterar o status do Setor?</v-card-text>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="green darken-1" text @click="cancelarAtivacao()">Cancelar</v-btn>
+                        <v-btn color="green darken-1" text @click="alterarStatus()">Aceito</v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
       </v-card>
     </div>
   </div>
@@ -121,6 +158,9 @@ export default {
     dialogAtivacao: false,
     dialogImage: false,
     imgAtiva: false,
+    naoCadastrado: false,
+    salvo: false,
+    y: "top",
 
     //Imagens
     imagens: [
@@ -163,9 +203,12 @@ export default {
 
           HttpRequestUtil.salvarSetor(setor).then(response => {
             this.setores.push(response);
+            this.salvo = true;
           });
         }
-        this.cancelarCampos()
+        this.cancelarCampos();
+      }else {
+        this.naoCadastrado = true;
       }
     },
 
