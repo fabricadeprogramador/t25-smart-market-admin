@@ -1,5 +1,29 @@
 <template>
   <div>
+    <div>
+      <v-snackbar
+        type="info"
+        v-model="salvo"
+        close-text="Close Alert"
+        color="info"
+        :top="y === 'top'"
+      >
+        USUÁRIO CADASTRADO COM SUCESSO
+        <v-btn dark text @click="salvo = false">Fechar</v-btn>
+      </v-snackbar>
+    </div>
+    <div>
+      <v-snackbar
+        type="info"
+        v-model="naoCadastrado"
+        close-text="Close Alert"
+        color="red"
+        :top="y === 'top'"
+      >
+        NÃO FOI POSSÍVEL CADASTRAR O USUÁRIO, PREENCHA O(S) CAMPO(S) VAZIOS!
+        <v-btn dark text @click="naoCadastrado = false">Fechar</v-btn>
+      </v-snackbar>
+    </div>
     <div class="ma-12 elevation-1">
       <div class="text-center">
         <h1>Cadastro de Usuários</h1>
@@ -62,32 +86,32 @@
               <v-list-item-title v-text="usuario.tipo"></v-list-item-title>
             </v-list-item-content>
 
-            <v-list-item-action>
+            <v-list-item-content class="text-rigth">
               <v-btn icon @click="mostrarDialog(usuario)">
                 <v-icon v-if="usuario.ativo" color="green">{{ativado}}</v-icon>
                 <v-icon v-else color="grey">{{desativado}}</v-icon>
               </v-btn>
-            </v-list-item-action>
+            </v-list-item-content>
 
             <template>
-                  <v-row justify="center">
-                    <v-dialog v-model="dialog" max-width="290">
-                      <v-card>
-                        <v-card-title class="headline">Olá Admin!</v-card-title>
+              <v-row justify="center">
+                <v-dialog v-model="dialog" max-width="290">
+                  <v-card>
+                    <v-card-title class="headline">Olá Admin!</v-card-title>
 
-                        <v-card-text>Deseja realmente alterar status do usuário?</v-card-text>
+                    <v-card-text>Deseja realmente alterar status do usuário?</v-card-text>
 
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
 
-                          <v-btn color="green darken-1" text @click="dialog = false">Cancelar</v-btn>
+                      <v-btn color="green darken-1" text @click="dialog = false">Cancelar</v-btn>
 
-                          <v-btn color="green darken-1" text @click="statusUsuario()">Aceitar</v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog>
-                  </v-row>
-                </template>
+                      <v-btn color="green darken-1" text @click="statusUsuario()">Aceitar</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-row>
+            </template>
           </v-list-item>
         </v-list>
       </v-card>
@@ -97,6 +121,7 @@
 
 <script>
 import HttpRequestUtil from "@/util/HttpRequestUtil";
+import { ftruncate } from 'fs';
 
 export default {
   data: () => ({
@@ -108,6 +133,9 @@ export default {
     username: "",
     password: "",
     dialog: false,
+    salvo: false,
+    naoCadastrado: false,
+    y: "top",
     usuarioStatus: null,
     passwordRules: [
       v => !!v || "Senha é obrigatória",
@@ -123,16 +151,37 @@ export default {
   }),
   methods: {
     salvar() {
-      let usuario = {};
-      usuario.id = this.id;
-      usuario.ativo = this.ativo;
-      usuario.username = this.username;
-      usuario.senha = this.password;
-      usuario.tipo = this.tipo;
+      let valido = this.validar();
 
-      HttpRequestUtil.salvarUsuario(usuario).then(response => {
-        this.usuarios.push(response);
-      });
+      if (valido) {
+        let usuario = {};
+        usuario.ativo = this.ativo;
+        usuario.username = this.username;
+        usuario.senha = this.password;
+        usuario.tipo = this.tipo;
+
+        HttpRequestUtil.salvarUsuario(usuario).then(response => {
+          this.usuarios.push(response);
+          this.salvo = true;
+          this.limpaCampos()
+        });
+      } else {
+        this.naoCadastrado = true;
+      }
+    },
+
+    validar() {
+      if (this.username == "" || this.password == "" || this.tipo == "") {
+        return false;
+      } else {
+        return true;
+      }
+    },
+
+    limpaCampos() {
+      this.username = '';
+      this.password = '';
+      this.tipo = '';
     },
 
     buscarTodos() {
@@ -142,22 +191,21 @@ export default {
     },
 
     mostrarDialog(usuario) {
-      this.usuarioStatus = usuario
+      this.usuarioStatus = usuario;
       this.dialog = true;
     },
 
     statusUsuario() {
+      if (this.usuarioStatus != null) {
+        this.usuarioStatus.ativo = !this.usuarioStatus.ativo;
 
-      if(this.usuarioStatus != null){
-        this.usuarioStatus.ativo = !this.usuarioStatus.ativo
-  
         HttpRequestUtil.mudarStatus(this.usuarioStatus).then(usuario => {
-          this.usuarioStatus = null
+          this.usuarioStatus = null;
           this.buscarTodos();
         });
       }
 
-      this.dialog = false
+      this.dialog = false;
     }
   },
 
