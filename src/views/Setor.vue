@@ -1,13 +1,40 @@
 <template>
   <div>
-    <div class="ma-12 elevation-1">
-      <div class="text-center">
+    <div>
+      <!-- Alert -->
+      <v-snackbar
+        type="info"
+        v-model="salvo"
+        close-text="Close Alert"
+        color="info"
+        :top="y === 'top'"
+      >
+        SETOR CADASTRADO COM SUCESSO
+        <v-btn dark text @click="salvo = false">Fechar</v-btn>
+      </v-snackbar>
+    </div>
+    <div>
+      <v-snackbar
+        type="info"
+        v-model="naoCadastrado"
+        close-text="Close Alert"
+        color="red"
+        :top="y === 'top'"
+      >
+        NÃO FOI POSSÍVEL CADASTRAR O SETOR, PREENCHA O(S) CAMPO(S) VAZIOS!
+        <v-btn dark text @click="naoCadastrado = false">Fechar</v-btn>
+      </v-snackbar>
+    </div>
+
+    <!-- Cadastro -->
+    <div class="ma-6 elevation-2">
+      <div class="text-center pa-4">
         <h1>Cadastro de Setores</h1>
       </div>
+
       <v-form v-model="valid">
         <v-container>
           <v-row>
-
             <!-- Coluna Input de nome do setor-->
             <v-col cols="12" md="6">
               <v-text-field
@@ -19,111 +46,104 @@
               ></v-text-field>
             </v-col>
 
-            <!-- Coluna Dialog de imagens -->
-            <v-col cols="12" md="6 ">
-              <v-dialog v-model="dialogImage" persistent max-width="500">
+            <!-- Coluna selecionar imagens -->
+            <v-col cols="12" md="6">
+              <v-menu transition="slide-x-reverse-transition">
                 <template v-slot:activator="{ on }">
                   <v-hover v-slot:default="{ hover }">
-                    <v-card :elevation="hover ? 12 : 2" style="padding: 5px 10px" v-on="on">
-                      <v-card-text style="font-size: 12pt; color: gray; padding: 8px 0px;">
-                        Selecione uma imagem
-                        <v-icon style="padding: 0px 0px 0px 210px;">mdi-image-size-select-actual</v-icon>
-                      </v-card-text>
+                    <v-card :elevation="hover ? 12 : 2" height="50" class="pa-3" v-on="on">
+                      <div v-if="imgAtiva" class="d-flex" flat tile>
+                        <div outlined tile width="200">
+                          <p class="green--text">Imagem selecionada</p>
+                        </div>
+                        <v-spacer></v-spacer>
+                        <div outlined tile width="200">
+                          <v-img :src="imagem" class="mt-1" height="20" width="20"></v-img>
+                        </div>
+                      </div>
+                      <div v-else class="d-flex" flat tile>
+                        <span>Selecione uma imagem</span>
+                        <v-spacer></v-spacer>
+                        <v-icon>mdi-image-size-select-actual</v-icon>
+                      </div>
                     </v-card>
                   </v-hover>
                 </template>
-                <v-card class="pb-4">
 
-                  <!-- Card do dialog -->
-                  <div class="text-center pt-4">
-                    <v-icon style="margin: 0px 0px 0px 430px" @click="cancelarImage()">
-                      mdi-close-circle
-                    </v-icon>
+                <!-- Lista de Imagens -->
+                <v-card width="450" class="pa-4">
+                  <div class="text-center">
                     <h1>Selecione uma imagem</h1>
                   </div>
-                  <v-card style="margin: 20px 10px 0px;">
-                    <v-img
-                      :src="img1"
-                      height="150px"
-                      @click="selecionarImage(img1)"
-                    ></v-img>
-                  </v-card>
-
-                  <v-card style="margin: 20px 10px 0px;">
-                    <v-img
-                      :src="img2"
-                      height="150px"
-                      @click="selecionarImage(img2)"
-                    ></v-img>
-                  </v-card>
-
-                  <v-card style="margin: 20px 10px 0px;">
-                  <v-img
-                    :src="img3"
-                    height="150px"
-                    @click="selecionarImage(img3)"
-                  ></v-img>
-                  </v-card>
-
-                  <v-card style="margin: 20px 10px 0px;">
-                    <v-img
-                      :src="img4"
-                      height="150px"
-                      @click="selecionarImage(img4)"
-                    ></v-img>
-                  </v-card>
+                  <div v-for="imagem in imagens" :key="imagem">
+                    <v-hover v-slot:default="{ hover }">
+                      <v-col cols="12">
+                        <v-card class="mt-2" :elevation="hover ? 12 : 2">
+                          <v-img :src="imagem" height="100" @click="selecionarImage(imagem)"></v-img>
+                        </v-card>
+                      </v-col>
+                    </v-hover>
+                  </div>
                 </v-card>
-              </v-dialog>
+              </v-menu>
             </v-col>
           </v-row>
 
+          <!-- Botoẽs -->
           <div class="text-center">
-            <v-btn color="red" style="color: white" @click="cancelarCampos">Cancelar</v-btn>
+            <v-btn color="red" class="white--text" @click="cancelarCampos">Cancelar</v-btn>
             <v-btn color="info" class="my-5 ml-5" @click="salvar">Salvar</v-btn>
           </div>
         </v-container>
       </v-form>
     </div>
 
-    <!--Lista de setores-->
-    <div class="ma-12 elevation-1">
+    <!--Lista de setores cadastrados-->
+    <div class="ma-6 elevation-1">
       <v-card>
-        <v-list class="pa-12">
-          <div class="text-center">
-            <h1>Setores</h1>
-          </div>
-
-          <v-list-item flat class="title">
-            <v-list-item-title md="2">SETOR</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item v-for="setor in setores" :key="setor._id">
-            <v-col md="11">
-              <v-list-item-title>{{setor.name}}</v-list-item-title>​
-            </v-col>
-
-            <!-- Dialog de confirmação -->
-            <v-list-item-action>
-              <v-dialog v-model="dialogAtivacao" persistent max-width="290">
-                <template v-slot:activator="{ on }">
-                  <v-btn icon color="primary" dark v-on="on" @click="marcarAtivar(setor)">
-                    <v-icon v-if="setor.ativo" color="green">{{ativado}}</v-icon>
-                    <v-icon v-else color="grey">{{desativado}}</v-icon>
-                  </v-btn>
-                </template>
-                <v-card>
-                  <v-card-title class="headline">Deseja alterar status do Setor?</v-card-title>
-                  <v-card-text>Tem certeza que deseja alterar o status do Setor?</v-card-text>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="green darken-1" text @click="cancelarAtivacao()">Cancelar</v-btn>
-                    <v-btn color="green darken-1" text @click="alterarStatus()">Aceito</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </v-list-item-action>
-          </v-list-item>
-        </v-list>
+        <div class="text-center pt-4">
+          <h1>Setores</h1>
+        </div>
+        <v-simple-table light>
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-center">SETOR</th>
+                <th class="text-center">IMAGEM</th>
+                <th class="text-center">ATIVAR/INATIVAR</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+            <tbody>
+              <tr v-for="setor in setores" :key="setor._id">
+                <td class="text-center">{{ setor.name }}</td>
+                <td class="text-center">
+                  <img :src="setor.imagem" width="20" height="20" alt />
+                </td>
+                <!-- Dialog de confirmação -->
+                <td class="text-center">
+                  <v-dialog v-model="dialogAtivacao" persistent max-width="290">
+                    <template v-slot:activator="{ on }">
+                      <v-btn icon color="primary" dark v-on="on" @click="marcarAtivar(setor)">
+                        <v-icon v-if="setor.ativo" color="green">{{ativado}}</v-icon>
+                        <v-icon v-else color="grey">{{desativado}}</v-icon>
+                      </v-btn>
+                    </template>
+                    <v-card>
+                      <v-card-title class="headline">Deseja alterar status do Setor?</v-card-title>
+                      <v-card-text>Tem certeza que deseja alterar o status do Setor?</v-card-text>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="green darken-1" text @click="cancelarAtivacao()">Cancelar</v-btn>
+                        <v-btn color="green darken-1" text @click="alterarStatus()">Aceito</v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
       </v-card>
     </div>
   </div>
@@ -137,12 +157,19 @@ export default {
     valid: false,
     dialogAtivacao: false,
     dialogImage: false,
+    imgAtiva: false,
+    naoCadastrado: false,
+    salvo: false,
+    y: "top",
 
     //Imagens
-    img1: "https://cdn-statics.engenhariae.com.br/wp-content/uploads/2018/05/game-matem%C3%A1tica.jpg",
-    img2: "https://abrilcasa.files.wordpress.com/2019/04/gourmand-brastemp.png?w=1024",
-    img3: "https://abrilexame.files.wordpress.com/2018/10/iphone-xs-max.png",
-    img4: "http://www.folhadoms.com.br/images/ms-supermercado.jpg",
+    imagens: [
+      "https://cdn-statics.engenhariae.com.br/wp-content/uploads/2018/05/game-matem%C3%A1tica.jpg",
+      "https://abrilcasa.files.wordpress.com/2019/04/gourmand-brastemp.png?w=1024",
+      "https://abrilexame.files.wordpress.com/2018/10/iphone-xs-max.png",
+      "http://www.folhadoms.com.br/images/ms-supermercado.jpg",
+      "https://file-service.riooportunidadesdenegocios.com.br/images/741x371/6705de0e-b304-4ef5-978a-0050d7426d93.jpg"
+    ],
 
     //Icones
     ativado: "mdi-check-bold",
@@ -176,8 +203,12 @@ export default {
 
           HttpRequestUtil.salvarSetor(setor).then(response => {
             this.setores.push(response);
+            this.salvo = true;
           });
         }
+        this.cancelarCampos();
+      }else {
+        this.naoCadastrado = true;
       }
     },
 
@@ -195,6 +226,7 @@ export default {
     selecionarImage(image) {
       this.imagem = image;
       this.dialogImage = false;
+      this.imgAtiva = true;
     },
 
     editar(setor) {
@@ -216,11 +248,9 @@ export default {
     },
 
     cancelarCampos() {
-      this.name = ""
-    },
-
-    cancelarImage() {
-      this.dialogImage = false;
+      this.name = "";
+      this.imagem = "";
+      this.imgAtiva = false;
     },
 
     cancelarAtivacao() {

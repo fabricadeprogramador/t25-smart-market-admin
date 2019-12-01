@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5f6b31200677bc930bd4779a0cd1c3cfb670cb4a
 const API_URL = "http://ht-smart-market-api.herokuapp.com";
 import axios from "axios";
 
