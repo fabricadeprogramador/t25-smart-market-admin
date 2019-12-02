@@ -22,7 +22,6 @@
           :expanded.sync="expanded"
         >
           <template v-slot:expanded-item="{ headers }">
-
             <td :colspan="headers.length" v-if="expanded[0] != undefined">
               <v-list-item
                 v-for="produto in expanded[0].produtos"
@@ -36,7 +35,7 @@
         <v-col>
           <v-list-item-title class="title">
             Valor Total Das Compras :
-            <v-list-item-title>R$: {{valortotalDasCompras}}</v-list-item-title>
+            <v-list-item-title>R$: {{valortotalDasCompras}},00</v-list-item-title>
           </v-list-item-title>
         </v-col>
       </v-card>
@@ -90,8 +89,6 @@ export default {
           this.valortotalDasCompras += this.compras[i].valorTotal;
         }
       });
-
-       
     }
   },
   mounted() {
